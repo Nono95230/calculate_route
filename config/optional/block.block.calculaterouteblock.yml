@@ -1,0 +1,25 @@
+uuid: a0adf5d7-3683-4a7d-9e02-01298ea98ee2
+langcode: fr
+status: true
+dependencies:
+  module:
+    - calculate_route
+  theme:
+    - ive
+id: calculaterouteblock
+theme: ive
+region: content
+weight: -4
+provider: null
+plugin: calculate_route_block
+settings:
+  id: calculate_route_block
+  label: 'Calculate your route'
+  provider: calculate_route
+  label_display: visible
+visibility:
+  request_path:
+    id: request_path
+    pages: /contact
+    negate: false
+    context_mapping: {  }

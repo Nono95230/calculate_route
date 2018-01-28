@@ -1,0 +1,53 @@
+<?php
+
+
+function calculate_route_theme($existing, $type, $theme, $path){
+	return array(
+		'google_map' => array(
+			'template' => 'google-map',
+      'variables' => array('data' => NULL)
+		),
+	);
+}
+
+
+function calculate_route_library_info_alter(array &$libraries, $module) {
+
+  if ($module === 'calculate_route' && $libraries['google-map']) {
+
+    $apiKey = \Drupal::config('calculate_route.config')->get('api_key');
+
+  	$libraries['google-map']['js'] = array(
+  		'https://maps.googleapis.com/maps/api/js?key='.$apiKey.'' => array(
+  			'type' => 'external',
+  			'attributes' => array(
+  					'defer' => true,
+  					'async' => true
+  				),
+  			),
+  		'js/calculate_route.js' => array(),
+  	);
+  }
+
+}
+
+
+function calculate_route_preprocess_html(&$variables) {
+
+  $configMapAll = \Drupal::config('calculate_route.config')->get('map');
+  $variables['#attached']['drupalSettings']['calculate_route']['JS']['map_settings'] = $configMapAll;
+
+
+  $configMarkerAll = \Drupal::config('calculate_route.config')->get('marker');
+  $variables['#attached']['drupalSettings']['calculate_route']['JS']['marker_settings'] = $configMarkerAll;
+
+
+  $configFormAll = \Drupal::config('calculate_route.config')->get('form');
+  $variables['#attached']['drupalSettings']['calculate_route']['JS']['form_settings'] = $configFormAll;
+
+
+  $configAppearenceAll = \Drupal::config('calculate_route.config')->get('appearence');
+  $variables['#attached']['drupalSettings']['calculate_route']['JS']['appearence_settings'] = $configAppearenceAll;
+
+}
+

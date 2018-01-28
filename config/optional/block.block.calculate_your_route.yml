@@ -1,0 +1,27 @@
+uuid: 43b97f95-d88d-4896-bc00-56bb8b90da04
+langcode: fr
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - seven
+id: calculate_your_route
+theme: seven
+region: content
+weight: -2
+provider: null
+plugin: calculate_route_block
+settings:
+  id: null
+  label: 'Calculate your route'
+  provider: null
+  label_display: '0'
+visibility:
+  request_path:
+    id: request_path
+    pages: "/admin/config/services/calculate-route/config/map\r\n/admin/config/services/calculate-route/config/marker\r\n/admin/config/services/calculate-route/config/form\r\n/admin/config/services/calculate-route/config/appearence"
+    negate: false
+    context_mapping: {  }
+
+

@@ -1,0 +1,45 @@
+#api_key: "PUT HERE YOUR API__KEY"
+api_key: "AIzaSyCnQDpceTm2QCLocjOU-I1dO4hegnAZJME"
+map: 
+  latitude: 48.983
+  longitude: 2.294
+  zoom: 10
+  zoom_max: 20
+  zoom_scroll: "false"
+  map_type: "terrain"
+  enable_geoloc: "false"
+marker: 
+  latitude: 48.983
+  longitude: 2.294
+  title: "Write a title..."
+  enable_info_window: "true"
+  info_window: "<h1><strong>My title</strong></h1><p>My Description</p><p><a href='http://www.google.fr'>Optionnale Links</a></p>"
+form: 
+  transport: 
+    car: "car"
+    public_transport: "public_transport"
+    bike: "bike"
+    walker: "walker"
+  btn_switch: 1
+  ct_start_pl: "Indiquez l'adresse de départ"
+  ct_start: "Adresse de départ"
+  ct_end: "Adresse d'arrivée"
+  ct_btn: "Afficher l'itinéraire"
+  sl_start: 0
+  sl_end: 1
+  title_address: "Splash"
+  address_destination: "rue des champs-élysée Paris"
+appearence: 
+  width_map: "100%"
+  height_map: "500px"
+  label_text_color: "3c3c3c"
+  button_text_color: "fff"
+  header_color: "ccc"
+  form_color: "f7f7f7"
+  button_color: "e30613"
+  switch_color: "bdbdbd"
+  switch_hover_color: "787878"
+  top_position: "auto"
+  bottom_position: "10px"
+  left_position: "10px"
+  right_position: "auto"

@@ -1,0 +1,24 @@
+calculate_route.back.default.config.map:
+  route_name: calculate_route.back_default_config.map
+  title: 'Back to Default Configuration for Map Settings'
+  appears_on:
+    - calculate_route.config.map
+
+calculate_route.back.default.config.marker:
+  route_name: calculate_route.back_default_config.marker
+  title: 'Back to Default Configuration for Marker Settings'
+  appears_on:
+    - calculate_route.config.marker
+
+calculate_route.back.default.config.form:
+  route_name: calculate_route.back_default_config.form
+  title: 'Back to Default Configuration for Form Settings'
+  appears_on:
+    - calculate_route.config.form
+
+calculate_route.back.default.config.appearence:
+  route_name: calculate_route.back_default_config.appearence
+  title: 'Back to Default Configuration for Appearence Settings'
+  appears_on:
+    - calculate_route.config.appearence
+

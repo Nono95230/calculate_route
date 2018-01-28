@@ -1,0 +1,73 @@
+calculate_route.config.api_key: 
+  path: '/admin/config/services/calculate-route/config/api-key'
+  defaults:
+    _title: 'Api Key Settings'
+    _form: 'Drupal\calculate_route\Form\ApiKeyForm'
+  requirements:
+    _access: 'TRUE'
+
+calculate_route.config.map: 
+  path: '/admin/config/services/calculate-route/config/map'
+  defaults:
+    _title: 'Default Map Settings'
+    _form: 'Drupal\calculate_route\Form\MapForm'
+  requirements:
+    _access: 'TRUE'
+#    _permission: 'access page config module'
+
+calculate_route.config.marker: 
+  path: '/admin/config/services/calculate-route/config/marker'
+  defaults:
+    _title: 'Default Marker Settings'
+    _form: 'Drupal\calculate_route\Form\MarkerForm'
+  requirements:
+    _access: 'TRUE'
+
+calculate_route.config.form: 
+  path: '/admin/config/services/calculate-route/config/form'
+  defaults:
+    _title: 'Default Form Settings'
+    _form: 'Drupal\calculate_route\Form\FormForm'
+  requirements:
+    _access: 'TRUE'
+
+calculate_route.config.appearence: 
+  path: '/admin/config/services/calculate-route/config/appearence'
+  defaults:
+    _title: 'Default Appearence Settings'
+    _form: 'Drupal\calculate_route\Form\AppearenceForm'
+  requirements:
+    _access: 'TRUE'
+
+calculate_route.back_default_config.map:
+  path: '/admin/config/services/calculate-route/back_default_config/map'
+  defaults:
+    _title: 'Back Default Configuration Map'
+    _controller: 'Drupal\calculate_route\Controller\DefaultConfigurationController::map'
+  requirements:
+    _access: 'TRUE'
+
+calculate_route.back_default_config.marker:
+  path: '/admin/config/services/calculate-route/back_default_config/marker'
+  defaults:
+    _title: 'Back Default Configuration Marker'
+    _controller: 'Drupal\calculate_route\Controller\DefaultConfigurationController::marker'
+  requirements:
+    _access: 'TRUE'
+
+calculate_route.back_default_config.form:
+  path: '/admin/config/services/calculate-route/back_default_config/form'
+  defaults:
+    _title: 'Back Default Configuration Form'
+    _controller: 'Drupal\calculate_route\Controller\DefaultConfigurationController::form'
+  requirements:
+    _access: 'TRUE'
+
+calculate_route.back_default_config.appearence:
+  path: '/admin/config/services/calculate-route/back_default_config/appearence'
+  defaults:
+    _title: 'Back Default Configuration Appearence'
+    _controller: 'Drupal\calculate_route\Controller\DefaultConfigurationController::appearence'
+  requirements:
+    _access: 'TRUE'
+
