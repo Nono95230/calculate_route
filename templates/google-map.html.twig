@@ -1,40 +1,44 @@
 {{ attach_library('calculate_route/google-map') }}
 <div id="container_maps">
 	
-	<div id="container_options">
-		<div id="adress-start">
+	<div id="container_form">
+		<div id="choice_mode">
+			<span id="driving" class="active"></span>
+			<span id="transit"></span>
+			<span id="bicycling"></span>
+			<span id="walking"></span>
+		</div>
+		<div id="address-start">
 			<label id="label_start" class="label_style">{{ data.labelStart }}</label>
-			<input id="start" name="start" placeholder="{{ data.phStart }}" autocomplete="off" type="text">
+			<input id="start" name="start" class="autocomplete-place" placeholder="{{ data.phStart }}" autocomplete="off" type="text">
 		</div>
 		<div id="switch"><span><i class="fa fa-exchange fa-2x fa-rotate-90" aria-hidden="true"></i></span></div>
-		<div id="adress-end">
+		<div id="address-end">
 			<label id="label_end" class="label_style">{{ data.labelEnd }}</label>
 			<select id="end" name="end">
 				<option value="{{ data.address }} ">{{ data.addressTitle }} </option>
 			</select>
 		</div>
-		<div id="choice_mode">
-			<span id="car" class="active" data-choice="car"></span>
-			<span id="public_transport" data-choice="public_transport"></span>
-			<span id="bike" data-choice="bike"></span>
-			<span id="walker" data-choice="walker"></span>
-		</div>
 		<span id="cr_submit">{{ data.textSubmit }}</span>
+		<div id="form-minimize"><span><i class="fa fa-window-minimize fa-1x"></i></span></div>
+		<div id="form-restore"><span><i class="fa fa-window-restore fa-1x"></i></span></div>
 	</div>
 
-	<div id="map"></div>
-
-	<div id="warnings_panel"></div>
-
-	<div class="print">
-		<span>Imprimer</span>
-		<div class="sub_print">
-			<p class="print1">Itinéraire</p>
-		</div>
-	</div>
-
-	<div id="directions-panel"></div>
-
-	<div id="panel"></div>
+	<div id="map-cr"></div>
 </div>
+
+
+
+<div id="print">
+	<span>Imprimer</span>
+	<div id="sub_print">
+		<p id="print1">Itinéraire</p>
+	</div>
+</div>
+
+<div id="directions-panel"></div>
+
+<div id="overlay">
+	<div id="map-loader"></div>
+</div> 
 

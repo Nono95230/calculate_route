@@ -18,7 +18,7 @@ function calculate_route_library_info_alter(array &$libraries, $module) {
     $apiKey = \Drupal::config('calculate_route.config')->get('api_key');
 
   	$libraries['google-map']['js'] = array(
-  		'https://maps.googleapis.com/maps/api/js?key='.$apiKey.'' => array(
+  		'https://maps.googleapis.com/maps/api/js?key='.$apiKey.'&libraries=places' => array(
   			'type' => 'external',
   			'attributes' => array(
   					'defer' => true,

@@ -1,5 +1,5 @@
 /* content: attr(data-content); */
-#container_maps #map {
+#container_maps #map-cr {
   width: 100%;
   height: 500px;
   margin: auto;
@@ -16,12 +16,12 @@ body.path-admin .region-content #block-calculate-your-route{
   min-width: 600px;
 }
 
-#container_maps #container_options #choice_mode span{
+#container_maps #container_form #choice_mode span{
   background: #EBEBEB;
   padding: 10px;
 }
 
-#container_maps #container_options #choice_mode span.active{
+#container_maps #container_form #choice_mode span.active{
   background: #3a3a3a;
 }
 
@@ -29,20 +29,20 @@ body.path-admin .region-content #block-calculate-your-route{
 #container_maps{
   position: relative;
 }
-#container_maps #container_options{
+#container_maps #container_form{
   position: absolute;
   left:0px;
   bottom:0px;
   padding:60px 30px 20px ;
   width:280px;
-  z-index: 20;
+  z-index: 4;
   background: #f7f7f7;
   border:1px solid #e7e7e7;
   color:black;
   text-align: center;
   box-sizing:border-box;
 }
-#container_maps #container_options #choice_mode{
+#container_maps #container_form #choice_mode{
   position: absolute;
   top:0;
   left:0;
@@ -51,7 +51,7 @@ body.path-admin .region-content #block-calculate-your-route{
   width:100%;
   background:#ccc;
 }
-#container_maps #container_options #choice_mode span{
+#container_maps #container_form #choice_mode span{
   display: inline-block;
   float: none;
   padding: 0;
@@ -59,20 +59,20 @@ body.path-admin .region-content #block-calculate-your-route{
   height:60px;
   cursor:pointer;
 }
-#container_maps #container_options label{
+#container_maps #container_form label{
   text-align: left;
   width:90%;
   display: inline-block;
 }
-#container_maps #container_options input, 
-#container_maps #container_options select{
+#container_maps #container_form input, 
+#container_maps #container_form select{
   width:90%;
   height: 40px;
   border:none;
   line-height:40px;
   padding: 0 5px;
 }
-#container_maps #container_options #cr_submit {
+#container_maps #container_form #cr_submit {
   width: 90%;
   display: inline-block;
   background: #e30613;
@@ -84,24 +84,18 @@ body.path-admin .region-content #block-calculate-your-route{
   margin-top:25px;
   cursor:pointer;
 }
-#container_maps #container_options #adress-start {
+#container_maps #container_form #address-start {
   margin: 25px 0 15px;
 }
-#container_maps #container_options #choice_mode span.active,
-#container_maps #container_options #choice_mode span{
+#container_maps #container_form #choice_mode span.active,
+#container_maps #container_form #choice_mode span{
   background:none;
 }
-#container_maps #panel{
-  background:#fff;
-  max-height:250px;
-  overflow: auto;
-}
-
 #container_maps .options_list_transit{
   display: none;
 }
 
-#container_maps #container_options #choice_mode span{
+#container_maps #container_form #choice_mode span{
   display: inline-block;
   background:url('../images/sprite_mode.png') 10px top no-repeat;
   line-height:60px;
@@ -109,35 +103,35 @@ body.path-admin .region-content #block-calculate-your-route{
   width: 60px;
   cursor:pointer;
 }
-#container_maps #container_options #choice_mode span#car{
+#container_maps #container_form #choice_mode span#driving{
   background:url('../images/sprite_mode.png') 10px top no-repeat;
 }
-#container_maps #container_options #choice_mode span#public_transport{
+#container_maps #container_form #choice_mode span#transit{
   background:url('../images/sprite_mode.png') -49px top no-repeat;
 }
-#container_maps #container_options #choice_mode span#bike{
+#container_maps #container_form #choice_mode span#bicycling{
   background:url('../images/sprite_mode.png') -108px top no-repeat;
 }
-#container_maps #container_options #choice_mode span#walker{
+#container_maps #container_form #choice_mode span#walking{
   background:url('../images/sprite_mode.png') -166px top no-repeat;
 }
-#container_maps #container_options #choice_mode span#car:hover,
-#container_maps #container_options #choice_mode span#car.active{
+#container_maps #container_form #choice_mode span#driving:hover,
+#container_maps #container_form #choice_mode span#driving.active{
   background:url('../images/sprite_mode.png') 10px bottom no-repeat;
 }
-#container_maps #container_options #choice_mode span#public_transport:hover,
-#container_maps #container_options #choice_mode span#public_transport.active{
+#container_maps #container_form #choice_mode span#transit:hover,
+#container_maps #container_form #choice_mode span#transit.active{
   background:url('../images/sprite_mode.png') -49px bottom no-repeat;
 }
-#container_maps #container_options #choice_mode span#bike:hover,
-#container_maps #container_options #choice_mode span#bike.active{
+#container_maps #container_form #choice_mode span#bicycling:hover,
+#container_maps #container_form #choice_mode span#bicycling.active{
   background:url('../images/sprite_mode.png') -108px bottom no-repeat;
 }
-#container_maps #container_options #choice_mode span#walker:hover,
-#container_maps #container_options #choice_mode span#walker.active{
+#container_maps #container_form #choice_mode span#walking:hover,
+#container_maps #container_form #choice_mode span#walking.active{
   background:url('../images/sprite_mode.png') -166px bottom no-repeat;
 }
-#container_maps #container_options label{
+#container_maps #container_form label{
   color:#3c3c3c;
 }
 
@@ -155,7 +149,7 @@ body.path-admin .region-content #block-calculate-your-route{
   margin-bottom: 0;
 }
 
-#container_maps .print {
+#print {
   position: relative;
   color: #fff;
   font-weight: bold;
@@ -171,11 +165,11 @@ body.path-admin .region-content #block-calculate-your-route{
   text-align: left;
 }
 
-#container_maps .print {
+#print {
   display: none;
 }
 
-#container_maps .sub_print {
+#sub_print {
   font-size: 13px;
   font-weight: normal;
   background: #fff;
@@ -199,4 +193,245 @@ body.path-admin .region-content #block-calculate-your-route{
 
 #switch span:hover{
   cursor:pointer;
+}
+
+#form-minimize span{
+  position: absolute;
+  left: 12px;
+  bottom: 32px;
+  color:#bdbdbd;
+}
+
+#form-minimize span:hover{
+  cursor:pointer;
+}
+
+#form-restore span{
+  display: none;
+  color:#bdbdbd;
+}
+
+#form-restore span:hover{
+  cursor:pointer;
+}
+
+
+#directions-panel{
+  background:#fff;
+  /*max-height:250px;*/
+  /*max-height:250px;*/
+  overflow: auto;
+}
+
+
+table.adp-placemark{
+  border: 2px solid silver;
+}
+
+table.adp-placemark tr{
+height: 60px;
+line-height: 60px;
+}
+
+table.adp-placemark td{
+  box-sizing: border-box;
+  border:0px;
+}
+
+table.adp-placemark td:nth-child(1){
+  width: 46px;
+  line-height: 20px;
+  /* height: 60px; */
+}
+
+table.adp-placemark td:nth-child(2){
+  /*width: calc(100% - 46px);*/
+  /* height: auto; */
+  line-height: normal;
+  vertical-align: middle;
+  display: inline-block;
+  font-size: 14px;
+}
+
+table.adp-placemark td img.adp-marker {
+  width: 22px;
+  height: 40px;
+  vertical-align: middle;
+}
+
+
+div.adp-summary{
+  font-weight: bold;
+  text-align: center;
+}
+table.adp-directions{
+  border: 2px solid silver;
+  width: 100%;
+}
+table.adp-directions tr td:nth-child(2){
+  font-weight: bold;
+}
+table.adp-directions tr td:last-child{
+  /* font-weight: bold;*/
+} 
+
+
+
+div.adp-list{
+  margin-top:20px;
+  margin-bottom:28px;
+  padding: 0;
+  border: 3px solid silver;
+}
+
+div.adp-list table{
+  margin:0;
+}
+div.adp-list table tbody tr:first-child,
+div.adp-list .adp-listheader{
+  border-bottom: 3px solid silver;
+}
+div.adp-list table tbody tr:first-child td,
+div.adp-list .adp-listheader{
+  padding: 10px 10px;
+  font-weight: bold;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+div.adp-list table tbody tr td.adp-listsel,
+div.adp-list table tbody tr td.adp-listsel b,
+div.adp-list ol li.adp-listsel{
+  font-weight: bold;
+  font-size: 14px;
+}
+
+div.adp-list ol li.adp-listsel{
+  padding: 2px 20px;
+}
+
+div.adp-list ol{
+  padding: 12px!important;
+}
+div.adp-list table tbody tr:nth-child(2) td,
+div.adp-list ol{
+  padding-top: 12px!important;
+}
+div.adp-list table tbody tr:last-child td,
+div.adp-list ol{
+  padding-bottom: 10px!important;
+}
+div.adp-list table tbody tr td,
+div.adp-list .adp-listheader{
+  text-align: center;
+}
+div.adp-warnbox{
+  margin-top:-12px;
+  margin-bottom:28px;
+  text-align: center;
+}
+
+table.adp-directions{
+  margin-top: 0;
+  margin-bottom: -12px;
+}
+
+#directions-panel .adp div[data-leg-index="0"] table.adp-placemark{
+  /* margin-bottom:-23px; */
+  margin-bottom:-88px;
+}
+
+div.adp-summary{
+  margin:0;
+  padding-bottom: 0;
+  /* margin-top:-20px;
+  padding-left:56px; */
+  margin-bottom: 65px;
+  /* padding-left:56px; */
+}
+
+#overlay {
+    display: none;/* Hidden by default */
+    position: fixed; /* Sit on top of the page content */
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0; /* top position */
+    left: 0; /* left position */
+    right: 0; /* right position */
+    bottom: 0; /* bottom position */
+    background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+    z-index: 5; /* Specify a stack order in case you're using a different order for other elements */
+    cursor: progress; /* For indicate to user the functionnalities is in progress */
+}
+#overlay.show-overlay {
+    display: block!important;/* Force visible */
+}
+
+#map-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 8px;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  text-indent: -9999em;
+  -webkit-animation: loader 0.8s infinite ease;
+  animation: loader 0.8s infinite ease;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+@-webkit-keyframes loader {
+  0%,
+  100% {
+    box-shadow: 0em -2.6em 0em 0em #BEBEBE, 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2), 2.5em 0em 0 0em rgba(255, 255, 255, 0.2), 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2), 0em 2.5em 0 0em rgba(255, 255, 255, 0.2), -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2), -2.6em 0em 0 0em rgba(255, 255, 255, 0.5), -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.7);
+  }
+  12.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.7), 1.8em -1.8em 0 0em #BEBEBE, 2.5em 0em 0 0em rgba(255, 255, 255, 0.2), 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2), 0em 2.5em 0 0em rgba(255, 255, 255, 0.2), -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2), -2.6em 0em 0 0em rgba(255, 255, 255, 0.2), -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.5);
+  }
+  25% {
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.5), 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.7), 2.5em 0em 0 0em #BEBEBE, 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2), 0em 2.5em 0 0em rgba(255, 255, 255, 0.2), -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2), -2.6em 0em 0 0em rgba(255, 255, 255, 0.2), -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
+  }
+  37.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2), 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.5), 2.5em 0em 0 0em rgba(255, 255, 255, 0.7), 1.75em 1.75em 0 0em #BEBEBE, 0em 2.5em 0 0em rgba(255, 255, 255, 0.2), -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2), -2.6em 0em 0 0em rgba(255, 255, 255, 0.2), -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2), 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2), 2.5em 0em 0 0em rgba(255, 255, 255, 0.5), 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.7), 0em 2.5em 0 0em #BEBEBE, -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2), -2.6em 0em 0 0em rgba(255, 255, 255, 0.2), -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
+  }
+  62.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2), 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2), 2.5em 0em 0 0em rgba(255, 255, 255, 0.2), 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.5), 0em 2.5em 0 0em rgba(255, 255, 255, 0.7), -1.8em 1.8em 0 0em #BEBEBE, -2.6em 0em 0 0em rgba(255, 255, 255, 0.2), -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
+  }
+  75% {
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2), 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2), 2.5em 0em 0 0em rgba(255, 255, 255, 0.2), 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2), 0em 2.5em 0 0em rgba(255, 255, 255, 0.5), -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.7), -2.6em 0em 0 0em #BEBEBE, -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
+  }
+  87.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2), 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2), 2.5em 0em 0 0em rgba(255, 255, 255, 0.2), 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2), 0em 2.5em 0 0em rgba(255, 255, 255, 0.2), -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.5), -2.6em 0em 0 0em rgba(255, 255, 255, 0.7), -1.8em -1.8em 0 0em #BEBEBE;
+  }
+}
+@keyframes loader {
+  0%,
+  100% {
+    box-shadow: 0em -2.6em 0em 0em #BEBEBE, 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2), 2.5em 0em 0 0em rgba(255, 255, 255, 0.2), 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2), 0em 2.5em 0 0em rgba(255, 255, 255, 0.2), -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2), -2.6em 0em 0 0em rgba(255, 255, 255, 0.5), -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.7);
+  }
+  12.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.7), 1.8em -1.8em 0 0em #BEBEBE, 2.5em 0em 0 0em rgba(255, 255, 255, 0.2), 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2), 0em 2.5em 0 0em rgba(255, 255, 255, 0.2), -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2), -2.6em 0em 0 0em rgba(255, 255, 255, 0.2), -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.5);
+  }
+  25% {
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.5), 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.7), 2.5em 0em 0 0em #BEBEBE, 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2), 0em 2.5em 0 0em rgba(255, 255, 255, 0.2), -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2), -2.6em 0em 0 0em rgba(255, 255, 255, 0.2), -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
+  }
+  37.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2), 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.5), 2.5em 0em 0 0em rgba(255, 255, 255, 0.7), 1.75em 1.75em 0 0em #BEBEBE, 0em 2.5em 0 0em rgba(255, 255, 255, 0.2), -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2), -2.6em 0em 0 0em rgba(255, 255, 255, 0.2), -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2), 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2), 2.5em 0em 0 0em rgba(255, 255, 255, 0.5), 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.7), 0em 2.5em 0 0em #BEBEBE, -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2), -2.6em 0em 0 0em rgba(255, 255, 255, 0.2), -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
+  }
+  62.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2), 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2), 2.5em 0em 0 0em rgba(255, 255, 255, 0.2), 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.5), 0em 2.5em 0 0em rgba(255, 255, 255, 0.7), -1.8em 1.8em 0 0em #BEBEBE, -2.6em 0em 0 0em rgba(255, 255, 255, 0.2), -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
+  }
+  75% {
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2), 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2), 2.5em 0em 0 0em rgba(255, 255, 255, 0.2), 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2), 0em 2.5em 0 0em rgba(255, 255, 255, 0.5), -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.7), -2.6em 0em 0 0em #BEBEBE, -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
+  }
+  87.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2), 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2), 2.5em 0em 0 0em rgba(255, 255, 255, 0.2), 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2), 0em 2.5em 0 0em rgba(255, 255, 255, 0.2), -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.5), -2.6em 0em 0 0em rgba(255, 255, 255, 0.7), -1.8em -1.8em 0 0em #BEBEBE;
+  }
 }

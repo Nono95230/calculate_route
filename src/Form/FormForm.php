@@ -51,7 +51,13 @@ class FormForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
 
-    $form['transport'] = array(
+
+    $form['enable-element'] = array(
+      '#type'           => 'fieldset',
+      '#title'          => $this->t('Enable Element'),
+    );
+
+    $form['enable-element']['transport'] = array(
       '#type'           => 'checkboxes',
       '#options'        => array(
                           'car' => $this->t('Car'),
@@ -64,10 +70,16 @@ class FormForm extends ConfigFormBase {
     );
 
 
-    $form['btn-switch'] = array(
+    $form['enable-element']['btn-switch'] = array(
       '#type'           => 'checkbox',
       '#title'          => $this->t('Enable switch button'),
       '#default_value'  => $this->configCr->get('form.btn_switch')
+    );
+
+    $form['enable-element']['btn-minimize-restore'] = array(
+      '#type'           => 'checkbox',
+      '#title'          => $this->t('Enable minimize/restore form button'),
+      '#default_value'  => $this->configCr->get('form.btn_minimize_restore')
     );
 
 
@@ -175,6 +187,7 @@ class FormForm extends ConfigFormBase {
     $this->configCr
         ->set( 'form.transport', $form_state->getValue('transport') )
         ->set( 'form.btn_switch', $form_state->getValue('btn-switch') )
+        ->set( 'form.btn_minimize_restore', $form_state->getValue('btn-minimize-restore') )
         ->set( 'form.ct_start_pl', $form_state->getValue('ct_start_pl') )
         ->set( 'form.ct_start', $form_state->getValue('ct_start') )
         ->set( 'form.ct_end', $form_state->getValue('ct_end') )

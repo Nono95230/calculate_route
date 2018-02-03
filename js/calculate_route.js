@@ -1,7 +1,56 @@
 (function($, Drupal, drupalSettings){
 
-
 	'use strict';
+
+	// Google Maps Property
+	var map,
+		marker,
+		directionsDisplay,
+		directionsService,
+		transitLayer,//Propriété pour le traffic autoroutier
+		trafficLayer;//Propriété pour le traffic de transport public de personne
+
+	// Properties for map
+	var mps 				= drupalSettings.calculate_route.JS.map_settings,
+		CR_MAP_TYPE 		= mps.map_type,
+		CR_LATITUDE 		= Number(mps.latitude),
+		CR_LONGITUDE 		= Number(mps.longitude),
+		CR_ZOOM 			= Number(mps.zoom),
+		CR_ZOOM_MAX 		= Number(mps.zoom_max),
+		CR_ZOOM_SCROLL 		= (mps.zoom_scroll == "true"),
+		CR_ENABLE_GEOLOC	= (mps.enable_geoloc == "true");
+
+	// Properties for marker
+	var mks 			= drupalSettings.calculate_route.JS.marker_settings,
+		CR_LATITUDE_MK 	= Number(mks.latitude),
+		CR_LONGITUDE_MK = Number(mks.longitude),
+		CR_TITLE_MK 	= mks.title,
+		CR_ENABLE_IW_MK = (mks.enable_info_window == "true"),
+		CR_INFO_WINDOW 	= mks.info_window;
+
+	// Property for form
+	var fms 				= drupalSettings.calculate_route.JS.form_settings,
+		CR_TRANSPORT 		= fms.transport,
+		CR_EN_SWITCH 		= fms.btn_switch,
+		CR_EN_MINI_REST_BTN = fms.btn_minimize_restore,
+		CR_LABEL_START 		= fms.sl_start,
+		CR_LABEL_END 		= fms.sl_end;
+
+	// Property for appearence
+	var aps 				= drupalSettings.calculate_route.JS.appearence_settings,
+		CR_WIDTH_MAP 		= aps.width_map,
+		CR_HEIGHT_MAP 		= aps.height_map,
+		CR_LABEL_TEXT_COLOR = "#"+aps.label_text_color,
+		CR_BTN_TEXT_COLOR 	= "#"+aps.button_text_color,
+		CR_HEADER_BG_COLOR 	= "#"+aps.header_color,
+		CR_FORM_BG_COLOR 	= "#"+aps.form_color,
+		CR_BTN_BG_COLOR 	= "#"+aps.button_color,
+		CR_3_BTN_COLOR 		= "#"+aps.three_btn_color,
+		CR_3_BTN_HV_COLOR 	= "#"+aps.three_btn_hover_color,
+		CR_TOP_POS 			= aps.top_position,
+		CR_BOTTOM_POS 		= aps.bottom_position,
+		CR_LEFT_POS 		= aps.left_position,
+		CR_RIGHT_POS 		= aps.right_position;
 
 
 	//////////////////////////////////////////////////
@@ -17,24 +66,10 @@
 
 			$(document).ready( function(){
 
-      			var aps 			= drupalSettings.calculate_route.JS.appearence_settings,
-				CR_WIDTH_MAP 		= aps.width_map,
-				CR_HEIGHT_MAP 		= aps.height_map,
-				CR_LABEL_TEXT_COLOR = "#"+aps.label_text_color,
-				CR_BTN_TEXT_COLOR 	= "#"+aps.button_text_color,
-				CR_HEADER_BG_COLOR 	= "#"+aps.header_color,
-				CR_FORM_BG_COLOR 	= "#"+aps.form_color,
-				CR_BTN_BG_COLOR 	= "#"+aps.button_color,
-				CR_SWITCH_COLOR 	= "#"+aps.switch_color,
-				CR_SWITCH_HV_COLOR 	= "#"+aps.switch_hover_color,
-				CR_TOP_POS 			= aps.top_position,
-				CR_BOTTOM_POS 		= aps.bottom_position,
-				CR_LEFT_POS 		= aps.left_position,
-				CR_RIGHT_POS 		= aps.right_position;
 				/*
 				 * CHANGE MAP DIMENSION
 				 */
-				$('#map').css({
+				$('#map-cr').css({
 					'width' : CR_WIDTH_MAP,
 					'height' : CR_HEIGHT_MAP
 				});
@@ -45,7 +80,7 @@
 				/*
 				 * CHANGE FORM POSITION
 				 */
-				$('#container_options').css({
+				$('#container_form').css({
 					'background-color' : CR_FORM_BG_COLOR,
 					'top' : CR_TOP_POS,
 					'bottom' : CR_BOTTOM_POS,
@@ -60,68 +95,94 @@
 				 * CHANGE FORM COLOR
 				 */
 				$('.label_style').css('color', CR_LABEL_TEXT_COLOR);
+
 				$('#cr_submit').css('color', CR_BTN_TEXT_COLOR);
+
 				$('#choice_mode').css('background-color', CR_HEADER_BG_COLOR);
 
 				$('#cr_submit').css('background-color', CR_BTN_BG_COLOR);
 
-				$('#switch span').css('color', CR_SWITCH_COLOR);
-				$("#switch span").on("mouseover", function() {
-				  $(this).css('color', CR_SWITCH_HV_COLOR);
-				});
-				$("#switch span").on("mouseout", function() {
-				  $(this).css('color', CR_SWITCH_COLOR);
-				});
+					/* START - BTN SWITCH */
+					$('#switch span').css('color', CR_3_BTN_COLOR);
+
+					$("#switch span").on("mouseover", function() {
+					  $(this).css('color', CR_3_BTN_HV_COLOR);
+					});
+
+					$("#switch span").on("mouseout", function() {
+					  $(this).css('color', CR_3_BTN_COLOR);
+					});
+					/* END - BTN SWITCH */
+
+					/* START - BTN MINIMIZE/RESTORE FORM */
+					$('#form-minimize span,#form-restore span').css('color', CR_3_BTN_COLOR);
+
+					$("#form-minimize span,#form-restore span").on("mouseover", function() {
+					  $(this).css('color', CR_3_BTN_HV_COLOR);
+					});
+
+					$("#form-minimize span,#form-restore span").on("mouseout", function() {
+					  $(this).css('color', CR_3_BTN_COLOR);
+					});
+					/* END - BTN MINIMIZE/RESTORE FORM */
+
 				/*
 				 * CHANGE FORM COLOR
 				 */
 
-      			var fms 			= drupalSettings.calculate_route.JS.form_settings,
-				CR_TRANSPORT 		= fms.transport,
-				CR_EN_SWITCH 		= fms.btn_switch,
-				CR_LABEL_START 		= fms.sl_start,
-				CR_LABEL_END 		= fms.sl_end;
-
 				/*
-				 * START - ENABLE BUTTON SWITCH
+				 * START - ENABLE/DISABLE SWITCH BUTTON
 				 */
 				if (CR_EN_SWITCH == 0) {
 					$("#switch").css("display","none");
 				}
 				/*
-				 * END - ENABLE BUTTON SWITCH
+				 * END - ENABLE/DISABLE SWITCH BUTTON
+				 */
+				/*
+				 * START - ENABLE/DISABLE FORM MINIMIZE BUTTON
+				 */
+				if (CR_EN_MINI_REST_BTN == 0) {
+					$("#form-minimize").css("display","none");
+				}
+				/*
+				 * END - ENABLE/DISABLE FORM MINIMIZE BUTTON
 				 */
 
 				/*
-				 * START - ENABLE LABEL
+				 * START - ENABLE/DISABLE LABEL
 				 */
 				if (CR_LABEL_START == 1) {
 					$('#label_start').css('visibility','hidden');
 				}
+
 				if (CR_LABEL_END == 1 ) {
 					$('#label_end').css('visibility','hidden');
 				}
 				/*
-				 * END - ENABLE LABEL
+				 * END - ENABLE/DISABLE LABEL
 				 */
 
 				/*
-				 * START - ENABLE MANY TRANSPORT WAY
+				 * START - ENABLE/DISABLE MANY TRANSPORT WAY
 				 */
 				if (CR_TRANSPORT.car == 0) {
-					$('#car').css('display','none');
+					$('#driving').css('display','none');
 				}
+
 				if (CR_TRANSPORT.public_transport == 0) {
-					$('#public_transport').css('display','none');
+					$('#transit').css('display','none');
 				}
+
 				if (CR_TRANSPORT.bike == 0) {
-					$('#bike').css('display','none');
+					$('#bicycling').css('display','none');
 				}
+				
 				if (CR_TRANSPORT.walker == 0) {
-					$('#walker').css('display','none');
+					$('#walking').css('display','none');
 				}
 				/*
-				 * END - ENABLE MANY TRANSPORT WAY
+				 * END - ENABLE/DISABLE MANY TRANSPORT WAY
 				 */
 
 
@@ -160,23 +221,21 @@
 				 * Start
 				 * 
 				 */
-      			var mps 			= drupalSettings.calculate_route.JS.map_settings,
-				CR_MAP_TYPE 		= mps.map_type,
-				CR_LATITUDE 		= Number(mps.latitude),
-				CR_LONGITUDE 		= Number(mps.longitude),
-				CR_ZOOM 			= Number(mps.zoom),
-				CR_ZOOM_MAX 		= Number(mps.zoom_max),
-				CR_ZOOM_SCROLL 		= (mps.zoom_scroll == "true"),
-				CR_ENABLE_GEOLOC	= (mps.enable_geoloc == "true");
 
-
-				var map = new google.maps.Map(document.getElementById('map'), {
+				map = new google.maps.Map(document.getElementById('map-cr'), {
 					center: {lat: CR_LATITUDE, lng: CR_LONGITUDE},
 					zoom: CR_ZOOM,
 					mapTypeId: CR_MAP_TYPE,
 					maxZoom: CR_ZOOM_MAX,
 					scrollwheel: CR_ZOOM_SCROLL
 				});
+
+				window.gm_authFailure = function() {
+				    // remove the map div or maybe call another API to load map
+				   // maybe display a useful message to the user
+				   console.log('Google maps failed to load!');
+				}
+				
 				/*
 				 * Generate the Map
 				 * End
@@ -189,14 +248,7 @@
 				 * Start
 				 * 
 				 */
-      			var mks 		= drupalSettings.calculate_route.JS.marker_settings,
-				CR_LATITUDE_MK 	= Number(mks.latitude),
-				CR_LONGITUDE_MK = Number(mks.longitude),
-				CR_TITLE_MK 	= mks.title,
-				CR_ENABLE_IW_MK = (mks.enable_info_window == "true"),
-				CR_INFO_WINDOW 	= mks.info_window;
-
-		        var marker = new google.maps.Marker({
+		        marker = new google.maps.Marker({
 		          position: {lat: CR_LATITUDE_MK, lng: CR_LONGITUDE_MK},
 		          map: map,
 		          title: CR_TITLE_MK
@@ -232,6 +284,23 @@
 				 * End
 				 * 
 				 */
+
+				/*
+				 * Generate the AutoComplete Fields
+				 * Start
+				 * 
+				 */
+
+				var findAddressAC 	= $("#container_form").find("input.autocomplete-place").attr('id'),
+					addressAC		= document.getElementById(findAddressAC),
+		        	AutoComplete 	= new google.maps.places.Autocomplete(addressAC, { types: ['geocode'] } );
+
+				/*
+				 * Generate the AutoComplete Fields
+				 * End
+				 * 
+				 */
+
 
 
 				/*
@@ -269,18 +338,17 @@
 				 * 
 				 */
 				
+
+
+
+
+
+
+				
 			});
 			
 		}
 	};
-
-
-	//////////////////////////////////////////////////
-	///                                            ///
-	///              FUNCTION INITMAP              ///
-	///                    END                     ///
-	///                                            ///
-	//////////////////////////////////////////////////
 
 
 	function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -290,15 +358,22 @@
 		'Error: Your browser doesn\'t support geolocation.');
 	}
 
+	//////////////////////////////////////////////////
+	///                                            ///
+	///              FUNCTION INITMAP              ///
+	///                    END                     ///
+	///                                            ///
+	//////////////////////////////////////////////////
+
 
 	//////////////////////////////////////////////////
 	///                                            ///
-	///             FUNCTION CLICKFORM             ///
+	///         FUNCTION CLICK CHOICE MODE         ///
 	///                    START                   ///
 	///                                            ///
 	//////////////////////////////////////////////////
 
-	Drupal.behaviors.clickForm = {
+	Drupal.behaviors.clickChoiceMode = {
 		attach : function(context, settings) {
 
 			$(document).ready( function(){
@@ -314,18 +389,42 @@
 					}
 
 				});
+			});
+
+		}
+	};
+
+	//////////////////////////////////////////////////
+	///                                            ///
+	///         FUNCTION CLICK CHOICE MODE         ///
+	///                    END                     ///
+	///                                            ///
+	//////////////////////////////////////////////////
+
+
+	//////////////////////////////////////////////////
+	///                                            ///
+	///           FUNCTION CLICK SWITCH            ///
+	///                    START                   ///
+	///                                            ///
+	//////////////////////////////////////////////////
+
+	Drupal.behaviors.clickSwitch = {
+		attach : function(context, settings) {
+
+			$(document).ready( function(){
 
 				$("#switch span").on("click", function(event){
 
 					event.preventDefault();
 
-					var containerStart 	= $("#adress-start"),
-						containerEnd 	= $("#adress-end"),
+					var containerStart 	= $("#address-start"),
+						containerEnd 	= $("#address-end"),
 						$start 			= containerStart.find("#start"),
 						$end 			= containerEnd.find("#end");
 
-					$("#adress-start #start").remove();
-					$("#adress-end #end").remove();
+					$("#address-start #start").remove();
+					$("#address-end #end").remove();
 					containerStart.append($end);
 					containerEnd.append($start);
 					containerStart.find('#end').attr('name','start').attr('id','start');
@@ -339,11 +438,130 @@
 
 	//////////////////////////////////////////////////
 	///                                            ///
-	///             FUNCTION CLICKFORM             ///
+	///           FUNCTION CLICK SWITCH            ///
 	///                    END                     ///
 	///                                            ///
 	//////////////////////////////////////////////////
 	
+
+	//////////////////////////////////////////////////
+	///                                            ///
+	///       FUNCTION CLICK MINIMIZE FORM         ///
+	///                    START                   ///
+	///                                            ///
+	//////////////////////////////////////////////////
+
+	Drupal.behaviors.clickMinimizeForm = {
+		attach : function(context, settings) {
+
+			$(document).ready( function(){
+
+				if (CR_EN_MINI_REST_BTN == 1) {
+
+					$("#form-minimize span").on("click", function(){
+						$("#container_form").css("overflow","hidden");
+				    	$("#container_form").animate({width:"65px", height:"30px" }, 750);
+					 	setTimeout(function(){
+					 		$("#choice_mode #walking").css("display","none"); 
+					 	}, 150);
+					 	setTimeout(function(){
+					 		$("#choice_mode #bicycling").css("display","none"); 
+					 	}, 300);
+				 		if ( CR_EN_SWITCH == 1 ) {
+						 	setTimeout(function(){
+						 		$("#switch").css("display","none"); 
+						 	}, 300);
+				 		}
+					 	setTimeout(function(){
+					 		$("#choice_mode #transit").css("display","none"); 
+					 	}, 450);
+					 	setTimeout(function(){
+					 		$("#choice_mode #driving").css("display","none"); 
+					 		$("#choice_mode").css("display","none"); 
+					 		$("#container_form").css("padding","5px"); 
+					 	}, 500);
+					 	setTimeout(function(){
+					 		$("#form-restore span").css("display","block"); 
+					 		$("#address-start,#address-end,#cr_submit,#form-minimize span").css("display","none"); 
+					 	}, 650);
+
+					});
+
+				}
+
+			});
+
+		}
+	};
+
+	//////////////////////////////////////////////////
+	///                                            ///
+	///       FUNCTION CLICK MINIMIZE FORM         ///
+	///                    END                     ///
+	///                                            ///
+	//////////////////////////////////////////////////
+	
+
+	//////////////////////////////////////////////////
+	///                                            ///
+	///        FUNCTION CLICK RESTORE FORM         ///
+	///                    START                   ///
+	///                                            ///
+	//////////////////////////////////////////////////
+
+	Drupal.behaviors.clickRestoreForm = {
+		attach : function(context, settings) {
+
+			$(document).ready( function(){
+				
+				if (CR_EN_MINI_REST_BTN == 1) {
+
+					$("#form-restore span").on("click", function(){ 
+				    	$("#container_form").animate({width:"280px", height:"311px" }, 750);
+
+					 	setTimeout(function(){
+					 		$("#choice_mode").css("display","block"); 
+				 			$("#form-restore span").css("display","none"); 
+				 			$("#address-start,#address-end,#form-minimize span").css("display","block");
+					 		$("#container_form").css("padding","60px 30px 20px"); 
+					 		$("#container_form").css("height","auto"); 
+					 		$("#cr_submit").css("display","inline-block"); 
+					 	}, 150);
+					 	setTimeout(function(){
+					 		$("#choice_mode #driving").css("display","inline-block"); 
+					 	}, 200);
+					 	setTimeout(function(){
+					 		$("#choice_mode #transit").css("display","inline-block"); 
+					 		if ( CR_EN_SWITCH == 1 ) {
+				 				$("#switch").css("display","block");
+					 		}
+					 	}, 400);
+					 	setTimeout(function(){
+					 		$("#choice_mode #bicycling").css("display","inline-block"); 
+					 	}, 550);
+					 	setTimeout(function(){
+					 		$("#choice_mode #walking").css("display","inline-block"); 
+					 	}, 700);
+					 	setTimeout(function(){
+						$("#container_form").css("overflow","initial");
+					 	}, 800);
+
+					});
+
+				}
+
+			});
+
+		}
+	};
+
+	//////////////////////////////////////////////////
+	///                                            ///
+	///        FUNCTION CLICK RESTORE FORM         ///
+	///                    END                     ///
+	///                                            ///
+	//////////////////////////////////////////////////
+
 
 	//////////////////////////////////////////////////
 	///                                            ///
@@ -357,12 +575,53 @@
 
 			$(document).ready( function(){
 
-				$("#cr_submit").on("click", function(){
+				$("#cr_submit").on("click", function(event){
 
-					var adressStart 	= $("#start").val(),
-						adressEnd 		= $("#end").val();
-					console.log(adressStart);
-					console.log(adressEnd);
+					var addressStart 	= $("#start").val(),
+						addressEnd 		= $("#end").val(),
+						travelMode 		= $("#choice_mode span.active").attr('id').toUpperCase(),
+						panel 			= document.getElementById('directions-panel');
+
+			        // Create a renderer for directions and bind it to the map.
+			        
+			        if (typeof directionsDisplay !== 'undefined') {
+
+						if( directionsDisplay != null ) {
+						    directionsDisplay.setMap(null);
+						    directionsDisplay.setPanel(null);
+            				directionsDisplay.setRouteIndex(null);
+						    directionsDisplay = null;
+
+					        transitLayer.setMap(null);
+					        transitLayer = null;
+
+					        trafficLayer.setMap(null);
+					        trafficLayer = null;
+
+				        	directionsService = null;
+						}
+					}
+
+			        if (marker !== null) {
+						marker.setMap(null);
+						marker = null;
+					}
+
+			        directionsDisplay = new google.maps.DirectionsRenderer({map: map, panel: panel});
+			        directionsService = new google.maps.DirectionsService;
+					transitLayer = new google.maps.TransitLayer();
+					trafficLayer = new google.maps.TrafficLayer();
+					
+			        if (travelMode === "DRIVING") {
+						transitLayer.setMap(map);
+			        }
+			        if (travelMode === "TRANSIT") {
+		  				trafficLayer.setMap(map);
+			        }
+
+
+			        calculateAndDisplayRoute(directionsDisplay, directionsService, map, addressStart, addressEnd, travelMode, transitLayer, trafficLayer);
+
 
 				});
 
@@ -370,13 +629,89 @@
 
 		}
 	};
-	
 	//////////////////////////////////////////////////
 	///                                            ///
 	///             FUNCTION FINDROUTE             ///
 	///                    END                     ///
 	///                                            ///
 	//////////////////////////////////////////////////
+
+	function calculateAndDisplayRoute(directionsDisplay, directionsService, map, addressStart, addressEnd, travelMode, transitLayer, trafficLayer){
+		var currentTime = Date.now();
+		$('#overlay').addClass('show-overlay');
+
+		// Retrieve the start and end locations and create a DirectionsRequest
+		directionsService.route({
+			origin: addressStart,
+			destination: addressEnd,
+			provideRouteAlternatives: true,
+			travelMode: travelMode,
+			unitSystem: google.maps.UnitSystem.METRIC
+		}, function(response, status) {
+			// Route the directions and pass the response to a function to create
+			// markers for each step.
+			if (status === 'OK') {
+				for (var i = 0, len = response.routes.length; i < len; i++) {
+					new google.maps.DirectionsRenderer({
+						directions: response,
+						routeIndex: i
+					});
+				}
+
+
+				var nb_route = response.routes.length;
+
+				directionsDisplay.setRouteIndex(nb_route);
+
+				directionsDisplay.setDirections(response);
+
+		    	setTimeout(function(){ 
+		    		$('#overlay').removeClass('show-overlay');
+
+		    		/* START - If minimize button is enabled */
+					if (CR_EN_MINI_REST_BTN == 1) {
+
+						$("#container_form").css("overflow","hidden");
+				    	$("#container_form").animate({width:"65px", height:"30px" }, 750);
+					 	setTimeout(function(){
+					 		$("#choice_mode #walking").css("display","none"); 
+					 	}, 150);
+					 	setTimeout(function(){
+					 		$("#choice_mode #bicycling").css("display","none"); 
+					 	}, 300);
+				 		if ( CR_EN_SWITCH == 1 ) {
+						 	setTimeout(function(){
+						 		$("#switch").css("display","none"); 
+						 	}, 300);
+				 		}
+					 	setTimeout(function(){
+					 		$("#choice_mode #transit").css("display","none"); 
+					 	}, 450);
+					 	setTimeout(function(){
+					 		$("#choice_mode #driving").css("display","none"); 
+					 		$("#choice_mode").css("display","none"); 
+					 		$("#container_form").css("padding","5px"); 
+					 	}, 500);
+					 	setTimeout(function(){
+					 		$("#form-restore span").css("display","block"); 
+					 		$("#address-start,#address-end,#cr_submit,#form-minimize span").css("display","none"); 
+					 	}, 650);
+
+					}
+		    		/* END - If minimize button is enabled */
+
+		    	}, 750);
+
+
+			} else {
+				$('#overlay').removeClass('show-overlay');
+				window.alert('Directions request failed due to ' + status);
+			}
+		});
+
+
+	}
+
 
 
 
@@ -390,6 +725,9 @@
 		}
 	};*/
 	
+
+
+
 })(jQuery, Drupal, drupalSettings);
 
 
