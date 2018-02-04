@@ -72,6 +72,7 @@
 				
 				if (!CR_AK_IS_VALID) {
 					$("#block-calculaterouteblock").addClass("api-key-false");
+					$(".toolbar-icon-calculate-route-config-apikey").parent("li").removeClass("menu-item--expanded").find("ul").remove();
 				}
 
 				/*

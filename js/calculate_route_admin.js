@@ -25,7 +25,9 @@
 					$(".form-item-api-key").addClass("is-valid");
 					$("input#edit-api-key").after("<span id='success'><i class='fa fa-check fa-lg'></i></span>");
 				}
-
+				else{
+					$(".toolbar-icon-calculate-route-config-apikey").parent("li").removeClass("menu-item--expanded").find("ul").remove();
+				}
 
 			});
 			
