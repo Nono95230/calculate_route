@@ -2,11 +2,23 @@ google-map:
   version: VERSION
   css:
     theme:
-      css/calculate_route.css: {}
       font-awesome/css/font-awesome.min.css: {}
+      css/calculate_route.css: {}
   js:
     https://maps.googleapis.com/maps/api/js?key=default: { type: external }
     js/calculate_route.js: {}
+  dependencies: 
+    - core/jquery
+    - core/drupalSettings
+
+admin-view:
+  version: VERSION
+  css:
+    theme:
+      css/calculate_route_admin.css: {}
+      font-awesome/css/font-awesome.min.css: {}
+  js:
+    js/calculate_route_admin.js: {}
   dependencies: 
     - core/jquery
     - core/drupalSettings

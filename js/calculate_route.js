@@ -10,7 +10,7 @@
 		transitLayer,//Propriété pour le traffic autoroutier
 		trafficLayer;//Propriété pour le traffic de transport public de personne
 
-	// Properties for map
+	// Properties for api key
 	var akv 				= drupalSettings.calculate_route.JS.api_key_is_valid,
 		CR_AK_IS_VALID 		= (akv == 1 ? true :false);
 
@@ -69,8 +69,7 @@
 		attach : function(context, settings) {
 
 			$(document).ready( function(){
-				console.log("CR_AK_IS_VALID");
-				console.log(CR_AK_IS_VALID);
+				
 				if (!CR_AK_IS_VALID) {
 					$("#block-calculaterouteblock").addClass("api-key-false");
 				}

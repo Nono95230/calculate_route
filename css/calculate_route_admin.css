@@ -1,0 +1,15 @@
+.is-valid{
+  color:green;
+}
+.is-valid #edit-api-key{
+  border:2px solid green;
+}
+.is-valid span#success{
+  position: relative;
+  left:-20px;  
+  z-index:3500;
+}
+/* .is-valid #success i{
+  color:green;
+  
+} */

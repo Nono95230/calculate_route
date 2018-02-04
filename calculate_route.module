@@ -2,12 +2,23 @@
 
 
 function calculate_route_theme($existing, $type, $theme, $path){
-	return array(
-		'google_map' => array(
-			'template' => 'google-map',
+  return array(
+    'google_map' => array(
+      'template' => 'google-map',
       'variables' => array('data' => NULL)
-		),
-	);
+    ),
+  );
+}
+
+function calculate_route_page_attachments(array &$page){
+
+  $currentPath = \Drupal::service('path.current')->getPath();
+  $routePath = str_replace("/admin/config/services/", "", $currentPath);
+
+  if ( $routePath === "calculate-route/config/api-key" ) {
+    $page['#attached']['library'][] = 'calculate_route/admin-view';
+  }
+  
 }
 
 
