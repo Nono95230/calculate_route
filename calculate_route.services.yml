@@ -1,0 +1,24 @@
+services:
+  access_check.otherconfigcr:
+    class: Drupal\calculate_route\Access\OtherConfigCrAccess
+    tags:
+      - { name: access_check, applies_to: _access_gm_api_key_is_valid }
+  # access_list_module:
+  #   class: Drupal\hello\Route\BlockedListModuleRoute
+  #   tags:
+  #     - { name: event_subscriber }
+
+
+
+
+
+# services:
+#   access_check.vipmember:
+#     class: Drupal\hello\Access\VIPMemberAccess
+#     tags:
+#       - { name: access_check, applies_to: _access_vip_member }
+#   access_list_module:
+#     class: Drupal\hello\Route\BlockedListModuleRoute
+#     tags:
+#       - { name: event_subscriber }
+

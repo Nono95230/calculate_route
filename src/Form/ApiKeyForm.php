@@ -83,14 +83,48 @@ class ApiKeyForm extends ConfigFormBase {
     $oldApiKEy = $this->configCr->get('api_key');
     $newApiKey = $form_state->getValue('api_key');
 
+    // If Api Key change
     if($oldApiKEy !== $newApiKey){
 
+
+      // START - Save the new Api Key
       $this->configCr
           ->set( 'api_key', $newApiKey )
           ->save();
+      // END - Save the new Api Key
 
+
+      // START - Test if Api Key is Valid
+      $urlToTest  = "https://maps.googleapis.com/maps/api/geocode/json?key=".$newApiKey."&address=550+King+St+N,+Waterloo,+ON+Canada";
+       
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLOPT_URL, $urlToTest);
+      $result = curl_exec($ch);
+      curl_close($ch);
+
+      $obj = json_decode($result);
+      
+      if ( $obj->status === "REQUEST_DENIED" ) {
+        if ( isset($obj->error_message) && $obj->error_message === "The provided API key is invalid." ) {
+          $this->configCr
+              ->set( 'api_key_is_valid', 0 )
+              ->save();
+        }
+      }elseif($obj->status === "OK"){
+        $this->configCr
+            ->set( 'api_key_is_valid', 1 )
+            ->save();
+      }
+      // END - Test if Api Key is Valid
+
+
+      // START - Clear Cache
       $this->library->clearCachedDefinitions();
       $this->entityTypeManager->getViewBuilder('block')->resetCache();
+      // END - Clear Cache
+      
     }
 
     parent::submitForm($form, $form_state);

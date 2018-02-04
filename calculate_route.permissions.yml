@@ -1,0 +1,4 @@
+access cr config: 
+  title: 'Access Calculate Route Config'
+  description: "Provides access to the main configuration pages of this module"
+  restrict access: 'true'

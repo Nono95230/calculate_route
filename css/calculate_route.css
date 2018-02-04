@@ -1,4 +1,8 @@
 /* content: attr(data-content); */
+.api-key-false{
+  display: none!important;
+}
+
 #container_maps #map-cr {
   width: 100%;
   height: 500px;

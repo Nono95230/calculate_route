@@ -11,6 +11,10 @@
 		trafficLayer;//Propriété pour le traffic de transport public de personne
 
 	// Properties for map
+	var akv 				= drupalSettings.calculate_route.JS.api_key_is_valid,
+		CR_AK_IS_VALID 		= (akv == 1 ? true :false);
+
+	// Properties for map
 	var mps 				= drupalSettings.calculate_route.JS.map_settings,
 		CR_MAP_TYPE 		= mps.map_type,
 		CR_LATITUDE 		= Number(mps.latitude),
@@ -65,6 +69,11 @@
 		attach : function(context, settings) {
 
 			$(document).ready( function(){
+				console.log("CR_AK_IS_VALID");
+				console.log(CR_AK_IS_VALID);
+				if (!CR_AK_IS_VALID) {
+					$("#block-calculaterouteblock").addClass("api-key-false");
+				}
 
 				/*
 				 * CHANGE MAP DIMENSION
@@ -229,12 +238,6 @@
 					maxZoom: CR_ZOOM_MAX,
 					scrollwheel: CR_ZOOM_SCROLL
 				});
-
-				window.gm_authFailure = function() {
-				    // remove the map div or maybe call another API to load map
-				   // maybe display a useful message to the user
-				   console.log('Google maps failed to load!');
-				}
 				
 				/*
 				 * Generate the Map
@@ -575,7 +578,7 @@
 
 			$(document).ready( function(){
 
-				$("#cr_submit").on("click", function(event){
+				$("#cr_submit").on("click", function(){
 
 					var addressStart 	= $("#start").val(),
 						addressEnd 		= $("#end").val(),
