@@ -1,15 +1,65 @@
+
+/********************************/
+/*                              */
+/*            GENERAL           */
+/*             START            */
+/*                              */
+/********************************/
+
+
 .is-valid{
-  color:green;
+  color:#28a745;
 }
+.no-valid{
+  color:#dc3545;
+}
+
+/********************************/
+/*                              */
+/*            GENERAL           */
+/*              END             */
+/*                              */
+/********************************/
+
+
+
+/********************************/
+/*                              */
+/*       API KEY SETTINGS       */
+/*             START            */
+/*                              */
+/********************************/
+
+
 .is-valid #edit-api-key{
-  border:2px solid green;
+  border:2px solid #28a745;
 }
 .is-valid span#success{
   position: relative;
   left:-20px;  
   z-index:3500;
 }
+.is-valid #edit-api-key--description{
+	display:none;
+}
+
+.no-valid #edit-api-key{
+  border:2px solid #dc3545;
+}
+.no-valid span#error{
+  position: relative;
+  left:-20px;  
+  z-index:3500;
+}
+
+/********************************/
+/*                              */
+/*       API KEY SETTINGS       */
+/*             END              */
+/*                              */
+/********************************/
+
 /* .is-valid #success i{
-  color:green;
+  color:#28a745;
   
 } */

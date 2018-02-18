@@ -88,7 +88,7 @@ class AppearenceForm extends ConfigFormBase {
       '#title' => $this->t('BTN switch & BTN Minimize Form & BTN Restore Form '),
     );
 
-    $form['map']['dimension']['width_map'] = array(
+/*    $form['map']['dimension']['width_map'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Width'),
       '#size' => 15,
@@ -100,9 +100,9 @@ class AppearenceForm extends ConfigFormBase {
       '#title' => $this->t('Height'),
       '#size' => 15,
       '#default_value' => $this->configCr->get('appearence.height_map')
-    );
+    );*/
 
-    $form['form']['position']['top_position'] = array(
+/*    $form['form']['position']['top_position'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Top position'),
       '#size' => 15,
@@ -128,7 +128,7 @@ class AppearenceForm extends ConfigFormBase {
       '#title' => $this->t('Right position'),
       '#size' => 15,
       '#default_value' => $this->configCr->get('appearence.right_position')
-    );
+    );*/
 
 
     $form['form']['color']['text']['label_text_color'] = array(
@@ -144,7 +144,7 @@ class AppearenceForm extends ConfigFormBase {
     );
     
     /* Le champs ci dessous a été édité car avant il créait des bugs, cela était incompréhensible */
-    $form['form']['color']['bg']['head_color'] = array(
+    /*$form['form']['color']['bg']['head_color'] = array(
       '#type' => 'jquery_colorpicker',
       '#title' => $this->t('Head Form Color'),
       '#default_value' => $this->configCr->get('appearence.header_color')
@@ -160,7 +160,7 @@ class AppearenceForm extends ConfigFormBase {
       '#type' => 'jquery_colorpicker',
       '#title' => $this->t('Button Color'),
       '#default_value' => $this->configCr->get('appearence.button_color')
-    );
+    );*/
 
     $form['form']['color']['three_btn']['three_btn_color'] = array(
       '#type' => 'jquery_colorpicker',
@@ -192,19 +192,19 @@ class AppearenceForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
 
     $this->configCr
-      ->set( 'appearence.width_map', $form_state->getValue('width_map') )
-      ->set( 'appearence.height_map', $form_state->getValue('height_map') )
+/*      ->set( 'appearence.width_map', $form_state->getValue('width_map') )
+      ->set( 'appearence.height_map', $form_state->getValue('height_map') )*/
       ->set( 'appearence.label_text_color', $form_state->getValue('label_text_color') )
-/*      ->set( 'appearence.button_text_color', $form_state->getValue('button_text_color') )*/
-      ->set( 'appearence.header_color', $form_state->getValue('head_color') )
+      ->set( 'appearence.button_text_color', $form_state->getValue('button_text_color') )
+/*      ->set( 'appearence.header_color', $form_state->getValue('head_color') )
       ->set( 'appearence.form_color', $form_state->getValue('form_color') )
-      ->set( 'appearence.button_color', $form_state->getValue('button_color') )
+      ->set( 'appearence.button_color', $form_state->getValue('button_color') )*/
       ->set( 'appearence.three_btn_color', $form_state->getValue('three_btn_color') )
       ->set( 'appearence.three_btn_hover_color', $form_state->getValue('three_btn_hover_color') )
-      ->set( 'appearence.top_position', $form_state->getValue('top_position') )
+/*      ->set( 'appearence.top_position', $form_state->getValue('top_position') )
       ->set( 'appearence.bottom_position', $form_state->getValue('bottom_position') )
       ->set( 'appearence.left_position', $form_state->getValue('left_position') )
-      ->set( 'appearence.right_position', $form_state->getValue('right_position') )
+      ->set( 'appearence.right_position', $form_state->getValue('right_position') )*/
       ->save();
 
     $this->entityTM->getViewBuilder('block')->resetCache();

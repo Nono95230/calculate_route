@@ -6,7 +6,7 @@ google-map:
       css/calculate_route.css: {}
   js:
     https://maps.googleapis.com/maps/api/js?key=default: { type: external }
-    js/calculate_route.js: {}
+    js/calculate_route.js: { }
   dependencies: 
     - core/jquery
     - core/drupalSettings

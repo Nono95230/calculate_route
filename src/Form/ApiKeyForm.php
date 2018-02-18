@@ -95,24 +95,15 @@ class ApiKeyForm extends ConfigFormBase {
 
 
       // START - Test if Api Key is Valid
-      $urlToTest  = "https://maps.googleapis.com/maps/api/geocode/json?key=".$newApiKey."&address=550+King+St+N,+Waterloo,+ON+Canada";
-       
-      $ch = curl_init();
-      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-      curl_setopt($ch, CURLOPT_URL, $urlToTest);
-      $result = curl_exec($ch);
-      curl_close($ch);
-
-      $obj = json_decode($result);
+      $verifyApiKey = $this->verifyGoogleMapApiKey($newApiKey);
       
-      if ( $obj->status === "REQUEST_DENIED" ) {
-        if ( isset($obj->error_message) && $obj->error_message === "The provided API key is invalid." ) {
+      if ( $verifyApiKey->status === "REQUEST_DENIED" ) {
+        if ( isset($verifyApiKey->error_message) && $verifyApiKey->error_message === "The provided API key is invalid." ) {
           $this->configCr
               ->set( 'api_key_is_valid', 0 )
               ->save();
         }
-      }elseif($obj->status === "OK"){
+      }elseif($verifyApiKey->status === "OK"){
         $this->configCr
             ->set( 'api_key_is_valid', 1 )
             ->save();
@@ -130,5 +121,23 @@ class ApiKeyForm extends ConfigFormBase {
     parent::submitForm($form, $form_state);
 
   }
+
+
+
+  public function verifyGoogleMapApiKey($apiKey){
+
+      $urlToTest  = "https://maps.googleapis.com/maps/api/geocode/json?key=".$apiKey."&address=550+King+St+N,+Waterloo,+ON+Canada";
+       
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLOPT_URL, $urlToTest);
+      $result = curl_exec($ch);
+      curl_close($ch);
+
+      return json_decode($result);
+
+  }
+
 
 }

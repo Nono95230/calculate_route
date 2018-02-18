@@ -100,19 +100,16 @@ function calculate_route_schema(){
 }
 */
 
-
-/*function calculate_route_install(){
-
-
-}*/
 /*
-function calculate_route_uninstall(){
-
-	\Drupal::config("calculate_route.config")->clear('api_key');
-	\Drupal::config("calculate_route.config")->clear('map');
-	\Drupal::config("calculate_route.config")->clear('marker');
-	\Drupal::config("calculate_route.config")->clear('form');
-	\Drupal::config("calculate_route.config")->clear('appearence');
-
+function calculate_route_install(){
+	
 }
 */
+function calculate_route_uninstall(){
+
+	$plugin_id = 'calculate_route_block';
+	foreach (entity_load_multiple_by_properties('block', array('plugin' => $plugin_id)) as $block) {
+		$block->delete();
+	}
+
+}

@@ -2,6 +2,7 @@ api_key: "PUT HERE YOUR API__KEY"
 #api_key: "AIzaSyCnQDpceTm2QCLocjOU-I1dO4hegnAZJME" #test with this key
 api_key_is_valid: 0
 map: 
+  address: ""
   latitude: 48.983
   longitude: 2.294
   zoom: 10
@@ -10,6 +11,7 @@ map:
   map_type: "terrain"
   enable_geoloc: "false"
 marker: 
+  address: ""
   latitude: 48.983
   longitude: 2.294
   title: "Write a title..."
@@ -34,14 +36,14 @@ form:
 appearence: 
   width_map: "100%"
   height_map: "500px"
-  label_text_color: "3c3c3c"
-  button_text_color: "fff"
-  header_color: "ccc"
-  form_color: "f7f7f7"
-  button_color: "e30613"
-  three_btn_color: "bdbdbd"
-  three_btn_hover_color: "787878"
   top_position: "auto"
   bottom_position: "3px"
   left_position: "3px"
   right_position: "auto"
+  label_text_color: "3c3c3c"
+  button_text_color: "ffffff"
+  header_color: "cccccc"
+  form_color: "f7f7f7"
+  button_color: "e30613"
+  three_btn_color: "bdbdbd"
+  three_btn_hover_color: "787878"

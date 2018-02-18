@@ -1,15 +1,7 @@
 <?php
 
 
-function calculate_route_theme($existing, $type, $theme, $path){
-  return array(
-    'google_map' => array(
-      'template' => 'google-map',
-      'variables' => array('data' => NULL)
-    ),
-  );
-}
-
+// Call Library For Admin Config Page
 function calculate_route_page_attachments(array &$page){
 
   $currentPath = \Drupal::service('path.current')->getPath();
@@ -22,6 +14,8 @@ function calculate_route_page_attachments(array &$page){
 }
 
 
+// Reset Library For Google Map Block
+// Add Attribute "weight" cause problem if positive value
 function calculate_route_library_info_alter(array &$libraries, $module) {
 
   if ($module === 'calculate_route' && $libraries['google-map']) {
@@ -30,19 +24,24 @@ function calculate_route_library_info_alter(array &$libraries, $module) {
 
   	$libraries['google-map']['js'] = array(
   		'https://maps.googleapis.com/maps/api/js?key='.$apiKey.'&libraries=places' => array(
-  			'type' => 'external',
-  			'attributes' => array(
+    			'type' => 'external',
+          'weight' => -500,
+    			'attributes' => array(
   					'defer' => true,
   					'async' => true
   				),
-  			),
-  		'js/calculate_route.js' => array(),
+			),
+  		'js/calculate_route.js' => array(
+          'weight' => -1,
+      ),
   	);
   }
 
 }
 
 
+
+// Transfer Config Value
 function calculate_route_preprocess_html(&$variables) {
 
   $configIsValidApiKey = \Drupal::config('calculate_route.config')->get('api_key_is_valid');
@@ -65,3 +64,12 @@ function calculate_route_preprocess_html(&$variables) {
 
 }
 
+// Set Theme Page
+function calculate_route_theme($existing, $type, $theme, $path){
+  return array(
+    'google_map' => array(
+      'template' => 'google-map',
+      'variables' => array('data' => NULL)
+    ),
+  );
+}
