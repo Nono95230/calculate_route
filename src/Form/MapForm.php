@@ -55,6 +55,8 @@ class MapForm extends ConfigFormBase {
 
     $form['coordinate'] = array(
       '#type'         => 'fieldset',
+      '#prefix'       => '<div id="coordinate">',
+      '#suffix'       => '</div>',
       '#title'        => $this->t('Default coordinate'),
       '#description'  => '<a href="https://www.coordonnees-gps.fr/">'.$this->t('Récupérer les coordonnées GPS').'</a></br><a href="https://www.gps-coordinates.net/">'.$this->t('Get GPS Coordonninates').'</a>',
     );
@@ -64,11 +66,14 @@ class MapForm extends ConfigFormBase {
       //'#autocomplete_path' => 'node_reference/autocomplete/node/link/field_contact_reference',
       '#title'          =>  $this->t('Address'),
       '#size'           =>  40,
-      '#default_value'  =>  $form_state->getValue('address'),
+      '#default_value'  =>   $this->configCr->get('map.address'),
       '#description'    =>  'Entering an address allows you to automatically fill in the coordinate fields',
       '#ajax'           =>  array(
                               'callback'  => array($this,'updateFieldAddress'),
-                              'event'     => 'change'
+                              'event'     => 'change',
+                              'wrapper' => 'coordinate',
+                              'method' => 'replace',
+                              'effect' => 'fade',
                             ),
     ];
 
@@ -167,9 +172,9 @@ class MapForm extends ConfigFormBase {
 
       if ( $isAddressValid ) {
         $location = $verifyAddress->results[0]->geometry->location;// ->lat ou ->lng
+        kint($location->lat);
       }
     }
-
     /* Doesn't work - End */
 
     $this->configCr
@@ -189,11 +194,74 @@ class MapForm extends ConfigFormBase {
 
   }
 
+
+  public function updateFieldAddress(array &$form, FormStateInterface $form_state){
+    
+    $apiKey         = $this->configCr->get('api_key');
+    $address        = $form_state->getValue('address');
+    $verifyAddress  = $this->verifyAddress($apiKey,$address);
+
+    $isAddressValid = $this->verifyAddressValidaty($verifyAddress);
+
+    if ( $isAddressValid ) {
+
+      $location = $verifyAddress->results[0]->geometry->location;// ->lat ou ->lng
+      $lat      = $location->lat;
+      $lng      = $location->lng;
+
+      $form['coordinate'] = array(
+        '#type'         => 'fieldset',
+        '#prefix'       => '<div id="coordinate">',
+        '#suffix'       => '</div>',
+        '#title'        => $this->t('Default coordinate'),
+        '#description'  => '<a href="https://www.coordonnees-gps.fr/">'.$this->t('Récupérer les coordonnées GPS').'</a></br><a href="https://www.gps-coordinates.net/">'.$this->t('Get GPS Coordonninates').'</a>',
+      );
+
+
+      $form['coordinate']['address'] = [
+        '#type'           =>  'textfield',
+        //'#autocomplete_path' => 'node_reference/autocomplete/node/link/field_contact_reference',
+        '#title'          =>  $this->t('Address'),
+        '#size'           =>  40,
+        '#value'          =>   $address,
+        '#description'    =>  'Entering an address allows you to automatically fill in the coordinate fields',
+        '#ajax'           =>  array(
+                                'callback'  => array($this,'updateFieldAddress'),
+                                'event'     => 'change',
+                                'wrapper' => 'coordinate',
+                                'method' => 'replace',
+                                'effect' => 'fade',
+                              ),
+      ];
+      $form['coordinate']['latitude'] = array(
+        '#type'           => 'textfield',
+        '#title'          => $this->t('Latitude'),
+        '#size'           => 23,
+        '#value'          => $lat
+      );
+      $form['coordinate']['longitude'] = array(
+        '#type'           => 'textfield',
+        '#title'          => $this->t('Longitude'),
+        '#type'           => 'textfield',
+        '#size'           => 23,
+        '#value'          => $lng
+      );
+
+      return $form['coordinate'];
+    }
+    else{
+      return false;
+    }
+
+  }
+
+
   public function verifyAddress($apiKey,$address){
 
-      $address =  str_replace ( " " , "+" , $address );
+      $address = urlencode ( $address );
+      //$address =  str_replace ( " " , "+" , $address );
       $urlToTest  = "https://maps.googleapis.com/maps/api/geocode/json?key=".$apiKey."&address=".$address;
-       
+
       $ch = curl_init();
       curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -205,6 +273,7 @@ class MapForm extends ConfigFormBase {
 
   }
 
+
   public function verifyAddressValidaty($testAddress){
     if ($testAddress->status === "OK") {
       return true;
@@ -212,25 +281,7 @@ class MapForm extends ConfigFormBase {
     return false;
   }
 
-  public function updateFieldAddress(array &$form, FormStateInterface $form_state){
-    
-    $apiKey         = $this->configCr->get('api_key');
-    $address        = $form_state->getValue('address');
-    $verifyAddress  = $this->verifyAddress($apiKey,$address);
 
-    $isAddressValid = $this->verifyAddressValidaty($verifyAddress);
-    /* Doesn't work - Start */
-    if ( $isAddressValid ) {
-      $form_state->set('latitude', 666);
-      $form['latitude']['#value'] = 666;
-      $form['latitude']['#default_value'] = 666;
-      $form_state->setRebuild();
-    }
-    
-    return $form_state;
-    /* Doesn't work - End */
-
-  }
 
 
 }
