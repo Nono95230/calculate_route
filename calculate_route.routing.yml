@@ -121,3 +121,14 @@ calculate_route.back_default_config.appearence:
 ##          ROUTE BACK DEFAULT CONFIG         ##
 ##                                            ##
 ################################################
+
+
+
+calculate_route.address.autocomplete:
+  path: '/admin/config/services/calculate-route/{field_name}/{count}'
+  defaults:
+    _controller: 'Drupal\calculate_route\Controller\AddressAutocompleteController::handleAutocomplete'
+    _format: json
+  requirements:
+    _access: 'TRUE'
+    #_permission: 'access cr config'

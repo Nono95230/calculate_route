@@ -180,32 +180,24 @@ class MapForm extends ConfigFormBase {
     $oldAddress = $this->configCr->get('map.address');
     $newAddress = $form_state->getValue('address');
 
-    $getAddress       = $this->getAddress($apiKey,$newAddress);
-    /*kint($newAddress);
-    kint($getAddress);
-    kint($getAddress->results[0]->formatted_address);
-    die();*/
-
+    /* Doesn't work - Start */
     // If Address change
     if($oldAddress !== $newAddress){
 
-      $getAddress       = $this->getAddress($apiKey,$newAddress);
-      $isAddressValid   = $this->verifyAddressValidaty($getAddress);
+      $verifyAddress    = $this->verifyAddress($apiKey,$newAddress);
+      $isAddressValid   = $this->verifyAddressValidaty($verifyAddress);
 
       if ( $isAddressValid ) {
-        $location = $getAddress->results[0]->geometry->location;
-
-        $this->configCr
-            ->set( 'map.address', $newAddress )
-            ->set( 'map.latitude', $location->lat )
-            ->set( 'map.longitude', $location->lng )
-            ->save();
-
+        $location = $verifyAddress->results[0]->geometry->location;// ->lat ou ->lng
+        kint($location->lat);
       }
-      
     }
+    /* Doesn't work - End */
 
     $this->configCr
+        ->set( 'map.address', $form_state->getValue('address') )
+        ->set( 'map.latitude', $form_state->getValue('latitude') )
+        ->set( 'map.longitude', $form_state->getValue('longitude') )
         ->set( 'map.zoom', $form_state->getValue('zoom') )
         ->set( 'map.zoom_max', $form_state->getValue('zoom_max') )
         ->set( 'map.zoom_scroll', $form_state->getValue('zoom_scroll') )
@@ -224,13 +216,13 @@ class MapForm extends ConfigFormBase {
     
     $apiKey         = $this->configCr->get('api_key');
     $address        = $form_state->getValue('address');
-    $getAddress     = $this->getAddress($apiKey,$address);
+    $verifyAddress  = $this->verifyAddress($apiKey,$address);
 
-    $isAddressValid = $this->verifyAddressValidaty($getAddress);
+    $isAddressValid = $this->verifyAddressValidaty($verifyAddress);
 
     if ( $isAddressValid ) {
 
-      $location = $getAddress->results[0]->geometry->location;// ->lat ou ->lng
+      $location = $verifyAddress->results[0]->geometry->location;// ->lat ou ->lng
       $lat      = $location->lat;
       $lng      = $location->lng;
 
@@ -287,7 +279,7 @@ class MapForm extends ConfigFormBase {
   }
 
 
-  public function getAddress($apiKey,$address){
+  public function verifyAddress($apiKey,$address){
 
       $address = urlencode ( $address );
       //$address =  str_replace ( " " , "+" , $address );

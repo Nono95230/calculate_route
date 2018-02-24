@@ -1,8 +1,8 @@
-api_key: "PUT HERE YOUR API__KEY"
-#api_key: "AIzaSyCnQDpceTm2QCLocjOU-I1dO4hegnAZJME" #test with this key
+#api_key: "PUT HERE YOUR API__KEY"
+api_key: "AIzaSyCnQDpceTm2QCLocjOU-I1dO4hegnAZJME" #test with this key
 api_key_is_valid: 0
 map: 
-  address: ""
+  address: "12 rue des écoles, 95230, France"
   latitude: 48.983
   longitude: 2.294
   zoom: 10
