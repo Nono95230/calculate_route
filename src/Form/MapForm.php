@@ -180,12 +180,6 @@ class MapForm extends ConfigFormBase {
     $oldAddress = $this->configCr->get('map.address');
     $newAddress = $form_state->getValue('address');
 
-    $getAddress       = $this->getAddress($apiKey,$newAddress);
-    /*kint($newAddress);
-    kint($getAddress);
-    kint($getAddress->results[0]->formatted_address);
-    die();*/
-
     // If Address change
     if($oldAddress !== $newAddress){
 
@@ -220,74 +214,8 @@ class MapForm extends ConfigFormBase {
   }
 
 
-  public function updateFieldAddress(array &$form, FormStateInterface $form_state){
-    
-    $apiKey         = $this->configCr->get('api_key');
-    $address        = $form_state->getValue('address');
-    $getAddress     = $this->getAddress($apiKey,$address);
 
-    $isAddressValid = $this->verifyAddressValidaty($getAddress);
-
-    if ( $isAddressValid ) {
-
-      $location = $getAddress->results[0]->geometry->location;// ->lat ou ->lng
-      $lat      = $location->lat;
-      $lng      = $location->lng;
-
-      $form['coordinate'] = array(
-        '#type'         => 'fieldset',
-        '#prefix'       => '<div id="coordinate">',
-        '#suffix'       => '</div>',
-        '#title'        => $this->t('Default coordinate'),
-        '#description'  => '<a href="https://www.coordonnees-gps.fr/">'.$this->t('Récupérer les coordonnées GPS').'</a></br><a href="https://www.gps-coordinates.net/">'.$this->t('Get GPS Coordonninates').'</a>',
-      );
-
-      $form['coordinate']['address'] = [
-        '#type'           =>  'textfield',
-        //'#autocomplete_path' => 'node_reference/autocomplete/node/link/field_contact_reference',
-        '#title'          =>  $this->t('Address'),
-        '#size'           =>  40,
-        '#id'             => "edit-address",
-        '#name'           => "address",
-        '#value'          =>  $address,
-        '#description'    =>  'Entering an address allows you to automatically fill in the coordinate fields',
-        '#ajax'           =>  array(
-                                'callback'  => array($this,'updateFieldAddress'),
-                                'event'     => 'change',
-                                'wrapper' => 'coordinate',
-                                'method' => 'replace',
-                                'effect' => 'fade',
-                              ),
-      ];
-      $form['coordinate']['latitude'] = array(
-        '#type'           => 'textfield',
-        '#title'          => $this->t('Latitude'),
-        '#size'           => 23,
-        '#value'          => $lat,
-        '#id'             => "edit-latitude",
-        '#name'           => "latitude"
-      );
-
-      $form['coordinate']['longitude'] = array(
-        '#type'           => 'textfield',
-        '#title'          => $this->t('Longitude'),
-        '#type'           => 'textfield',
-        '#size'           => 23,
-        '#value'          => $lng,
-        '#id'             => "edit-longitude",
-        '#name'           => "longitude"
-      );
-
-      return $form['coordinate'];
-    }
-    else{
-      return false;
-    }
-
-  }
-
-
-  public function getAddress($apiKey,$address){
+  public function verifyAddress($apiKey,$address){
 
       $address = urlencode ( $address );
       //$address =  str_replace ( " " , "+" , $address );

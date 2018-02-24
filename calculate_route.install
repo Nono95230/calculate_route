@@ -8,10 +8,6 @@
 
 
 
-
-
-/*
-
 function calculate_route_schema(){
 	
 	$schema['cr_config_map'] = array(
@@ -98,18 +94,18 @@ function calculate_route_schema(){
 	return $schema;
 
 }
-*/
+
 
 /*
 function calculate_route_install(){
 	
 }
 */
-function calculate_route_uninstall(){
+/*function calculate_route_uninstall(){
 
 	$plugin_id = 'calculate_route_block';
 	foreach (entity_load_multiple_by_properties('block', array('plugin' => $plugin_id)) as $block) {
 		$block->delete();
 	}
 
-}
+}*/
