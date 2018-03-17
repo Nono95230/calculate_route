@@ -52,60 +52,18 @@ class MapForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-/*
-    $form['coordinate'] = array(
-      '#type'         => 'fieldset',
-      '#prefix'       => '<div id="coordinate">',
-      '#suffix'       => '</div>',
-      '#title'        => $this->t('Default coordinate'),
-      '#description'  => '<a href="https://www.coordonnees-gps.fr/">'.$this->t('Récupérer les coordonnées GPS').'</a></br><a href="https://www.gps-coordinates.net/">'.$this->t('Get GPS Coordonninates').'</a>',
-    );
-
-    $form['coordinate']['address'] = [
-      '#type'           =>  'textfield',
-      //'#autocomplete_path' => 'node_reference/autocomplete/node/link/field_contact_reference',
-      '#title'          =>  $this->t('Address'),
-      '#size'           =>  40,
-      '#default_value'  =>   $this->configCr->get('map.address'),
-      '#description'    =>  'Entering an address allows you to automatically fill in the coordinate fields',
-      '#ajax'           =>  array(
-                              'callback'  => array($this,'updateFieldAddress'),
-                              'event'     => 'change',
-                              'wrapper' => 'coordinate',
-                              'method' => 'replace',
-                              'effect' => 'fade',
-                            ),
-      //'#autocomplete_route_name' => 'calculate_route.address.autocomplete',
-      //'#autocomplete_route_parameters' => array('field_name' => "address", 'count' => 3),
-    ];
-
-    $form['coordinate']['latitude'] = [
-      '#type'           => 'textfield',
-      '#title'          => $this->t('Latitude'),
-      '#size'           => 23,
-      '#default_value'  => $this->configCr->get('map.latitude')
-    ];
-
-    $form['coordinate']['longitude'] = [
-      '#type'           => 'textfield',
-      '#title'          => $this->t('Longitude'),
-      '#size'           => 23,
-      '#default_value'  => $this->configCr->get('map.longitude')
-    ];*/
-
 
     $form['map_center'] = array(
       '#type'         => 'fieldset',
       '#title'        => $this->t('Default Map Center'),
-      '#description'  => '<a href="https://www.coordonnees-gps.fr/">'.$this->t('Récupérer les coordonnées GPS').'</a></br><a href="https://www.gps-coordinates.net/">'.$this->t('Get GPS Coordonninates').'</a>',
     );
 
     $form['map_center']['address'] = [
       '#type'           =>  'textfield',
       '#title'          =>  $this->t('Address'),
       '#size'           =>  80,
-      '#default_value'  =>   $this->configCr->get('map.address'),
-      '#description'    =>  'Entering an address allows you to automatically fill in the coordinate fields',
+      '#default_value'  =>  $this->configCr->get('map.address'),
+      '#description'    =>  $this->t('Entering an address allows you to automatically fill in the coordinate fields'),
     ];
 
     $form['zoom-settings'] = array(
@@ -143,10 +101,10 @@ class MapForm extends ConfigFormBase {
       '#type'           => 'select',
       '#title'          => $this->t('Map type'),
       '#options'        => array(
-                          'roadmap'   => 'RoadMap',
-                          'satellite' => 'Satellite',
-                          'hybrid'    => 'Hybrid',
-                          'terrain'   => 'Terrain',
+                          'roadmap'   => $this->t('RoadMap'),
+                          'satellite' => $this->t('Satellite'),
+                          'hybrid'    => $this->t('Hybrid'),
+                          'terrain'   => $this->t('Terrain')
                         ),
       '#default_value'  => $this->configCr->get('map.map_type')
     );
@@ -215,7 +173,7 @@ class MapForm extends ConfigFormBase {
 
 
 
-  public function verifyAddress($apiKey,$address){
+  public function getAddress($apiKey,$address){
 
       $address = urlencode ( $address );
       //$address =  str_replace ( " " , "+" , $address );
@@ -229,7 +187,6 @@ class MapForm extends ConfigFormBase {
       curl_close($ch);
 
       return json_decode($result);
-
   }
 
 

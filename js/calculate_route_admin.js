@@ -76,7 +76,7 @@
 				 * End
 				 * 
 				 */
-				
+
 
 				/* 
 				 * Save the Autocomplete Value
@@ -91,8 +91,7 @@
 				 		var address = elementThis.val(); 
 						console.log(address);
 						//@todo finish the map refresh when autocomplete address change
-						//initMapAfterAddressAutocomplete();
-
+						initMapAfterAddressAutocomplete(address);
 					}, 100,$(this));
 				 });
 
@@ -105,67 +104,47 @@
 
 			});
 			
-		}
-	};
+			function initMapAfterAddressAutocomplete(addressValue){
 
+				var address = addressValue;
 
-	//////////////////////////////////////////////////
-	///                                            ///
-	///     FUNCTION AUTOCOMPLETE FIELD ADDRESS    ///
-	///                    END                     ///
-	///                                            ///
-	//////////////////////////////////////////////////
-
-	//////////////////////////////////////////////////
-	///                                            ///
-	///     FUNCTION AUTOCOMPLETE FIELD ADDRESS    ///
-	///                    END                     ///
-	///                                            ///
-	//////////////////////////////////////////////////
-
-
-
-	//////////////////////////////////////////////////
-	///                                            ///
-	///          FUNCTION INITMAP REFRESH          ///
-	///                    START                   ///
-	///                                            ///
-	//////////////////////////////////////////////////
-
-
-	Drupal.behaviors.initMap = {
-		attach : function(context, settings) {
-
-			function initMapAfterAddressAutocomplete(){
-
-				//@todo for no bug, set this variable list
-/*CR_LATITUDE
-CR_LONGITUDE
-CR_ZOOM
-CR_MAP_TYPE
-CR_ZOOM_MAX
-CR_ZOOM_SCROLL
-CR_LATITUDE_MK
-CR_LONGITUDE_MK
-map
-CR_TITLE_MK
-CR_ENABLE_IW_MK
-CR_INFO_WINDOW
-CR_ENABLE_GEOLOC*/
+				var mps = drupalSettings.calculate_route.JS.map_settings,
+					// CR_LATITUDE  		= lat,
+					// CR_LONGITUDE 		= lng,
+					CR_ZOOM 	 		= Number(mps.zoom),
+					CR_MAP_TYPE  		= mps.map_type,
+					CR_ZOOM_MAX 		= Number(mps.zoom_max),
+					CR_ZOOM_SCROLL 		= (mps.zoom_scroll == "true"),
+					CR_ENABLE_GEOLOC 	= (mps.enable_geoloc == "true"),
+					mks = drupalSettings.calculate_route.JS.marker_settings,
+					CR_LATITUDE_MK 		= Number(mks.latitude),
+					CR_LONGITUDE_MK 	= Number(mks.longitude),
+					CR_TITLE_MK 		= mks.title,
+					CR_ENABLE_IW_MK 	= (mks.enable_info_window == "true"),
+					CR_INFO_WINDOW 		= mks.info_window;
 				/*
 				 * Generate the Map
 				 * Start
 				 * 
 				 */
-
-				map = new google.maps.Map(document.getElementById('map-cr'), {
-					center: {lat: CR_LATITUDE, lng: CR_LONGITUDE},
+				 
+				var map = new google.maps.Map(document.getElementById('map-cr'), {
+					// center: {lat: CR_LATITUDE, lng: CR_LONGITUDE},
 					zoom: CR_ZOOM,
 					mapTypeId: CR_MAP_TYPE,
 					maxZoom: CR_ZOOM_MAX,
 					scrollwheel: CR_ZOOM_SCROLL
 				});
 				
+				var geocoder = new google.maps.Geocoder();
+
+				geocoder.geocode( { 'address': address}, function(results, status) {
+					if (status == google.maps.GeocoderStatus.OK) {
+						map.setCenter(results[0].geometry.location);
+					} else {
+						console.log("Geocode was not successful for the following reason: " + status);
+					}
+				});
 				/*
 				 * Generate the Map
 				 * End
@@ -178,7 +157,7 @@ CR_ENABLE_GEOLOC*/
 				 * Start
 				 * 
 				 */
-		        marker = new google.maps.Marker({
+		        var marker = new google.maps.Marker({
 		          position: {lat: CR_LATITUDE_MK, lng: CR_LONGITUDE_MK},
 		          map: map,
 		          title: CR_TITLE_MK
@@ -267,18 +246,44 @@ CR_ENABLE_GEOLOC*/
 				 * End
 				 * 
 				 */
-				
-
-
-
-
-
-
-				
+					
 			}
 			
 		}
 	};
+
+
+	//////////////////////////////////////////////////
+	///                                            ///
+	///     FUNCTION AUTOCOMPLETE FIELD ADDRESS    ///
+	///                    END                     ///
+	///                                            ///
+	//////////////////////////////////////////////////
+
+	//////////////////////////////////////////////////
+	///                                            ///
+	///     FUNCTION AUTOCOMPLETE FIELD ADDRESS    ///
+	///                    END                     ///
+	///                                            ///
+	//////////////////////////////////////////////////
+
+
+
+	//////////////////////////////////////////////////
+	///                                            ///
+	///          FUNCTION INITMAP REFRESH          ///
+	///                    START                   ///
+	///                                            ///
+	//////////////////////////////////////////////////
+
+
+	Drupal.behaviors.initMapRefresh = {
+		attach : function(context, settings) {
+			
+
+		}
+	};
+
 
 
 	function handleLocationError(browserHasGeolocation, infoWindow, pos) {
