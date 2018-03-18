@@ -11,14 +11,58 @@ google-map:
     - core/jquery
     - core/drupalSettings
 
-admin-view:
+admin-api-key:
+  version: VERSION
+  css:
+    theme:
+      font-awesome/css/font-awesome.min.css: {}
+      css/calculate_route_admin.css: {}
+  js:
+    js/calculate_route_admin_api-key.js: {}
+  dependencies: 
+    - core/jquery
+    - core/drupalSettings
+
+admin-map:
   version: VERSION
   css:
     theme:
       css/calculate_route_admin.css: {}
-      font-awesome/css/font-awesome.min.css: {}
   js:
-    js/calculate_route_admin.js: {}
+    js/calculate_route_admin_map.js: {}
+  dependencies: 
+    - core/jquery
+    - core/drupalSettings
+
+admin-marker:
+  version: VERSION
+  css:
+    theme:
+      css/calculate_route_admin.css: {}
+  js:
+    js/calculate_route_admin_marker.js: {}
+  dependencies: 
+    - core/jquery
+    - core/drupalSettings
+
+admin-form:
+  version: VERSION
+  css:
+    theme:
+      css/calculate_route_admin.css: {}
+  js:
+    js/calculate_route_admin_form.js: {}
+  dependencies: 
+    - core/jquery
+    - core/drupalSettings
+
+admin-appearence:
+  version: VERSION
+  css:
+    theme:
+      css/calculate_route_admin.css: {}
+  js:
+    js/calculate_route_admin_appearence.js: {}
   dependencies: 
     - core/jquery
     - core/drupalSettings

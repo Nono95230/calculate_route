@@ -4,22 +4,30 @@
 // Call Library For Admin Config Page
 function calculate_route_page_attachments(array &$page){
 
-  $currentPath        = \Drupal::service('path.current')->getPath();
-  $argumentPage       = str_replace(
-                          "/admin/config/services/calculate-route/config/",
-                          "",
-                          $currentPath
-                      );
-  $argumentAuthorized = array(
-                          "api-key",
-                          "map",
-                          "marker",
-                          "form",
-                          "appearence"
-                      );
-  
-  if ( in_array($argumentPage, $argumentAuthorized) ) {
-    $page['#attached']['library'][] = 'calculate_route/admin-view';
+  $argumentPage = str_replace(
+    '/admin/config/services/calculate-route/config/',
+    '',
+    \Drupal::service('path.current')->getPath()
+  );
+
+  switch ($argumentPage) {
+    case 'api-key':
+      $page['#attached']['library'][] = 'calculate_route/admin-api-key';
+      break;
+    case 'map':
+      $page['#attached']['library'][] = 'calculate_route/admin-map';
+      break;
+    case 'marker':
+      //$page['#attached']['library'][] = 'calculate_route/admin-marker';
+      break;
+    case 'form':
+      //$page['#attached']['library'][] = 'calculate_route/admin-form';
+      break;
+    case 'appearence':
+      //$page['#attached']['library'][] = 'calculate_route/admin-appearence';
+      break;
+    default:
+      break;
   }
   
 }

@@ -719,11 +719,8 @@
 
 	/*Drupal.behaviors.functionName = {
 		attach : function(context, settings) {
-
 			$(document).ready( function(){
-
 			});
-
 		}
 	};*/
 	
@@ -731,6 +728,4 @@
 
 
 })(jQuery, Drupal, drupalSettings);
-
-
 

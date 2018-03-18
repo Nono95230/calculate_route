@@ -153,7 +153,7 @@ body.path-admin .region-content #block-calculate-your-route{
   margin-bottom: 0;
 }
 
-#print {
+/* #print {
   position: relative;
   color: #fff;
   font-weight: bold;
@@ -167,7 +167,7 @@ body.path-admin .region-content #block-calculate-your-route{
   cursor: pointer;
   margin: auto;
   text-align: left;
-}
+} */
 
 #print {
   display: none;
