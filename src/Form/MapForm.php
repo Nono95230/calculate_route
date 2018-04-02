@@ -58,12 +58,61 @@ class MapForm extends ConfigFormBase {
       '#title'        => $this->t('Default Map Center'),
     );
 
+
+    $form['map_center']['address_or_coordinate'] = array(
+      '#type'           => 'radios',
+      '#title'          => $this->t('Set the default map center with a'),
+      '#default_value'  => $this->configCr->get('map.address_or_coordinate'),
+      '#options'        => array(
+                          "address"     => $this->t('Physic Address'),
+                          "coordinates" => $this->t('Coordinate (Latitude/Longitude)'),
+                        ),
+    );
+
+    $form['map_center']['reset_marker'] = array(
+      '#type'           => 'checkbox',
+      '#title'          => $this->t('Reset Marker'),
+      '#default_value'  => $this->configCr->get('form.sl_start'),
+      '#description'    => $this->t("Reset the Location Marker with the Location Map Settings"),
+    );
+
+
     $form['map_center']['address'] = [
-      '#type'           =>  'textfield',
-      '#title'          =>  $this->t('Address'),
-      '#size'           =>  80,
-      '#default_value'  =>  $this->configCr->get('map.address'),
-      '#description'    =>  $this->t('Entering an address allows you to automatically fill in the coordinate fields'),
+      '#type'           => 'textfield',
+      '#title'          => $this->t('Address'),
+      '#size'           => 80,
+      '#prefix'         => '<div id="map_settings_address">',
+      '#suffix'         => '</div>',
+      '#default_value'  => $this->configCr->get('map.address'),
+      '#description'    => $this->t('Entering an address allows- you to automatically fill in the coordinate fields'),
+      '#states'         => array(
+                          'invisible' => array(
+                            'input[name="address_or_coordinate"]' => array('value' => "coordinates")
+                          ),
+                        ),
+    ];
+
+    $form['map_center']['latitude'] = [
+      '#type'           => 'textfield',
+      '#title'          => $this->t('Latitude'),
+      '#default_value'  => $this->configCr->get('map.latitude'),
+      '#states'         => array(
+                          'invisible' => array(
+                            'input[name="address_or_coordinate"]' => array('value' => "address")
+                          ),
+                        ),
+    ];
+
+
+    $form['map_center']['longitude'] = [
+      '#type'           => 'textfield',
+      '#title'          => $this->t('Longitude'),
+      '#default_value'  => $this->configCr->get('map.longitude'),
+      '#states'         => array(
+                          'invisible' => array(
+                            'input[name="address_or_coordinate"]' => array('value' => "address")
+                          ),
+                        ),
     ];
 
     $form['zoom-settings'] = array(
@@ -129,42 +178,24 @@ class MapForm extends ConfigFormBase {
     parent::validateForm($form, $form_state);
   }*/
 
+
   /**
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
 
-    $apiKey     = $this->configCr->get('api_key');
-    $oldAddress = $this->configCr->get('map.address');
-    $newAddress = $form_state->getValue('address');
+    $this->saveOtherConfigValue($form_state,
+    [
+      'address_or_coordinate',
+      'zoom',
+      'zoom_max',
+      'zoom_scroll',
+      'map_type',
+      'enable_geoloc'
+    ]);
 
-    // If Address change
-    if($oldAddress !== $newAddress){
+    $this->saveLocationMap($form_state);
 
-      $getAddress       = $this->getAddress($apiKey,$newAddress);
-      $isAddressValid   = $this->verifyAddressValidaty($getAddress);
-
-      if ( $isAddressValid ) {
-        $location = $getAddress->results[0]->geometry->location;
-
-        $this->configCr
-            ->set( 'map.address', $newAddress )
-            ->set( 'map.latitude', $location->lat )
-            ->set( 'map.longitude', $location->lng )
-            ->save();
-
-      }
-      
-    }
-
-    $this->configCr
-        ->set( 'map.zoom', $form_state->getValue('zoom') )
-        ->set( 'map.zoom_max', $form_state->getValue('zoom_max') )
-        ->set( 'map.zoom_scroll', $form_state->getValue('zoom_scroll') )
-        ->set( 'map.map_type', $form_state->getValue('map_type') )
-        ->set( 'map.enable_geoloc', $form_state->getValue('enable_geoloc') )
-        ->save();
-   
     $this->entityTypeManager->getViewBuilder('block')->resetCache();
 
     parent::submitForm($form, $form_state);
@@ -172,12 +203,102 @@ class MapForm extends ConfigFormBase {
   }
 
 
+  public function saveOtherConfigValue($form_state,$otherConfigValue){
+    for ($i=0; $i < count($otherConfigValue); $i++) { 
+      $old = $this->configCr->get('map.'.$otherConfigValue[$i]);
+      $new = $form_state->getValue($otherConfigValue[$i]);
+      if ( $old !== $new) {
+        $this->configCr->set( 'map.'.$otherConfigValue[$i] , $form_state->getValue($otherConfigValue[$i]));
+      }
+      
+    }
+    return $this->configCr->save();
+  }
 
-  public function getAddress($apiKey,$address){
+  public function saveLocationMap($form_state){
+
+    $config = array('map');
+    $apiKey = $this->configCr->get('api_key');
+    $resetMarker = $form_state->getValue('reset_marker');
+
+    switch ($resetMarker) {
+      case 1:
+        $config[] = 'marker';
+        break;
+    }
+    
+
+    switch ($form_state->getValue('address_or_coordinate')) {
+      case 'address':
+
+        $oldAddress = $this->configCr->get('map.address');
+        $newAddress = $form_state->getValue('address');
+
+        if($oldAddress !== $newAddress || $resetMarker == 1){
+
+          $addressObject = $this->getLocation($apiKey,$newAddress);
+
+          if ( $this->isAddressValid($addressObject) ) {
+
+            $this->setLocationSettings([
+              'config'    => $config,
+              'address'   => $newAddress,
+              'latitude'  => $addressObject->results[0]->geometry->location->lat,
+              'longitude' => $addressObject->results[0]->geometry->location->lng
+            ]);
+
+          }
+
+        }
+
+        break;
+
+      case 'coordinates':
+
+          $oldLat = $this->configCr->get('map.latitude');
+          $newLat = $form_state->getValue('latitude');
+          $oldLng = $this->configCr->get('map.longitude');
+          $newLng = $form_state->getValue('longitude');
+
+          if ($oldLat != $newLat || $oldLng != $newLng || $resetMarker == 1) {
+
+            $addressObject = $this->getLocation($apiKey, 'false', $newLat, $newLng);
+
+            if ( $this->isAddressValid($addressObject) ) {
+
+              $this->setLocationSettings([
+                'config'    => $config,
+                'address'   => $addressObject->results[0]->formatted_address,
+                'latitude'  => $newLat,
+                'longitude' => $newLng
+              ]);
+
+            }
+
+          }
+
+        break;
+    }
+
+    return [];
+  }
+
+
+  public function getLocation($apiKey,$address, $lat="", $lng=""){
 
       $address = urlencode ( $address );
-      //$address =  str_replace ( " " , "+" , $address );
-      $urlToTest  = "https://maps.googleapis.com/maps/api/geocode/json?key=".$apiKey."&address=".$address;
+
+      switch ($address) {
+        case 'false':
+          $location  = "&latlng=".$lat.",".$lng;
+          break;
+        
+        default:
+          $location  = "&address=".$address;
+          break;
+      }
+
+      $urlToTest = "https://maps.googleapis.com/maps/api/geocode/json?key=".$apiKey.$location;
 
       $ch = curl_init();
       curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -190,11 +311,22 @@ class MapForm extends ConfigFormBase {
   }
 
 
-  public function verifyAddressValidaty($testAddress){
+  public function isAddressValid($testAddress){
     if ($testAddress->status === "OK") {
       return true;
     }
     return false;
+  }
+
+
+  public function setLocationSettings($settings){
+    for ($i=0; $i < count($settings['config']); $i++) { 
+      $this->configCr
+        ->set( $settings['config'][$i].'.address', $settings['address'] )
+        ->set( $settings['config'][$i].'.latitude', $settings['latitude'] )
+        ->set( $settings['config'][$i].'.longitude', $settings['longitude'] );
+    }
+    return $this->configCr->save();
   }
 
 

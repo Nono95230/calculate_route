@@ -4,7 +4,7 @@
 
 	// Properties for api key
 	var akv 				= drupalSettings.calculate_route.JS.api_key_is_valid,
-		CR_AK_IS_VALID 		= (akv == 1 ? true :false);
+		CR_AK_IS_VALID 		= (akv == 1 ? true : false);
 
 
 	//////////////////////////////////////////////////

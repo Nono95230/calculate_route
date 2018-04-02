@@ -1,19 +1,24 @@
 #api_key: "PUT HERE YOUR API__KEY"
+#api_key_is_valid: 0
+#@todo22 : When development is finish =>
+#@todo22 : Decomment the 2 previous line and remove the 2 next line
 api_key: "AIzaSyCnQDpceTm2QCLocjOU-I1dO4hegnAZJME" #test with this key
-api_key_is_valid: 0
+api_key_is_valid: 1 #test with valid key
 map: 
-  address: "12 rue des écoles, 95230, France"
-  latitude: 48.983
-  longitude: 2.294
+  address_or_coordinate: "address"
+  address: "Av. des Champs-Élysées, 75008 Paris"
+  latitude: 48.871691
+  longitude: 2.301822
   zoom: 10
   zoom_max: 21
   zoom_scroll: "false"
   map_type: "terrain"
   enable_geoloc: "false"
 marker: 
-  address: ""
-  latitude: 48.983
-  longitude: 2.294
+  address_or_coordinate: "address"
+  address: "Av. des Champs-Élysées, 75008 Paris"
+  latitude: 48.871691
+  longitude: 2.301822
   title: "Write a title..."
   enable_info_window: "true"
   info_window: "<h1><strong>My title</strong></h1><p>My Description</p><p><a href='http://www.google.fr'>Optionnale Links</a></p>"

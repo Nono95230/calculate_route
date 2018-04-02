@@ -83,6 +83,8 @@ class ApiKeyForm extends ConfigFormBase {
     $oldApiKEy = $this->configCr->get('api_key');
     $newApiKey = $form_state->getValue('api_key');
 
+    $tt = $this->configCr->get('api_key_is_valid');
+    kint($tt);die();
     // If Api Key change
     if($oldApiKEy !== $newApiKey){
 
@@ -96,7 +98,7 @@ class ApiKeyForm extends ConfigFormBase {
 
       // START - Test if Api Key is Valid
       $verifyApiKey = $this->verifyGoogleMapApiKey($newApiKey);
-      
+
       if ( $verifyApiKey->status === "REQUEST_DENIED" ) {
         if ( isset($verifyApiKey->error_message) && $verifyApiKey->error_message === "The provided API key is invalid." ) {
           $this->configCr
