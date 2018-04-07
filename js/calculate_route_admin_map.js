@@ -39,26 +39,54 @@
 				 * Start
 				 * 
 				 */
+				var input = [
+					'input[name="address_or_coordinate"]',
+					'#edit-reset-marker',
+					'#edit-address',
+					'#edit-latitude',
+					'#edit-longitude',
+					'#edit-zoom',
+					'#edit-zoom-max',
+					'#edit-zoom-scroll',
+					'#edit-map-type',
+					'#edit-enable-geoloc'
+				];
 				
-				 $('#edit-address, #edit-zoom, #edit-zoom-max, #edit-zoom-scroll, #edit-map-type, #edit-enable-geoloc').on("change", function(){
+				$(input.join(',')).on("change", function(){
 
 					setTimeout(function(){ 
 
+						var condition 		= ($('#edit-reset-marker:checked').val() == 1),
+							addr_or_coord 	= $('input[name="address_or_coordinate"]:checked').val(),
+							mks 			= drupalSettings.calculate_route.JS.marker_settings;
 
 						var object = {
-							address: $('#edit-address').val(),
-							zoom: Number($('#edit-zoom').val()),
-							zoom_max: Number($('#edit-zoom-max').val()),
-							zoom_scroll: ($('#edit-zoom-scroll').val() == "true"),
-							map_type: $('#edit-map-type').val(),
-							en_geoloc: ($('#edit-enable-geoloc').val() == "true"),
-
+								map:{
+									addr_or_coord: 	addr_or_coord,
+									address: 		$('#edit-address').val(),
+									latitude: 		Number($('#edit-latitude').val()), 
+									longitude: 		Number($('#edit-longitude').val()),
+									zoom: 			Number($('#edit-zoom').val()),
+									zoom_max: 		Number($('#edit-zoom-max').val()),
+									zoom_scroll: 	($('input[name="zoom_scroll"]:checked').val() == 1),
+									map_type: 		$('#edit-map-type').val(),
+									en_geoloc: 		($('input[name="enable_geoloc"]:checked').val() == 1)
+								},
+								marker:{
+									addr_or_coord: 	(condition ? addr_or_coord : mks.address_or_coordinate),
+									address: 		(condition ? $('#edit-address').val() : mks.address),
+									latitude: 		(condition ? $('#edit-latitude').val() : Number(mks.latitude)),
+									longitude: 		(condition ? $('#edit-longitude').val() : Number(mks.longitude)),
+									title: 			mks.title,
+									enable_iw: 		(mks.enable_info_window == 1),
+									info_window: 	mks.info_window
+								},
 						};
 
-						console.log(object);
+						//console.log(object);
 						refreshMap(object);
 					}, 100,$(this));
-				 });
+				});
 
 
 				/* 
@@ -73,52 +101,39 @@
 			function refreshMap(object){
 
 				/*
-				 * Set The Properties
-				 * Start
-				 * 
-				 */
-				
-				var address 			= object.address,
-					CR_ZOOM 	 		= object.zoom,
-					CR_MAP_TYPE  		= object.map_type,
-					CR_ZOOM_MAX 		= object.zoom_max,
-					CR_ZOOM_SCROLL 		= object.zoom_scroll,
-					CR_ENABLE_GEOLOC 	= object.en_geoloc,
-					mks = drupalSettings.calculate_route.JS.marker_settings,
-					CR_LATITUDE_MK 		= Number(mks.latitude),
-					CR_LONGITUDE_MK 	= Number(mks.longitude),
-					CR_TITLE_MK 		= mks.title,
-					CR_ENABLE_IW_MK 	= (mks.enable_info_window == "true"),
-					CR_INFO_WINDOW 		= mks.info_window;
-
-				/*
-				 * Set The Properties
-				 * End
-				 * 
-				 */
-
-				/*
 				 * Generate the Map
 				 * Start
 				 * 
 				 */
-				 
-				var map = new google.maps.Map(document.getElementById('map-cr'), {
-					zoom: CR_ZOOM,
-					mapTypeId: CR_MAP_TYPE,
-					maxZoom: CR_ZOOM_MAX,
-					scrollwheel: CR_ZOOM_SCROLL
-				});
-				
-				var geocoder = new google.maps.Geocoder();
 
-				geocoder.geocode( { 'address': address}, function(results, status) {
-					if (status == google.maps.GeocoderStatus.OK) {
-						map.setCenter(results[0].geometry.location);
-					} else {
-						console.log("Geocode was not successful for the following reason: " + status);
-					}
+				var map = new google.maps.Map(document.getElementById('map-cr'), {
+					zoom: 			object.map.zoom,
+					mapTypeId: 		object.map.map_type,
+					maxZoom: 		object.map.zoom_max,
+					scrollwheel: 	object.map.zoom_scroll
 				});
+
+				switch (object.map.addr_or_coord) {
+				  case 'address':
+
+					var geocoder = new google.maps.Geocoder();
+
+					geocoder.geocode( { 'address': object.map.address}, function(results, status) {
+						if (status == google.maps.GeocoderStatus.OK) {
+							map.setCenter(results[0].geometry.location);
+						} else {
+							console.log("Geocode was not successful for the following reason: \n" + status);
+						}
+					});
+
+				    break;
+
+				  case 'coordinates':
+
+					map.setCenter(new google.maps.LatLng(object.map.latitude, object.map.longitude));
+					
+				    break;
+				}
 
 				/*
 				 * Generate the Map
@@ -134,10 +149,30 @@
 				 */
 
 		        var marker = new google.maps.Marker({
-		          position: {lat: CR_LATITUDE_MK, lng: CR_LONGITUDE_MK},
 		          map: map,
-		          title: CR_TITLE_MK
+		          title: object.marker.title
 		        });
+
+				switch (object.map.addr_or_coord) {
+				  case 'address':
+
+					var geocoder = new google.maps.Geocoder();
+
+					geocoder.geocode( { 'address': object.marker.address}, function(results, status) {
+						if (status == google.maps.GeocoderStatus.OK) {
+							marker.setPosition(results[0].geometry.location);
+						} else {
+							console.log("Geocode was not successful for the following reason: \n" + status);
+						}
+					});
+
+				    break;
+
+				  case 'coordinates':
+					marker.setPosition(new google.maps.LatLng(object.marker.latitude, object.marker.longitude));
+					
+				    break;
+				}
 
 				/*
 				 * Generate the Marker
@@ -152,9 +187,9 @@
 				 * 
 				 */
 
-				if ( CR_ENABLE_IW_MK === true ) {
+				if ( object.marker.enable_iw === true ) {
 
-					var contentStringInfoWindow = CR_INFO_WINDOW;
+					var contentStringInfoWindow = object.marker.info_window;
 
 					var infowindow = new google.maps.InfoWindow({
 					content: contentStringInfoWindow
@@ -163,7 +198,7 @@
 				}
 
 		        marker.addListener('click', function() {
-					if ( CR_ENABLE_IW_MK === true ) {
+					if ( object.marker.enable_iw === true ) {
 		          		infowindow.open(map, marker);
 					}
 		        });
@@ -181,7 +216,7 @@
 				 * 
 				 */
 
-				if ( CR_ENABLE_GEOLOC === true ) {
+				if ( object.map.en_geoloc === true ) {
 
 					var infoWindowGeo = new google.maps.InfoWindow({map: map});
 

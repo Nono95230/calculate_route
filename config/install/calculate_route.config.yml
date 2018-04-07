@@ -11,16 +11,16 @@ map:
   longitude: 2.301822
   zoom: 10
   zoom_max: 21
-  zoom_scroll: "false"
+  zoom_scroll: 0
   map_type: "terrain"
-  enable_geoloc: "false"
+  enable_geoloc: 0
 marker: 
   address_or_coordinate: "address"
   address: "Av. des Champs-Élysées, 75008 Paris"
   latitude: 48.871691
   longitude: 2.301822
   title: "Write a title..."
-  enable_info_window: "true"
+  enable_info_window: 1
   info_window: "<h1><strong>My title</strong></h1><p>My Description</p><p><a href='http://www.google.fr'>Optionnale Links</a></p>"
 form: 
   transport: 

@@ -34,7 +34,7 @@ class AppearenceForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'appearence_form';
+    return '__appearence';
   }
 
   /** 

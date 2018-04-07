@@ -36,7 +36,7 @@ class MapForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'map_form';
+    return '__map';
   }
 
   /** 
@@ -67,15 +67,14 @@ class MapForm extends ConfigFormBase {
                           "address"     => $this->t('Physic Address'),
                           "coordinates" => $this->t('Coordinate (Latitude/Longitude)'),
                         ),
+      '#description'    => '<h6>'.$this->t('Vous pouvez choisir le centrage de la carte Google en utilisant une adresse ou des coordonnées géographique !').'</h6>',
     );
 
     $form['map_center']['reset_marker'] = array(
       '#type'           => 'checkbox',
       '#title'          => $this->t('Reset Marker'),
-      '#default_value'  => $this->configCr->get('form.sl_start'),
       '#description'    => $this->t("Reset the Location Marker with the Location Map Settings"),
     );
-
 
     $form['map_center']['address'] = [
       '#type'           => 'textfield',
@@ -84,7 +83,6 @@ class MapForm extends ConfigFormBase {
       '#prefix'         => '<div id="map_settings_address">',
       '#suffix'         => '</div>',
       '#default_value'  => $this->configCr->get('map.address'),
-      '#description'    => $this->t('Entering an address allows- you to automatically fill in the coordinate fields'),
       '#states'         => array(
                           'invisible' => array(
                             'input[name="address_or_coordinate"]' => array('value' => "coordinates")
@@ -137,14 +135,13 @@ class MapForm extends ConfigFormBase {
     ];
 
     $form['zoom-settings']['zoom_scroll'] = array(
-      '#type'           => 'select',
-      '#title'          => $this->t('Zoom scrolling'),
-      '#options'        => array(
-        'true'          => $this->t('Enable'),
-        'false'         => $this->t('Disable')
-      ),
-      '#default_value'  => $this->configCr->get('map.zoom_scroll')
+      '#type'           => 'checkbox',
+      '#title'          => $this->t('Enable Zoom scrolling'),
     );
+
+    if ($this->configCr->get('map.zoom_scroll') == 1) {
+      $form['zoom-settings']['zoom_scroll']['#attributes'] = array('checked' => 'checked');
+    }
 
     $form['map_type'] = array(
       '#type'           => 'select',
@@ -159,14 +156,13 @@ class MapForm extends ConfigFormBase {
     );
 
     $form['enable_geoloc'] = array(
-      '#type'           => 'select',
+      '#type'           => 'checkbox',
       '#title'          => $this->t('Enable Géolocation'),
-      '#options'        => array(
-                          'true'  => $this->t('Enable'),
-                          'false' => $this->t('Disable')
-                        ),
-      '#default_value'  => $this->configCr->get('map.enable_geoloc')
     );
+
+    if ($this->configCr->get('map.enable_geoloc') == 1) {
+      $form['enable_geoloc']['#attributes'] = array('checked' => 'checked');
+    }
 
     return parent::buildForm($form, $form_state);
   }
@@ -184,17 +180,28 @@ class MapForm extends ConfigFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
 
-    $this->saveOtherConfigValue($form_state,
+    $configName = str_replace("__","",$this->getFormId());
+
+    $this->saveOtherConfigValue($form_state, $configName,
     [
+      'zoom_scroll',
       'address_or_coordinate',
       'zoom',
       'zoom_max',
-      'zoom_scroll',
       'map_type',
       'enable_geoloc'
     ]);
 
-    $this->saveLocationMap($form_state);
+    $resetMarker = $form_state->getValue('reset_marker');
+    $config = array($configName);
+
+    switch ($resetMarker) {
+      case 1:
+        $config[] = 'marker';
+        break;
+    }
+
+    $this->saveLocationMap($form_state, $config);
 
     $this->entityTypeManager->getViewBuilder('block')->resetCache();
 
@@ -203,40 +210,34 @@ class MapForm extends ConfigFormBase {
   }
 
 
-  public function saveOtherConfigValue($form_state,$otherConfigValue){
+  public function saveOtherConfigValue($form_state, $type, $otherConfigValue){
     for ($i=0; $i < count($otherConfigValue); $i++) { 
-      $old = $this->configCr->get('map.'.$otherConfigValue[$i]);
-      $new = $form_state->getValue($otherConfigValue[$i]);
+      $old = $this->configCr->get($type.'.'.$otherConfigValue[$i]);
+      $_new = $form_state->getValue($otherConfigValue[$i]);
+      $new  = (is_array ( $_new ) && array_key_exists('value', $_new) ? $_new['value'] : $_new );
+
       if ( $old !== $new) {
-        $this->configCr->set( 'map.'.$otherConfigValue[$i] , $form_state->getValue($otherConfigValue[$i]));
+        $this->configCr->set( $type.'.'.$otherConfigValue[$i] , $new);
       }
       
     }
     return $this->configCr->save();
   }
 
-  public function saveLocationMap($form_state){
 
-    $config = array('map');
-    $apiKey = $this->configCr->get('api_key');
-    $resetMarker = $form_state->getValue('reset_marker');
-
-    switch ($resetMarker) {
-      case 1:
-        $config[] = 'marker';
-        break;
-    }
+  public function saveLocationMap($form_state, $config){
     
+    $apiKey = $this->configCr->get('api_key');
 
     switch ($form_state->getValue('address_or_coordinate')) {
       case 'address':
 
-        $oldAddress = $this->configCr->get('map.address');
+        $oldAddress = $this->configCr->get($config[0].'.address');
         $newAddress = $form_state->getValue('address');
 
-        if($oldAddress !== $newAddress || $resetMarker == 1){
-
-          $addressObject = $this->getLocation($apiKey,$newAddress);
+        if($oldAddress !== $newAddress || count($config) > 1){
+          $urlToTest = $this->getUrlToTest($apiKey,$newAddress);
+          $addressObject = $this->getAdressObject($urlToTest);
 
           if ( $this->isAddressValid($addressObject) ) {
 
@@ -255,14 +256,15 @@ class MapForm extends ConfigFormBase {
 
       case 'coordinates':
 
-          $oldLat = $this->configCr->get('map.latitude');
+          $oldLat = $this->configCr->get($config[0].'.latitude');
           $newLat = $form_state->getValue('latitude');
-          $oldLng = $this->configCr->get('map.longitude');
+          $oldLng = $this->configCr->get($config[0].'.longitude');
           $newLng = $form_state->getValue('longitude');
 
-          if ($oldLat != $newLat || $oldLng != $newLng || $resetMarker == 1) {
+          if ($oldLat != $newLat || $oldLng != $newLng || count($config) > 1) {
 
-            $addressObject = $this->getLocation($apiKey, 'false', $newLat, $newLng);
+            $urlToTest = $this->getUrlToTest($apiKey, 'false', $newLat, $newLng);
+            $addressObject = $this->getAdressObject($urlToTest);
 
             if ( $this->isAddressValid($addressObject) ) {
 
@@ -284,8 +286,7 @@ class MapForm extends ConfigFormBase {
   }
 
 
-  public function getLocation($apiKey,$address, $lat="", $lng=""){
-
+  public function getUrlToTest($apiKey, $address, $lat="", $lng=""){
       $address = urlencode ( $address );
 
       switch ($address) {
@@ -298,16 +299,28 @@ class MapForm extends ConfigFormBase {
           break;
       }
 
-      $urlToTest = "https://maps.googleapis.com/maps/api/geocode/json?key=".$apiKey.$location;
+      return "https://maps.googleapis.com/maps/api/geocode/json?key=".$apiKey.$location;
+  }
 
-      $ch = curl_init();
-      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-      curl_setopt($ch, CURLOPT_URL, $urlToTest);
-      $result = curl_exec($ch);
-      curl_close($ch);
 
-      return json_decode($result);
+  public function getAdressObject($urlToTest){
+
+      $client = \Drupal::httpClient();
+
+      try{
+        $request = $client->post($urlToTest, [
+          'json' => [
+            'id'=> 'data-explorer'
+          ]
+        ]);
+        $data = $request->getBody();
+        $response = json_decode($data);
+      }
+      catch(\GuzzleHttp\Exception\RequestException $e) {
+        watchdog_exception('calculate_route', $e->getMessage());
+      }
+
+      return $response;
   }
 
 

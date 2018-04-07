@@ -34,7 +34,7 @@ class FormForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'calculate_route_form';
+    return '__form';
   }
 
   /** 

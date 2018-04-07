@@ -21,15 +21,15 @@
 		CR_LONGITUDE 		= Number(mps.longitude),
 		CR_ZOOM 			= Number(mps.zoom),
 		CR_ZOOM_MAX 		= Number(mps.zoom_max),
-		CR_ZOOM_SCROLL 		= (mps.zoom_scroll == "true"),
-		CR_ENABLE_GEOLOC	= (mps.enable_geoloc == "true");
+		CR_ZOOM_SCROLL 		= (mps.zoom_scroll == 1),
+		CR_ENABLE_GEOLOC	= (mps.enable_geoloc == 1);
 
 	// Properties for marker
 	var mks 			= drupalSettings.calculate_route.JS.marker_settings,
 		CR_LATITUDE_MK 	= Number(mks.latitude),
 		CR_LONGITUDE_MK = Number(mks.longitude),
 		CR_TITLE_MK 	= mks.title,
-		CR_ENABLE_IW_MK = (mks.enable_info_window == "true"),
+		CR_ENABLE_IW_MK = (mks.enable_info_window == 1),
 		CR_INFO_WINDOW 	= mks.info_window;
 
 	// Property for form

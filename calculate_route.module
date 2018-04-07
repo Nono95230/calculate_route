@@ -18,7 +18,7 @@ function calculate_route_page_attachments(array &$page){
       $page['#attached']['library'][] = 'calculate_route/admin-map';
       break;
     case 'marker':
-      //$page['#attached']['library'][] = 'calculate_route/admin-marker';
+      $page['#attached']['library'][] = 'calculate_route/admin-marker';
       break;
     case 'form':
       //$page['#attached']['library'][] = 'calculate_route/admin-form';

@@ -40,7 +40,7 @@ class ApiKeyForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'api_key_form';
+    return '__api_key';
   }
 
   /** 
