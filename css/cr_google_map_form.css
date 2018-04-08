@@ -4,7 +4,7 @@
   display: none!important;
 }
 
-#container_maps #map-cr {
+#container_map #map-cr {
   width: 100%;
   height: 500px;
   margin: auto;
@@ -21,20 +21,20 @@ body.path-admin .region-content #block-calculate-your-route{
   min-width: 600px;
 }
 
-#container_maps #container_form #choice_mode span{
+#container_map #container_form #choice_mode span{
   background: #EBEBEB;
   padding: 10px;
 }
 
-#container_maps #container_form #choice_mode span.active{
+#container_map #container_form #choice_mode span.active{
   background: #3a3a3a;
 }
 
 /* INFOS PRATIQUES */
-#container_maps{
+#container_map{
   position: relative;
 }
-#container_maps #container_form{
+#container_map #container_form{
   position: absolute;
   left:0px;
   bottom:0px;
@@ -47,7 +47,7 @@ body.path-admin .region-content #block-calculate-your-route{
   text-align: center;
   box-sizing:border-box;
 }
-#container_maps #container_form #choice_mode{
+#container_map #container_form #choice_mode{
   position: absolute;
   top:0;
   left:0;
@@ -56,7 +56,7 @@ body.path-admin .region-content #block-calculate-your-route{
   width:100%;
   background:#ccc;
 }
-#container_maps #container_form #choice_mode span{
+#container_map #container_form #choice_mode span{
   display: inline-block;
   float: none;
   padding: 0;
@@ -64,20 +64,20 @@ body.path-admin .region-content #block-calculate-your-route{
   height:60px;
   cursor:pointer;
 }
-#container_maps #container_form label{
+#container_map #container_form label{
   text-align: left;
   width:90%;
   display: inline-block;
 }
-#container_maps #container_form input, 
-#container_maps #container_form select{
+#container_map #container_form input, 
+#container_map #container_form select{
   width:90%;
   height: 40px;
   border:none;
   line-height:40px;
   padding: 0 5px;
 }
-#container_maps #container_form #label_btn {
+#container_map #container_form #label_btn {
   width: 90%;
   display: inline-block;
   background: #e30613;
@@ -89,15 +89,15 @@ body.path-admin .region-content #block-calculate-your-route{
   margin-top:25px;
   cursor:pointer;
 }
-#container_maps #container_form #sl_start {
+#container_map #container_form #sl_start {
   margin: 25px 0 15px;
 }
-#container_maps #container_form #choice_mode span.active,
-#container_maps #container_form #choice_mode span{
+#container_map #container_form #choice_mode span.active,
+#container_map #container_form #choice_mode span{
   background:none;
 }
 
-#container_maps #container_form #choice_mode span{
+#container_map #container_form #choice_mode span{
   display: inline-block;
   background:url('../images/sprite_mode.png') 10px top no-repeat;
   line-height:60px;
@@ -105,35 +105,35 @@ body.path-admin .region-content #block-calculate-your-route{
   width: 60px;
   cursor:pointer;
 }
-#container_maps #container_form #choice_mode span#car-logo{
+#container_map #container_form #choice_mode span#car-logo{
   background:url('../images/sprite_mode.png') 10px top no-repeat;
 }
-#container_maps #container_form #choice_mode span#public_transport-logo{
+#container_map #container_form #choice_mode span#public_transport-logo{
   background:url('../images/sprite_mode.png') -49px top no-repeat;
 }
-#container_maps #container_form #choice_mode span#bike-logo{
+#container_map #container_form #choice_mode span#bike-logo{
   background:url('../images/sprite_mode.png') -108px top no-repeat;
 }
-#container_maps #container_form #choice_mode span#walker-logo{
+#container_map #container_form #choice_mode span#walker-logo{
   background:url('../images/sprite_mode.png') -166px top no-repeat;
 }
-#container_maps #container_form #choice_mode span#car-logo:hover,
-#container_maps #container_form #choice_mode span#car-logo.active{
+#container_map #container_form #choice_mode span#car-logo:hover,
+#container_map #container_form #choice_mode span#car-logo.active{
   background:url('../images/sprite_mode.png') 10px bottom no-repeat;
 }
-#container_maps #container_form #choice_mode span#public_transport-logo:hover,
-#container_maps #container_form #choice_mode span#public_transport-logo.active{
+#container_map #container_form #choice_mode span#public_transport-logo:hover,
+#container_map #container_form #choice_mode span#public_transport-logo.active{
   background:url('../images/sprite_mode.png') -49px bottom no-repeat;
 }
-#container_maps #container_form #choice_mode span#bike-logo:hover,
-#container_maps #container_form #choice_mode span#bike-logo.active{
+#container_map #container_form #choice_mode span#bike-logo:hover,
+#container_map #container_form #choice_mode span#bike-logo.active{
   background:url('../images/sprite_mode.png') -108px bottom no-repeat;
 }
-#container_maps #container_form #choice_mode span#walker-logo:hover,
-#container_maps #container_form #choice_mode span#walker-logo.active{
+#container_map #container_form #choice_mode span#walker-logo:hover,
+#container_map #container_form #choice_mode span#walker-logo.active{
   background:url('../images/sprite_mode.png') -166px bottom no-repeat;
 }
-#container_maps #container_form label{
+#container_map #container_form label{
   color:#3c3c3c;
 }
 

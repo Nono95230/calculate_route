@@ -78,10 +78,16 @@
 				/*
 				 * CHANGE MAP DIMENSION
 				 */
-				$('#map-cr').css({
-					'width' : CR_WIDTH_MAP,
-					'height' : CR_HEIGHT_MAP
+				
+				$('#container_map').css({
+					'width' : 'CR_WIDTH_MAP',
+					'height' : 'CR_HEIGHT_MAP'
 				});
+				$('#map-cr').css({
+					'width' : '100%',
+					'height' : '100%'
+				});
+				
 				/*
 				 * CHANGE MAP DIMENSION
 				 */

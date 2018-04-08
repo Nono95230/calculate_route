@@ -92,6 +92,11 @@ class AppearenceForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Width'),
       '#size' => 15,
+      '#attributes' => array(
+          'data-property' => 'width',
+          'data-selector' => '#container_map',
+          'data-jquery-method' => 'css'
+      ),
       '#default_value' => $this->configCr->get('appearence.width_map')
     );
 
@@ -99,6 +104,11 @@ class AppearenceForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Height'),
       '#size' => 15,
+      '#attributes' => array(
+          'data-property' => 'height',
+          'data-selector' => '#container_map',
+          'data-jquery-method' => 'css'
+      ),
       '#default_value' => $this->configCr->get('appearence.height_map')
     );
 
@@ -106,6 +116,11 @@ class AppearenceForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Top position'),
       '#size' => 15,
+      '#attributes' => array(
+          'data-property' => 'top',
+          'data-selector' => '#container_form',
+          'data-jquery-method' => 'css'
+      ),
       '#default_value' => $this->configCr->get('appearence.top_position')
     );
 
@@ -113,6 +128,11 @@ class AppearenceForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Bottom position'),
       '#size' => 15,
+      '#attributes' => array(
+          'data-property' => 'bottom',
+          'data-selector' => '#container_form',
+          'data-jquery-method' => 'css'
+      ),
       '#default_value' => $this->configCr->get('appearence.bottom_position')
     );
 
@@ -120,6 +140,11 @@ class AppearenceForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Left position'),
       '#size' => 15,
+      '#attributes' => array(
+          'data-property' => 'left',
+          'data-selector' => '#container_form',
+          'data-jquery-method' => 'css'
+      ),
       '#default_value' => $this->configCr->get('appearence.left_position')
     );
 
@@ -127,6 +152,11 @@ class AppearenceForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Right position'),
       '#size' => 15,
+      '#attributes' => array(
+          'data-property' => 'right',
+          'data-selector' => '#container_form',
+          'data-jquery-method' => 'css'
+      ),
       '#default_value' => $this->configCr->get('appearence.right_position')
     );
 
@@ -134,12 +164,22 @@ class AppearenceForm extends ConfigFormBase {
     $form['form']['color']['text']['label_text_color'] = array(
       '#type' => 'jquery_colorpicker',
       '#title' => $this->t('Text Color for Label Start & End'),
+      '#attributes' => array(
+          'data-property' => 'color',
+          'data-selector' => '.label_style',
+          'data-jquery-method' => 'css'
+      ),
       '#default_value' => $this->configCr->get('appearence.label_text_color')
     );
 
     $form['form']['color']['text']['button_text_color'] = array(
       '#type' => 'jquery_colorpicker',
       '#title' => $this->t('Text Color for Submit Button'),
+      '#attributes' => array(
+          'data-property' => 'color',
+          'data-selector' => '#label_btn',
+          'data-jquery-method' => 'css'
+      ),
       '#default_value' => $this->configCr->get('appearence.button_text_color')
     );
     
@@ -147,30 +187,55 @@ class AppearenceForm extends ConfigFormBase {
     $form['form']['color']['bg']['head_color'] = array(
       '#type' => 'jquery_colorpicker',
       '#title' => $this->t('Head Form Color'),
+      '#attributes' => array(
+          'data-property' => 'background-color',
+          'data-selector' => '#choice_mode',
+          'data-jquery-method' => 'css'
+      ),
       '#default_value' => $this->configCr->get('appearence.header_color')
     );
 
     $form['form']['color']['bg']['form_color'] = array(
       '#type' => 'jquery_colorpicker',
       '#title' => $this->t('Form Color'),
+      '#attributes' => array(
+          'data-property' => 'background-color',
+          'data-selector' => '#container_form',
+          'data-jquery-method' => 'css'
+      ),
       '#default_value' => $this->configCr->get('appearence.form_color')
     );
 
     $form['form']['color']['bg']['button_color'] = array(
       '#type' => 'jquery_colorpicker',
       '#title' => $this->t('Button Color'),
+      '#attributes' => array(
+          'data-property' => 'background-color',
+          'data-selector' => '#label_btn',
+          'data-jquery-method' => 'css'
+      ),
       '#default_value' => $this->configCr->get('appearence.button_color')
     );
 
     $form['form']['color']['three_btn']['three_btn_color'] = array(
       '#type' => 'jquery_colorpicker',
       '#title' => $this->t('Button Color'),
+      '#attributes' => array(
+          'data-property' => 'color',
+          'data-selector' => '.btn-con, .icon-fa',
+          'data-jquery-method' => 'css'
+      ),
       '#default_value' => $this->configCr->get('appearence.three_btn_color')
     );
 
     $form['form']['color']['three_btn']['three_btn_hover_color'] = array(
       '#type' => 'jquery_colorpicker',
       '#title' => $this->t('Button Hover Color'),
+      '#attributes' => array(
+          'data-property' => 'color',
+          'data-selector' => '.btn-icon, .icon-fa',
+          'data-jquery-method' => 'css'
+      ),
       '#default_value' => $this->configCr->get('appearence.three_btn_hover_color')
     );
 

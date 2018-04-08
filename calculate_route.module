@@ -24,7 +24,7 @@ function calculate_route_page_attachments(array &$page){
       $page['#attached']['library'][] = 'calculate_route/admin-form';
       break;
     case 'appearence':
-      //$page['#attached']['library'][] = 'calculate_route/admin-appearence';
+      $page['#attached']['library'][] = 'calculate_route/admin-appearence';
       break;
     default:
       break;

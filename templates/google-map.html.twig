@@ -1,5 +1,5 @@
 {{ attach_library('calculate_route/google-map') }}
-<div id="container_maps">
+<div id="container_map">
 	
 	<div id="container_form">
 		<div id="choice_mode">
@@ -12,7 +12,7 @@
 			<label id="label_start" class="label_style">{{ data.labelStart }}</label>
 			<input id="start" name="start" autocomplete="disabled" class="autocomplete-place" placeholder="{{ data.phStart }}" type="text">
 		</div>
-		<div id="switch"><span><i class="fa fa-exchange fa-2x fa-rotate-90" aria-hidden="true"></i></span></div>
+		<div id="switch"><span class="btn-icon"><i class="fa fa-exchange fa-2x fa-rotate-90 icon-fa" aria-hidden="true"></i></span></div>
 		<div id="sl_end">
 			<label id="label_end" class="label_style">{{ data.labelEnd }}</label>
 			<select id="end" name="end">
@@ -20,8 +20,8 @@
 			</select>
 		</div>
 		<span id="label_btn">{{ data.textSubmit }}</span>
-		<div id="minimize_restore"><span><i class="fa fa-window-minimize fa-1x"></i></span></div>
-		<div id="form-restore"><span><i class="fa fa-window-restore fa-1x"></i></span></div>
+		<div id="minimize_restore"><span class="btn-icon"><i class="fa fa-window-minimize fa-1x icon-fa"></i></span></div>
+		<div id="form-restore"><span class="btn-icon"><i class="fa fa-window-restore fa-1x icon-fa"></i></span></div>
 	</div>
 
 	<div id="map-cr"></div>

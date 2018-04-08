@@ -38,7 +38,7 @@
 				 * 
 				 */
 
-				var inputShow = [
+				var inputSettings = [
 					'#edit-transport-car',
 					'#edit-transport-public-transport',
 					'#edit-transport-bike',
@@ -46,39 +46,7 @@
 					'#edit-btn-switch',
 					'#edit-btn-minimize-restore',
 					'#edit-sl-start',
-					'#edit-sl-end'
-				];
-				
-				$(inputShow.join(',')).on("change", function(){
-
-					var element = $(this);
-					setTimeout(function(){ 
-						var showElement	= element.prop( "checked" ),
-							nameElement	= element.attr('name')
-											.replace("btn_", "")
-											.replace("sl_", "label_")
-											.replace("transport[", "")
-											.replace("]", "-logo"),
-							$elChange 	= $('#'+nameElement);
-
-						switch (showElement) {
-						  case true:
-
-						  	$elChange.removeClass('hidden');
-
-						    break;
-
-						  case false:
-
-						  	$elChange.addClass('hidden');
-						  	
-						    break;
-						}
-
-					}, 100,$(this));
-				});
-
-				var inputText = [
+					'#edit-sl-end',
 					'#edit-ct-start-pl',
 					'#edit-ct-start',
 					'#edit-ct-end',
@@ -86,44 +54,94 @@
 					'#edit-title',
 					'#edit-address'
 				];
-				
-				$(inputText.join(',')).on("change", function(){
+				inputSettings = inputSettings.join(',');
+
+				$(inputSettings).on("change", function(){
 					var element = $(this);
 					setTimeout(function(){ 
 
-						var showElement	= element.prop( "checked" ),
-							nameElement	= element.attr('name').replace("ct_", "label_"),
-							valElement  = element.val(),
-							$elChange 	= $('#'+nameElement);
-						console.log(nameElement);
-						console.log($elChange);
-						console.log(valElement);
+						var selector = element.data('selector'),
+							property = element.data('property'),
+							value 	 = '';
 
-						switch (nameElement) {
-						  case 'label_start_pl':
+						switch (property) {
+							case 'checkbox':
+								value = element.prop('checked');
+								break;
+							case 'checkboxes':
+								value 	 = element.prop('checked');
+								selector = element.attr(selector).replace("transport[", "#").replace("]", "-logo");
+								break;
 
-							nameElement = nameElement.replace("label_", "").replace("_pl", "");
-						  	$('#'+nameElement).attr('placeholder', valElement);
-
-						    break;/*
-
-						  case 'address':
-
-						  	$('#title').val(valElement);
-
-						    break;*/
-
-						  default:
-
-					  		$elChange.html(valElement);
-						  	
-						    break;
+							default:
+								value = element.val();
+								break;
 						}
+
+						// console.log(selector);
+						// console.log(property);
+						// console.log(value);
+
+			  			changeSettings($(selector), property, value);
 
 					}, 100,$(this));
 				});
 
+				function changeSettings($selector, property, value){
+					switch (property) {
+						case 'color':
+							return $selector.css(property, '#'+value);
+							break;
 
+						case 'width':
+						case 'height':
+						case 'top':
+						case 'bottom':
+						case 'left':
+						case 'right':
+							return $selector.css(property, value);
+							break;
+
+						case 'placeholder':
+							return $selector.attr(property, value);
+							break;
+
+						case 'html':
+							return $selector.html(value);
+							break;
+
+						case 'val':
+							return $selector.val(value);
+							break;
+
+						case 'checkbox':
+							switch (value) {
+							  case true:
+							  	return $selector.removeClass('hidden');
+							    break;
+
+							  case false:
+							  	return $selector.addClass('hidden');
+							    break;
+
+							}
+							break;
+
+						case 'checkboxes':
+							switch (value) {
+							  case true:
+							  	return $selector.removeClass('hidden');
+							    break;
+
+							  case false:
+							  	return $selector.addClass('hidden');
+							    break;
+
+							}
+							break;
+
+					}
+				}
 				/* 
 				 * Event Change for Form Settings
 				 * End

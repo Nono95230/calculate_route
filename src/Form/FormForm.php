@@ -65,6 +65,10 @@ class FormForm extends ConfigFormBase {
                           'bike' => $this->t('Bike'),
                           'walker' => $this->t('Walker')
                         ),
+      '#attributes' => array(
+          'data-property' => 'checkboxes',
+          'data-selector' => 'name'
+      ),
       '#title'          => $this->t('Choose available transport modes'),
       '#default_value'  => $this->configCr->get('form.transport')
     );
@@ -73,12 +77,20 @@ class FormForm extends ConfigFormBase {
     $form['enable-element']['btn_switch'] = array(
       '#type'           => 'checkbox',
       '#title'          => $this->t('Enable switch button'),
+      '#attributes' => array(
+          'data-property' => 'checkbox',
+          'data-selector' => '#switch'
+      ),
       '#default_value'  => $this->configCr->get('form.btn_switch')
     );
 
     $form['enable-element']['btn_minimize_restore'] = array(
       '#type'           => 'checkbox',
       '#title'          => $this->t('Enable minimize/restore form button'),
+      '#attributes' => array(
+          'data-property' => 'checkbox',
+          'data-selector' => '#minimize_restore'
+      ),
       '#default_value'  => $this->configCr->get('form.btn_minimize_restore')
     );
 
@@ -104,6 +116,10 @@ class FormForm extends ConfigFormBase {
     $form['show-label-address']['sl_start'] = array(
       '#type'           => 'checkbox',
       '#title'          => $this->t('Show start address label'),
+      '#attributes' => array(
+          'data-property' => 'checkbox',
+          'data-selector' => '#label_start'
+      ),
       '#default_value'  => $this->configCr->get('form.sl_start')
     );
 
@@ -111,6 +127,10 @@ class FormForm extends ConfigFormBase {
     $form['show-label-address']['sl_end'] = array(
       '#type'           => 'checkbox',
       '#title'          => $this->t('Show end address label'),
+      '#attributes' => array(
+          'data-property' => 'checkbox',
+          'data-selector' => '#label_end'
+      ),
       '#default_value'  => $this->configCr->get('form.sl_end')
     );
 
@@ -119,6 +139,10 @@ class FormForm extends ConfigFormBase {
       '#type'           => 'textfield',
       '#title'          => $this->t('Customize text placeholder for starting address'),
       '#description'    => $this->t('Leave empty for no text'),
+      '#attributes' => array(
+          'data-property' => 'placeholder',
+          'data-selector' => '#start'
+      ),
       '#default_value'  => $this->configCr->get('form.ct_start_pl')
     );
     
@@ -127,10 +151,14 @@ class FormForm extends ConfigFormBase {
       '#type'           => 'textfield',
       '#title'          => $this->t('Customize text label for starting address'),
       '#states'         => array(
-                          'visible' => array(
-                            'input[name="sl_start"]' => array('checked' => TRUE)
-                          ),
-                        ),
+        'visible' => array(
+          'input[name="sl_start"]' => array('checked' => TRUE)
+        ),
+      ),
+      '#attributes' => array(
+          'data-property' => 'html',
+          'data-selector' => '#label_start'
+      ),
       '#default_value'  => $this->configCr->get('form.ct_start')
     );
 
@@ -139,10 +167,14 @@ class FormForm extends ConfigFormBase {
       '#type'           => 'textfield',
       '#title'          => $this->t('Customize text label for ending address'),
       '#states'         => array(
-                          'visible' => array(
-                            'input[name="sl_end"]' => array('checked' => TRUE)
-                          ),
-                        ),
+        'visible' => array(
+          'input[name="sl_end"]' => array('checked' => TRUE)
+        ),
+      ),
+      '#attributes' => array(
+          'data-property' => 'html',
+          'data-selector' => '#label_end'
+      ),
       '#default_value'  => $this->configCr->get('form.ct_end')
     );
 
@@ -150,6 +182,10 @@ class FormForm extends ConfigFormBase {
     $form['customize-texts']['ct_btn'] = array(
       '#type'           => 'textfield',
       '#title'          => $this->t('Customize text for submit button'),
+      '#attributes' => array(
+          'data-property' => 'html',
+          'data-selector' => '#label_btn'
+      ),
       '#default_value'  => $this->configCr->get('form.ct_btn')
     );
 
@@ -158,6 +194,10 @@ class FormForm extends ConfigFormBase {
       '#type'           => 'textfield',
       '#title'          => $this->t('Address title'),
       '#size'           => 20,
+      '#attributes' => array(
+          'data-property' => 'html',
+          'data-selector' => '#title'
+      ),
       '#default_value'  => $this->configCr->get('form.title_address')
     );
 
@@ -165,6 +205,10 @@ class FormForm extends ConfigFormBase {
     $form['address-destination']['address'] = array(
       '#type'           => 'textfield',
       '#title'          => $this->t('Address'),
+      '#attributes' => array(
+          'data-property' => 'val',
+          'data-selector' => '#title'
+      ),
       '#default_value'  => $this->configCr->get('form.address_destination')
     );
 
