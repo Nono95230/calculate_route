@@ -3,24 +3,24 @@
 	
 	<div id="container_form">
 		<div id="choice_mode">
-			<span id="driving" class="active"></span>
-			<span id="transit"></span>
-			<span id="bicycling"></span>
-			<span id="walking"></span>
+			<span id="car-logo" class="active" data-transport="DRIVING"></span>
+			<span id="public_transport-logo" data-transport="TRANSIT"></span>
+			<span id="bike-logo" data-transport="BICYCLING"></span>
+			<span id="walker-logo" data-transport="WALKING"></span>
 		</div>
-		<div id="address-start">
+		<div id="sl_start">
 			<label id="label_start" class="label_style">{{ data.labelStart }}</label>
 			<input id="start" name="start" autocomplete="disabled" class="autocomplete-place" placeholder="{{ data.phStart }}" type="text">
 		</div>
 		<div id="switch"><span><i class="fa fa-exchange fa-2x fa-rotate-90" aria-hidden="true"></i></span></div>
-		<div id="address-end">
+		<div id="sl_end">
 			<label id="label_end" class="label_style">{{ data.labelEnd }}</label>
 			<select id="end" name="end">
-				<option value="{{ data.address }} ">{{ data.addressTitle }} </option>
+				<option id="title" value="{{ data.address }} ">{{ data.addressTitle }} </option>
 			</select>
 		</div>
-		<span id="cr_submit">{{ data.textSubmit }}</span>
-		<div id="form-minimize"><span><i class="fa fa-window-minimize fa-1x"></i></span></div>
+		<span id="label_btn">{{ data.textSubmit }}</span>
+		<div id="minimize_restore"><span><i class="fa fa-window-minimize fa-1x"></i></span></div>
 		<div id="form-restore"><span><i class="fa fa-window-restore fa-1x"></i></span></div>
 	</div>
 

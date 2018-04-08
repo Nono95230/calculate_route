@@ -1,16 +1,16 @@
 (function($, Drupal, drupalSettings){
 
 	'use strict';
-	
+
 
 	//////////////////////////////////////////////////
 	///                                            ///
-	///           FUNCTION REFRESH MARKER          ///
+	///            FUNCTION REFRESH MAP            ///
 	///                    START                   ///
 	///                                            ///
 	//////////////////////////////////////////////////
 
-	Drupal.behaviors.refreshMarker = {
+	Drupal.behaviors.refreshMap = {
 		attach : function(context, settings) {
 
 			$(document).ready( function(){
@@ -21,7 +21,7 @@
 				 * Start
 				 * 
 				 */
-				var inputAddress 	= $("#edit-marker-position").find("#edit-address"),
+				var inputAddress 	= $("#edit-map-center").find("#edit-address"),
 					findAddressAC 	= inputAddress.attr('id'),
 					addressAC		= document.getElementById(findAddressAC),
 		        	AutoComplete 	= new google.maps.places.Autocomplete(addressAC, { types: ['geocode'] } );
@@ -35,59 +35,62 @@
 
 
 				/* 
-				 * Save the Autocomplete Value
+				 * Event Change for Google Map Settings
 				 * Start
 				 * 
 				 */
 				var input = [
 					'input[name="address_or_coordinate"]',
+					'#edit-reset-marker',
 					'#edit-address',
 					'#edit-latitude',
 					'#edit-longitude',
-					'#edit-title',
-					'input[name="enable_info_window"]',
-					'#edit-info-window-value'
+					'#edit-zoom',
+					'#edit-zoom-max',
+					'#edit-zoom-scroll',
+					'#edit-map-type',
+					'#edit-enable-geoloc'
 				];
-
+				
 				$(input.join(',')).on("change", function(){
 
 					setTimeout(function(){ 
 
 						var condition 		= ($('#edit-reset-marker:checked').val() == 1),
 							addr_or_coord 	= $('input[name="address_or_coordinate"]:checked').val(),
-							mps 			= drupalSettings.calculate_route.JS.map_settings;
+							mks 			= drupalSettings.calculate_route.JS.marker_settings;
 
 						var object = {
 								map:{
-									addr_or_coord: 	mps.address_or_coordinate,
-									address: 		mps.address,
-									latitude: 		Number(mps.latitude), 
-									longitude: 		Number(mps.longitude),
-									zoom: 			Number(mps.zoom),
-									zoom_max: 		Number(mps.zoom_max),
-									zoom_scroll: 	(mps.zoom_scroll == 1),
-									map_type: 		mps.map_type,
-									en_geoloc: 		(mps.enable_geoloc == 1)
+									addr_or_coord: 	addr_or_coord,
+									address: 		$('#edit-address').val(),
+									latitude: 		Number($('#edit-latitude').val()), 
+									longitude: 		Number($('#edit-longitude').val()),
+									zoom: 			Number($('#edit-zoom').val()),
+									zoom_max: 		Number($('#edit-zoom-max').val()),
+									zoom_scroll: 	($('input[name="zoom_scroll"]:checked').val() == 1),
+									map_type: 		$('#edit-map-type').val(),
+									en_geoloc: 		($('input[name="enable_geoloc"]:checked').val() == 1)
 								},
 								marker:{
-									addr_or_coord: 	addr_or_coord ,
-									address: 		$('#edit-address').val(),
-									latitude: 		Number($('#edit-latitude').val()),
-									longitude: 		Number($('#edit-longitude').val()),
-									title: 			$('#edit-title').val(),
-									enable_iw: 		($('input[name="enable_info_window"]:checked').val() == 1),
-									info_window: 	$('#edit-info-window-value').val()
+									addr_or_coord: 	(condition ? addr_or_coord : mks.address_or_coordinate),
+									address: 		(condition ? $('#edit-address').val() : mks.address),
+									latitude: 		(condition ? $('#edit-latitude').val() : Number(mks.latitude)),
+									longitude: 		(condition ? $('#edit-longitude').val() : Number(mks.longitude)),
+									title: 			mks.title,
+									enable_iw: 		(mks.enable_info_window == 1),
+									info_window: 	mks.info_window
 								},
 						};
 
 						//console.log(object);
-						refreshMarker(object);
+						refresh(object);
 					}, 100,$(this));
 				});
 
 
 				/* 
-				 * Save the Autocomplete Value
+				 * Event Change for Google Map Settings
 				 * End
 				 * 
 				 */
@@ -95,7 +98,7 @@
 			});
 
 			
-			function refreshMarker(object){
+			function refresh(object){
 
 				/*
 				 * Generate the Map
@@ -150,7 +153,7 @@
 		          title: object.marker.title
 		        });
 
-				switch (object.marker.addr_or_coord) {
+				switch (object.map.addr_or_coord) {
 				  case 'address':
 
 					var geocoder = new google.maps.Geocoder();
@@ -251,14 +254,14 @@
 				}
 					
 
-			}// End function refreshMarker()
+			}// End function refresh()
 		}//End function attach
-	};//End Bahaviors refreshMarker
+	};//End Bahaviors refreshMap
 
 
 	//////////////////////////////////////////////////
 	///                                            ///
-	///           FUNCTION REFRESH MARKER          ///
+	///            FUNCTION REFRESH MAP            ///
 	///                    END                     ///
 	///                                            ///
 	//////////////////////////////////////////////////

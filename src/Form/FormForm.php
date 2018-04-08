@@ -70,13 +70,13 @@ class FormForm extends ConfigFormBase {
     );
 
 
-    $form['enable-element']['btn-switch'] = array(
+    $form['enable-element']['btn_switch'] = array(
       '#type'           => 'checkbox',
       '#title'          => $this->t('Enable switch button'),
       '#default_value'  => $this->configCr->get('form.btn_switch')
     );
 
-    $form['enable-element']['btn-minimize-restore'] = array(
+    $form['enable-element']['btn_minimize_restore'] = array(
       '#type'           => 'checkbox',
       '#title'          => $this->t('Enable minimize/restore form button'),
       '#default_value'  => $this->configCr->get('form.btn_minimize_restore')
@@ -85,7 +85,7 @@ class FormForm extends ConfigFormBase {
 
     $form['show-label-address'] = array(
       '#type'           => 'fieldset',
-      '#title'          => $this->t('Hide label address'),
+      '#title'          => $this->t('Show label address'),
     );
 
 
@@ -103,27 +103,15 @@ class FormForm extends ConfigFormBase {
 
     $form['show-label-address']['sl_start'] = array(
       '#type'           => 'checkbox',
-      '#title'          => $this->t('Hide start address label'),
+      '#title'          => $this->t('Show start address label'),
       '#default_value'  => $this->configCr->get('form.sl_start')
     );
 
 
     $form['show-label-address']['sl_end'] = array(
       '#type'           => 'checkbox',
-      '#title'          => $this->t('Hide end address label'),
+      '#title'          => $this->t('Show end address label'),
       '#default_value'  => $this->configCr->get('form.sl_end')
-    );
-
-
-    $form['customize-texts']['ct_start'] = array(
-      '#type'           => 'textfield',
-      '#title'          => $this->t('Customize text label for starting address'),
-      '#states'         => array(
-                          'invisible' => array(
-                            'input[name="sl_start"]' => array('checked' => TRUE)
-                          ),
-                        ),
-      '#default_value'  => $this->configCr->get('form.ct_start')
     );
 
 
@@ -133,13 +121,25 @@ class FormForm extends ConfigFormBase {
       '#description'    => $this->t('Leave empty for no text'),
       '#default_value'  => $this->configCr->get('form.ct_start_pl')
     );
+    
+
+    $form['customize-texts']['ct_start'] = array(
+      '#type'           => 'textfield',
+      '#title'          => $this->t('Customize text label for starting address'),
+      '#states'         => array(
+                          'visible' => array(
+                            'input[name="sl_start"]' => array('checked' => TRUE)
+                          ),
+                        ),
+      '#default_value'  => $this->configCr->get('form.ct_start')
+    );
 
 
     $form['customize-texts']['ct_end'] = array(
       '#type'           => 'textfield',
       '#title'          => $this->t('Customize text label for ending address'),
       '#states'         => array(
-                          'invisible' => array(
+                          'visible' => array(
                             'input[name="sl_end"]' => array('checked' => TRUE)
                           ),
                         ),
@@ -186,8 +186,8 @@ class FormForm extends ConfigFormBase {
 
     $this->configCr
         ->set( 'form.transport', $form_state->getValue('transport') )
-        ->set( 'form.btn_switch', $form_state->getValue('btn-switch') )
-        ->set( 'form.btn_minimize_restore', $form_state->getValue('btn-minimize-restore') )
+        ->set( 'form.btn_switch', $form_state->getValue('btn_switch') )
+        ->set( 'form.btn_minimize_restore', $form_state->getValue('btn_minimize_restore') )
         ->set( 'form.ct_start_pl', $form_state->getValue('ct_start_pl') )
         ->set( 'form.ct_start', $form_state->getValue('ct_start') )
         ->set( 'form.ct_end', $form_state->getValue('ct_end') )

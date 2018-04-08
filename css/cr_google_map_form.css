@@ -1,5 +1,6 @@
 /* content: attr(data-content); */
-.api-key-false{
+.api-key-false,
+.hidden{
   display: none!important;
 }
 
@@ -76,7 +77,7 @@ body.path-admin .region-content #block-calculate-your-route{
   line-height:40px;
   padding: 0 5px;
 }
-#container_maps #container_form #cr_submit {
+#container_maps #container_form #label_btn {
   width: 90%;
   display: inline-block;
   background: #e30613;
@@ -88,15 +89,12 @@ body.path-admin .region-content #block-calculate-your-route{
   margin-top:25px;
   cursor:pointer;
 }
-#container_maps #container_form #address-start {
+#container_maps #container_form #sl_start {
   margin: 25px 0 15px;
 }
 #container_maps #container_form #choice_mode span.active,
 #container_maps #container_form #choice_mode span{
   background:none;
-}
-#container_maps .options_list_transit{
-  display: none;
 }
 
 #container_maps #container_form #choice_mode span{
@@ -107,32 +105,32 @@ body.path-admin .region-content #block-calculate-your-route{
   width: 60px;
   cursor:pointer;
 }
-#container_maps #container_form #choice_mode span#driving{
+#container_maps #container_form #choice_mode span#car-logo{
   background:url('../images/sprite_mode.png') 10px top no-repeat;
 }
-#container_maps #container_form #choice_mode span#transit{
+#container_maps #container_form #choice_mode span#public_transport-logo{
   background:url('../images/sprite_mode.png') -49px top no-repeat;
 }
-#container_maps #container_form #choice_mode span#bicycling{
+#container_maps #container_form #choice_mode span#bike-logo{
   background:url('../images/sprite_mode.png') -108px top no-repeat;
 }
-#container_maps #container_form #choice_mode span#walking{
+#container_maps #container_form #choice_mode span#walker-logo{
   background:url('../images/sprite_mode.png') -166px top no-repeat;
 }
-#container_maps #container_form #choice_mode span#driving:hover,
-#container_maps #container_form #choice_mode span#driving.active{
+#container_maps #container_form #choice_mode span#car-logo:hover,
+#container_maps #container_form #choice_mode span#car-logo.active{
   background:url('../images/sprite_mode.png') 10px bottom no-repeat;
 }
-#container_maps #container_form #choice_mode span#transit:hover,
-#container_maps #container_form #choice_mode span#transit.active{
+#container_maps #container_form #choice_mode span#public_transport-logo:hover,
+#container_maps #container_form #choice_mode span#public_transport-logo.active{
   background:url('../images/sprite_mode.png') -49px bottom no-repeat;
 }
-#container_maps #container_form #choice_mode span#bicycling:hover,
-#container_maps #container_form #choice_mode span#bicycling.active{
+#container_maps #container_form #choice_mode span#bike-logo:hover,
+#container_maps #container_form #choice_mode span#bike-logo.active{
   background:url('../images/sprite_mode.png') -108px bottom no-repeat;
 }
-#container_maps #container_form #choice_mode span#walking:hover,
-#container_maps #container_form #choice_mode span#walking.active{
+#container_maps #container_form #choice_mode span#walker-logo:hover,
+#container_maps #container_form #choice_mode span#walker-logo.active{
   background:url('../images/sprite_mode.png') -166px bottom no-repeat;
 }
 #container_maps #container_form label{
@@ -199,14 +197,14 @@ body.path-admin .region-content #block-calculate-your-route{
   cursor:pointer;
 }
 
-#form-minimize span{
+#minimize_restore span{
   position: absolute;
   left: 12px;
   bottom: 32px;
   color:#bdbdbd;
 }
 
-#form-minimize span:hover{
+#minimize_restore span:hover{
   cursor:pointer;
 }
 

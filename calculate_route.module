@@ -21,7 +21,7 @@ function calculate_route_page_attachments(array &$page){
       $page['#attached']['library'][] = 'calculate_route/admin-marker';
       break;
     case 'form':
-      //$page['#attached']['library'][] = 'calculate_route/admin-form';
+      $page['#attached']['library'][] = 'calculate_route/admin-form';
       break;
     case 'appearence':
       //$page['#attached']['library'][] = 'calculate_route/admin-appearence';
@@ -50,7 +50,7 @@ function calculate_route_library_info_alter(array &$libraries, $module) {
   					'async' => true
   				),
 			),
-  		'js/calculate_route.js' => array(
+  		'js/cr_init.js' => array(
           'weight' => -1,
       ),
   	);

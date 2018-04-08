@@ -105,11 +105,11 @@
 				 */
 				$('.label_style').css('color', CR_LABEL_TEXT_COLOR);
 
-				$('#cr_submit').css('color', CR_BTN_TEXT_COLOR);
+				$('#label_btn').css('color', CR_BTN_TEXT_COLOR);
 
 				$('#choice_mode').css('background-color', CR_HEADER_BG_COLOR);
 
-				$('#cr_submit').css('background-color', CR_BTN_BG_COLOR);
+				$('#label_btn').css('background-color', CR_BTN_BG_COLOR);
 
 					/* START - BTN SWITCH */
 					$('#switch span').css('color', CR_3_BTN_COLOR);
@@ -124,13 +124,13 @@
 					/* END - BTN SWITCH */
 
 					/* START - BTN MINIMIZE/RESTORE FORM */
-					$('#form-minimize span,#form-restore span').css('color', CR_3_BTN_COLOR);
+					$('#minimize_restore span,#form-restore span').css('color', CR_3_BTN_COLOR);
 
-					$("#form-minimize span,#form-restore span").on("mouseover", function() {
+					$("#minimize_restore span,#form-restore span").on("mouseover", function() {
 					  $(this).css('color', CR_3_BTN_HV_COLOR);
 					});
 
-					$("#form-minimize span,#form-restore span").on("mouseout", function() {
+					$("#minimize_restore span,#form-restore span").on("mouseout", function() {
 					  $(this).css('color', CR_3_BTN_COLOR);
 					});
 					/* END - BTN MINIMIZE/RESTORE FORM */
@@ -143,7 +143,7 @@
 				 * START - ENABLE/DISABLE SWITCH BUTTON
 				 */
 				if (CR_EN_SWITCH == 0) {
-					$("#switch").css("display","none");
+					$("#switch").addClass('hidden');
 				}
 				/*
 				 * END - ENABLE/DISABLE SWITCH BUTTON
@@ -152,7 +152,7 @@
 				 * START - ENABLE/DISABLE FORM MINIMIZE BUTTON
 				 */
 				if (CR_EN_MINI_REST_BTN == 0) {
-					$("#form-minimize").css("display","none");
+					$("#minimize_restore").addClass('hidden');
 				}
 				/*
 				 * END - ENABLE/DISABLE FORM MINIMIZE BUTTON
@@ -161,12 +161,12 @@
 				/*
 				 * START - ENABLE/DISABLE LABEL
 				 */
-				if (CR_LABEL_START == 1) {
-					$('#label_start').css('visibility','hidden');
+				if (CR_LABEL_START == 0) {
+					$('#label_start').addClass('hidden');
 				}
 
-				if (CR_LABEL_END == 1 ) {
-					$('#label_end').css('visibility','hidden');
+				if (CR_LABEL_END == 0 ) {
+					$('#label_end').addClass('hidden');
 				}
 				/*
 				 * END - ENABLE/DISABLE LABEL
@@ -176,19 +176,19 @@
 				 * START - ENABLE/DISABLE MANY TRANSPORT WAY
 				 */
 				if (CR_TRANSPORT.car == 0) {
-					$('#driving').css('display','none');
+					$('#car-logo').addClass('hidden');
 				}
 
 				if (CR_TRANSPORT.public_transport == 0) {
-					$('#transit').css('display','none');
+					$('#public_transport-logo').addClass('hidden');
 				}
 
 				if (CR_TRANSPORT.bike == 0) {
-					$('#bicycling').css('display','none');
+					$('#bike-logo').addClass('hidden');
 				}
 				
 				if (CR_TRANSPORT.walker == 0) {
-					$('#walking').css('display','none');
+					$('#walker-logo').addClass('hidden');
 				}
 				/*
 				 * END - ENABLE/DISABLE MANY TRANSPORT WAY
@@ -420,13 +420,13 @@
 
 					event.preventDefault();
 
-					var containerStart 	= $("#address-start"),
-						containerEnd 	= $("#address-end"),
+					var containerStart 	= $("#sl_start"),
+						containerEnd 	= $("#sl_end"),
 						$start 			= containerStart.find("#start"),
 						$end 			= containerEnd.find("#end");
 
-					$("#address-start #start").remove();
-					$("#address-end #end").remove();
+					$("#sl_start #start").remove();
+					$("#sl_end #end").remove();
 					containerStart.append($end);
 					containerEnd.append($start);
 					containerStart.find('#end').attr('name','start').attr('id','start');
@@ -460,14 +460,14 @@
 
 				if (CR_EN_MINI_REST_BTN == 1) {
 
-					$("#form-minimize span").on("click", function(){
+					$("#minimize_restore span").on("click", function(){
 						$("#container_form").css("overflow","hidden");
 				    	$("#container_form").animate({width:"65px", height:"30px" }, 750);
 					 	setTimeout(function(){
-					 		$("#choice_mode #walking").css("display","none"); 
+					 		$("#choice_mode #walker-logo").css("display","none"); 
 					 	}, 150);
 					 	setTimeout(function(){
-					 		$("#choice_mode #bicycling").css("display","none"); 
+					 		$("#choice_mode #bike-logo").css("display","none"); 
 					 	}, 300);
 				 		if ( CR_EN_SWITCH == 1 ) {
 						 	setTimeout(function(){
@@ -475,16 +475,16 @@
 						 	}, 300);
 				 		}
 					 	setTimeout(function(){
-					 		$("#choice_mode #transit").css("display","none"); 
+					 		$("#choice_mode #public_transport-logo").css("display","none"); 
 					 	}, 450);
 					 	setTimeout(function(){
-					 		$("#choice_mode #driving").css("display","none"); 
+					 		$("#choice_mode #car-logo").css("display","none"); 
 					 		$("#choice_mode").css("display","none"); 
 					 		$("#container_form").css("padding","5px"); 
 					 	}, 500);
 					 	setTimeout(function(){
 					 		$("#form-restore span").css("display","block"); 
-					 		$("#address-start,#address-end,#cr_submit,#form-minimize span").css("display","none"); 
+					 		$("#sl_start,#sl_end,#label_btn,#minimize_restore span").css("display","none"); 
 					 	}, 650);
 
 					});
@@ -524,25 +524,25 @@
 					 	setTimeout(function(){
 					 		$("#choice_mode").css("display","block"); 
 				 			$("#form-restore span").css("display","none"); 
-				 			$("#address-start,#address-end,#form-minimize span").css("display","block");
+				 			$("#sl_start,#sl_end,#minimize_restore span").css("display","block");
 					 		$("#container_form").css("padding","60px 30px 20px"); 
 					 		$("#container_form").css("height","auto"); 
-					 		$("#cr_submit").css("display","inline-block"); 
+					 		$("#label_btn").css("display","inline-block"); 
 					 	}, 150);
 					 	setTimeout(function(){
-					 		$("#choice_mode #driving").css("display","inline-block"); 
+					 		$("#choice_mode #car-logo").css("display","inline-block"); 
 					 	}, 200);
 					 	setTimeout(function(){
-					 		$("#choice_mode #transit").css("display","inline-block"); 
+					 		$("#choice_mode #public_transport-logo").css("display","inline-block"); 
 					 		if ( CR_EN_SWITCH == 1 ) {
 				 				$("#switch").css("display","block");
 					 		}
 					 	}, 400);
 					 	setTimeout(function(){
-					 		$("#choice_mode #bicycling").css("display","inline-block"); 
+					 		$("#choice_mode #bike-logo").css("display","inline-block"); 
 					 	}, 550);
 					 	setTimeout(function(){
-					 		$("#choice_mode #walking").css("display","inline-block"); 
+					 		$("#choice_mode #walker-logo").css("display","inline-block"); 
 					 	}, 700);
 					 	setTimeout(function(){
 						$("#container_form").css("overflow","initial");
@@ -577,15 +577,14 @@
 
 			$(document).ready( function(){
 
-				$("#cr_submit").on("click", function(){
+				$("#label_btn").on("click", function(){
 
 					var addressStart 	= $("#start").val(),
 						addressEnd 		= $("#end").val(),
-						travelMode 		= $("#choice_mode span.active").attr('id').toUpperCase(),
+						travelMode 		= $("#choice_mode span.active").data('transport'),
 						panel 			= document.getElementById('directions-panel');
 
 			        // Create a renderer for directions and bind it to the map.
-			        
 			        if (typeof directionsDisplay !== 'undefined') {
 
 						if( directionsDisplay != null ) {
@@ -676,10 +675,10 @@
 						$("#container_form").css("overflow","hidden");
 				    	$("#container_form").animate({width:"65px", height:"30px" }, 750);
 					 	setTimeout(function(){
-					 		$("#choice_mode #walking").css("display","none"); 
+					 		$("#choice_mode #walker-logo").css("display","none"); 
 					 	}, 150);
 					 	setTimeout(function(){
-					 		$("#choice_mode #bicycling").css("display","none"); 
+					 		$("#choice_mode #bike-logo").css("display","none"); 
 					 	}, 300);
 				 		if ( CR_EN_SWITCH == 1 ) {
 						 	setTimeout(function(){
@@ -687,16 +686,16 @@
 						 	}, 300);
 				 		}
 					 	setTimeout(function(){
-					 		$("#choice_mode #transit").css("display","none"); 
+					 		$("#choice_mode #public_transport-logo").css("display","none"); 
 					 	}, 450);
 					 	setTimeout(function(){
-					 		$("#choice_mode #driving").css("display","none"); 
+					 		$("#choice_mode #car-logo").css("display","none"); 
 					 		$("#choice_mode").css("display","none"); 
 					 		$("#container_form").css("padding","5px"); 
 					 	}, 500);
 					 	setTimeout(function(){
 					 		$("#form-restore span").css("display","block"); 
-					 		$("#address-start,#address-end,#cr_submit,#form-minimize span").css("display","none"); 
+					 		$("#sl_start,#sl_end,#label_btn,#minimize_restore span").css("display","none"); 
 					 	}, 650);
 
 					}
