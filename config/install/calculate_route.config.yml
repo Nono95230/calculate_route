@@ -2,7 +2,8 @@
 #api_key_is_valid: 0
 #@todo22 : When development is finish =>
 #@todo22 : Decomment the 2 previous line and remove the 2 next line
-api_key: "AIzaSyCnQDpceTm2QCLocjOU-I1dO4hegnAZJME" #test with this key
+# api_key: "AIzaSyCnQDpceTm2QCLocjOU-I1dO4hegnAZJME" #test with this key 
+api_key: "AIzaSyBS7L91wvhOhIQNWyKkdneX6pcl761v5hs" 
 api_key_is_valid: 1 #test with valid key
 map: 
   address_or_coordinate: "address"

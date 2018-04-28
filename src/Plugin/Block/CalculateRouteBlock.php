@@ -4,10 +4,6 @@ namespace Drupal\calculate_route\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 
-/*use Symfony\Component\DependencyInjection\ContainerInterface;
-*/
-
-
 /**
  * Provides a 'CalculateRoute' Block.
  *
@@ -21,7 +17,6 @@ class CalculateRouteBlock extends BlockBase {
 
   protected $configCr;
 
-
   public function __construct(){
     $this->configCr = \Drupal::config('calculate_route.config');
   }
@@ -32,12 +27,12 @@ class CalculateRouteBlock extends BlockBase {
    */
   public function build() {
 
-    $phStart      = \Drupal::config('calculate_route.config')->get('form.ct_start_pl'); 
-    $labelStart   = \Drupal::config('calculate_route.config')->get('form.ct_start'); 
-    $labelEnd     = \Drupal::config('calculate_route.config')->get('form.ct_end'); 
-    $textSubmit   = \Drupal::config('calculate_route.config')->get('form.ct_btn'); 
-    $addressTitle = \Drupal::config('calculate_route.config')->get('form.title_address'); 
-    $address      = \Drupal::config('calculate_route.config')->get('form.address_destination'); 
+    $phStart      = $this->configCr->get('form.ct_start_pl'); 
+    $labelStart   = $this->configCr->get('form.ct_start'); 
+    $labelEnd     = $this->configCr->get('form.ct_end'); 
+    $textSubmit   = $this->configCr->get('form.ct_btn'); 
+    $addressTitle = $this->configCr->get('form.title_address'); 
+    $address      = $this->configCr->get('form.address_destination'); 
     $path         = "/".drupal_get_path("module", "calculate_route")."/images/";
     
     $info[] = array(

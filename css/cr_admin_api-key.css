@@ -31,25 +31,27 @@
 /********************************/
 
 
-.is-valid #edit-api-key{
+.is-valid .gm-api-key{
   border:2px solid #28a745;
 }
-.is-valid span#success{
-  position: relative;
-  left:-20px;  
-  z-index:3500;
-}
-.is-valid #edit-api-key--description{
-	display:none;
-}
 
-.no-valid #edit-api-key{
+.no-valid .gm-api-key{
   border:2px solid #dc3545;
 }
-.no-valid span#error{
+
+.is-valid span#gmapk-success{
   position: relative;
   left:-20px;  
   z-index:3500;
+}
+.no-valid span#gmapk-error{
+  position: relative;
+  left:-20px;  
+  z-index:3500;
+}
+
+.is-valid .description{
+  display:none;
 }
 
 /********************************/
@@ -58,8 +60,8 @@
 /*             END              */
 /*                              */
 /********************************/
-
-/* .is-valid #success i{
+/* 
+.is-valid #success i{
   color:#28a745;
   
 } */

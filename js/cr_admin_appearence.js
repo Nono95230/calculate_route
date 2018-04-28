@@ -1,7 +1,7 @@
 (function($, Drupal, drupalSettings){
 
 	'use strict';
-	
+
 
 	//////////////////////////////////////////////////
 	///                                            ///
@@ -15,10 +15,10 @@
 
 			$(document).ready( function(){
 
-				/* 
+				/*
 				 * Event Change for Appearence Settings
 				 * Start
-				 * 
+				 *
 				 */
 
 				var inputSettings = [
@@ -38,18 +38,42 @@
 				inputSettings = inputSettings.join(',');
 
 				$(inputSettings).on("change", function(){
+
 					var element = $(this);
-					setTimeout(function(){ 
+
+					setTimeout(function(){
+
+						var settings = getSettings(element);
+			  		changeSettings($(settings.s), settings.p, settings.v);
+
+					}, 100,$(this));
+				});
+
+				var color = '';
+				$('.btn-icon, .icon-fa').hover(function(){
+					color = $('#edit-three-btn-hover-color--2').val();
+				    changeSettings($(this), 'color', '#'+color);
+			    }, function(){
+					color = $('#edit-three-btn-color--2').val();
+				    changeSettings($(this), 'color', '#'+color);
+				});
+
+				function getSettings(element){
 
 						var selector = element.data('selector'),
 							property = element.data('property'),
 							value 	 = '';
 
 						switch (property) {
+							case 'color':
+							case 'background-color':
+								value = '#'+element.val();
+								break;
+
 							case 'checkbox':
 								value = element.prop('checked');
 								break;
-								
+
 							case 'checkboxes':
 								value 	 = element.prop('checked');
 								selector = element.attr(selector).replace("transport[", "#").replace("]", "-logo");
@@ -59,37 +83,33 @@
 								value = element.val();
 								break;
 						}
-
 						// console.log(selector);
 						// console.log(property);
 						// console.log(value);
 
-			  			changeSettings($(selector), property, value);
+						var object = {
+							s: selector,
+							p: property,
+							v: value
+						};
 
-					}, 100,$(this));
-				});
-
-				var color = '';
-				$('.btn-icon, .icon-fa').hover(function(){
-					color = $('#edit-three-btn-hover-color--2').val();
-				    changeSettings($(this), 'color', color);
-			    }, function(){
-					color = $('#edit-three-btn-color--2').val();
-				    changeSettings($(this), 'color', color);
-				});
+						return object;
+				}
 
 				function changeSettings($selector, property, value){
+					console.log($selector);
+					console.log(property);
+					console.log(value);
 					switch (property) {
 						case 'color':
-							return $selector.css(property, '#'+value);
-							break;
-
+						case 'background-color':
 						case 'width':
 						case 'height':
 						case 'top':
 						case 'bottom':
 						case 'left':
 						case 'right':
+							console.log("success");
 							return $selector.css(property, value);
 							break;
 
@@ -106,38 +126,16 @@
 							break;
 
 						case 'checkbox':
-							switch (value) {
-							  case true:
-							  	return $selector.removeClass('hidden');
-							    break;
-
-							  case false:
-							  	return $selector.addClass('hidden');
-							    break;
-
-							}
-							break;
-
 						case 'checkboxes':
-							switch (value) {
-							  case true:
-							  	return $selector.removeClass('hidden');
-							    break;
-
-							  case false:
-							  	return $selector.addClass('hidden');
-							    break;
-
-							}
+							return (value == true) ? $selector.removeClass('hidden') : $selector.addClass('hidden') ;
 							break;
-
 					}
 				}
-				
-				/* 
+
+				/*
 				 * Event Change for Appearence Settings
 				 * End
-				 * 
+				 *
 				 */
 
 			});

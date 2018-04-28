@@ -61,6 +61,9 @@ class ApiKeyForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Google Maps API KEY'),
       '#default_value' => $this->configCr->get('api_key'),
+      '#attributes' => array(
+        'class'=> array('gm-api-key')
+      ),
       '#description'=> '<a href="https://developers.google.com/maps/documentation/embed/get-api-key">'.$this->t('Get your Google Maps API key').'</a>',
     
     );
@@ -83,8 +86,6 @@ class ApiKeyForm extends ConfigFormBase {
     $oldApiKEy = $this->configCr->get('api_key');
     $newApiKey = $form_state->getValue('api_key');
 
-    $tt = $this->configCr->get('api_key_is_valid');
-    kint($tt);die();
     // If Api Key change
     if($oldApiKEy !== $newApiKey){
 

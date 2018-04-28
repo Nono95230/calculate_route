@@ -25,11 +25,7 @@ admin-api-key:
 
 admin-map:
   version: VERSION
-  css:
-    theme:
-      css/cr_admin_api-key.css: {}
   js:
-    # js/cr_refresh_map_marker.js: {}
     js/cr_admin_map.js: {}
   dependencies: 
     - core/jquery
@@ -37,11 +33,7 @@ admin-map:
 
 admin-marker:
   version: VERSION
-  css:
-    theme:
-      css/cr_admin_api-key.css: {}
   js:
-    # js/cr_refresh_map_marker.js: {}
     js/cr_admin_marker.js: {}
   dependencies: 
     - core/jquery
@@ -49,9 +41,6 @@ admin-marker:
 
 admin-form:
   version: VERSION
-  css:
-    theme:
-      css/cr_admin_api-key.css: {}
   js:
     js/cr_admin_form.js: {}
   dependencies: 
@@ -60,9 +49,6 @@ admin-form:
 
 admin-appearence:
   version: VERSION
-  css:
-    theme:
-      css/cr_admin_api-key.css: {}
   js:
     js/cr_admin_appearence.js: {}
   dependencies: 

@@ -69,7 +69,7 @@
 		attach : function(context, settings) {
 
 			$(document).ready( function(){
-				
+
 				if (!CR_AK_IS_VALID) {
 					$("#block-calculaterouteblock").addClass("api-key-false");
 					$(".toolbar-icon-calculate-route-config-apikey").parent("li").removeClass("menu-item--expanded").find("ul").remove();
@@ -78,20 +78,16 @@
 				/*
 				 * CHANGE MAP DIMENSION
 				 */
-				
+
 				$('#container_map').css({
-					'width' : 'CR_WIDTH_MAP',
-					'height' : 'CR_HEIGHT_MAP'
+					'width' : CR_WIDTH_MAP,
+					'height' : CR_HEIGHT_MAP
 				});
-				$('#map-cr').css({
-					'width' : '100%',
-					'height' : '100%'
-				});
-				
+
 				/*
 				 * CHANGE MAP DIMENSION
 				 */
-				
+
 				/*
 				 * CHANGE FORM POSITION
 				 */
@@ -192,7 +188,7 @@
 				if (CR_TRANSPORT.bike == 0) {
 					$('#bike-logo').addClass('hidden');
 				}
-				
+
 				if (CR_TRANSPORT.walker == 0) {
 					$('#walker-logo').addClass('hidden');
 				}
@@ -203,7 +199,7 @@
 
 
 			});
-			
+
 		}
 	};
 
@@ -233,7 +229,7 @@
 				/*
 				 * Generate the Map
 				 * Start
-				 * 
+				 *
 				 */
 
 				map = new google.maps.Map(document.getElementById('map-cr'), {
@@ -243,18 +239,18 @@
 					maxZoom: CR_ZOOM_MAX,
 					scrollwheel: CR_ZOOM_SCROLL
 				});
-				
+
 				/*
 				 * Generate the Map
 				 * End
-				 * 
+				 *
 				 */
 
 
 				/*
 				 * Generate the Marker
 				 * Start
-				 * 
+				 *
 				 */
 		        marker = new google.maps.Marker({
 		          position: {lat: CR_LATITUDE_MK, lng: CR_LONGITUDE_MK},
@@ -264,13 +260,13 @@
 				/*
 				 * Generate the Marker
 				 * End
-				 * 
+				 *
 				 */
 
 				/*
 				 * Generate the InfoWindowMarker
 				 * Start
-				 * 
+				 *
 				 */
 				if ( CR_ENABLE_IW_MK === true ) {
 
@@ -290,13 +286,13 @@
 				/*
 				 * Generate the InfoWindowMarker
 				 * End
-				 * 
+				 *
 				 */
 
 				/*
 				 * Generate the AutoComplete Fields
 				 * Start
-				 * 
+				 *
 				 */
 
 				var findAddressAC 	= $("#container_form").find("input.autocomplete-place").attr('id'),
@@ -306,7 +302,7 @@
 				/*
 				 * Generate the AutoComplete Fields
 				 * End
-				 * 
+				 *
 				 */
 
 
@@ -314,7 +310,7 @@
 				/*
 				 * Generate the Geolocation
 				 * Start
-				 * 
+				 *
 				 */
 				if ( CR_ENABLE_GEOLOC === true ) {
 
@@ -343,18 +339,18 @@
 				/*
 				 * Generate the Geolocation
 				 * End
-				 * 
+				 *
 				 */
-				
 
 
 
 
 
 
-				
+
+
 			});
-			
+
 		}
 	};
 
@@ -390,7 +386,7 @@
 
 					var tranportType 	= $(this).attr("id"),
 						$actualActive 	= $("#choice_mode span.active");
-						
+
 					if (tranportType !== $actualActive.attr("id")) {
 						$actualActive.removeClass('active');
 						$(this).addClass('active');
@@ -450,7 +446,7 @@
 	///                    END                     ///
 	///                                            ///
 	//////////////////////////////////////////////////
-	
+
 
 	//////////////////////////////////////////////////
 	///                                            ///
@@ -470,27 +466,27 @@
 						$("#container_form").css("overflow","hidden");
 				    	$("#container_form").animate({width:"65px", height:"30px" }, 750);
 					 	setTimeout(function(){
-					 		$("#choice_mode #walker-logo").css("display","none"); 
+					 		$("#choice_mode #walker-logo").css("display","none");
 					 	}, 150);
 					 	setTimeout(function(){
-					 		$("#choice_mode #bike-logo").css("display","none"); 
+					 		$("#choice_mode #bike-logo").css("display","none");
 					 	}, 300);
 				 		if ( CR_EN_SWITCH == 1 ) {
 						 	setTimeout(function(){
-						 		$("#switch").css("display","none"); 
+						 		$("#switch").css("display","none");
 						 	}, 300);
 				 		}
 					 	setTimeout(function(){
-					 		$("#choice_mode #public_transport-logo").css("display","none"); 
+					 		$("#choice_mode #public_transport-logo").css("display","none");
 					 	}, 450);
 					 	setTimeout(function(){
-					 		$("#choice_mode #car-logo").css("display","none"); 
-					 		$("#choice_mode").css("display","none"); 
-					 		$("#container_form").css("padding","5px"); 
+					 		$("#choice_mode #car-logo").css("display","none");
+					 		$("#choice_mode").css("display","none");
+					 		$("#container_form").css("padding","5px");
 					 	}, 500);
 					 	setTimeout(function(){
-					 		$("#form-restore span").css("display","block"); 
-					 		$("#sl_start,#sl_end,#label_btn,#minimize_restore span").css("display","none"); 
+					 		$("#form-restore span").css("display","block");
+					 		$("#sl_start,#sl_end,#label_btn,#minimize_restore span").css("display","none");
 					 	}, 650);
 
 					});
@@ -508,7 +504,7 @@
 	///                    END                     ///
 	///                                            ///
 	//////////////////////////////////////////////////
-	
+
 
 	//////////////////////////////////////////////////
 	///                                            ///
@@ -521,34 +517,34 @@
 		attach : function(context, settings) {
 
 			$(document).ready( function(){
-				
+
 				if (CR_EN_MINI_REST_BTN == 1) {
 
-					$("#form-restore span").on("click", function(){ 
+					$("#form-restore span").on("click", function(){
 				    	$("#container_form").animate({width:"280px", height:"311px" }, 750);
 
 					 	setTimeout(function(){
-					 		$("#choice_mode").css("display","block"); 
-				 			$("#form-restore span").css("display","none"); 
+					 		$("#choice_mode").css("display","block");
+				 			$("#form-restore span").css("display","none");
 				 			$("#sl_start,#sl_end,#minimize_restore span").css("display","block");
-					 		$("#container_form").css("padding","60px 30px 20px"); 
-					 		$("#container_form").css("height","auto"); 
-					 		$("#label_btn").css("display","inline-block"); 
+					 		$("#container_form").css("padding","60px 30px 20px");
+					 		$("#container_form").css("height","auto");
+					 		$("#label_btn").css("display","inline-block");
 					 	}, 150);
 					 	setTimeout(function(){
-					 		$("#choice_mode #car-logo").css("display","inline-block"); 
+					 		$("#choice_mode #car-logo").css("display","inline-block");
 					 	}, 200);
 					 	setTimeout(function(){
-					 		$("#choice_mode #public_transport-logo").css("display","inline-block"); 
+					 		$("#choice_mode #public_transport-logo").css("display","inline-block");
 					 		if ( CR_EN_SWITCH == 1 ) {
 				 				$("#switch").css("display","block");
 					 		}
 					 	}, 400);
 					 	setTimeout(function(){
-					 		$("#choice_mode #bike-logo").css("display","inline-block"); 
+					 		$("#choice_mode #bike-logo").css("display","inline-block");
 					 	}, 550);
 					 	setTimeout(function(){
-					 		$("#choice_mode #walker-logo").css("display","inline-block"); 
+					 		$("#choice_mode #walker-logo").css("display","inline-block");
 					 	}, 700);
 					 	setTimeout(function(){
 						$("#container_form").css("overflow","initial");
@@ -618,7 +614,7 @@
 			        directionsService = new google.maps.DirectionsService;
 					transitLayer = new google.maps.TransitLayer();
 					trafficLayer = new google.maps.TrafficLayer();
-					
+
 			        if (travelMode === "DRIVING") {
 						transitLayer.setMap(map);
 			        }
@@ -672,7 +668,7 @@
 
 				directionsDisplay.setDirections(response);
 
-		    	setTimeout(function(){ 
+		    	setTimeout(function(){
 		    		$('#overlay').removeClass('show-overlay');
 
 		    		/* START - If minimize button is enabled */
@@ -681,27 +677,27 @@
 						$("#container_form").css("overflow","hidden");
 				    	$("#container_form").animate({width:"65px", height:"30px" }, 750);
 					 	setTimeout(function(){
-					 		$("#choice_mode #walker-logo").css("display","none"); 
+					 		$("#choice_mode #walker-logo").css("display","none");
 					 	}, 150);
 					 	setTimeout(function(){
-					 		$("#choice_mode #bike-logo").css("display","none"); 
+					 		$("#choice_mode #bike-logo").css("display","none");
 					 	}, 300);
 				 		if ( CR_EN_SWITCH == 1 ) {
 						 	setTimeout(function(){
-						 		$("#switch").css("display","none"); 
+						 		$("#switch").css("display","none");
 						 	}, 300);
 				 		}
 					 	setTimeout(function(){
-					 		$("#choice_mode #public_transport-logo").css("display","none"); 
+					 		$("#choice_mode #public_transport-logo").css("display","none");
 					 	}, 450);
 					 	setTimeout(function(){
-					 		$("#choice_mode #car-logo").css("display","none"); 
-					 		$("#choice_mode").css("display","none"); 
-					 		$("#container_form").css("padding","5px"); 
+					 		$("#choice_mode #car-logo").css("display","none");
+					 		$("#choice_mode").css("display","none");
+					 		$("#container_form").css("padding","5px");
 					 	}, 500);
 					 	setTimeout(function(){
-					 		$("#form-restore span").css("display","block"); 
-					 		$("#sl_start,#sl_end,#label_btn,#minimize_restore span").css("display","none"); 
+					 		$("#form-restore span").css("display","block");
+					 		$("#sl_start,#sl_end,#label_btn,#minimize_restore span").css("display","none");
 					 	}, 650);
 
 					}
@@ -728,7 +724,7 @@
 			});
 		}
 	};*/
-	
+
 
 
 

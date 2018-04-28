@@ -6,7 +6,7 @@
 
 #container_map #map-cr {
   width: 100%;
-  height: 500px;
+  height:100%;
   margin: auto;
 }
 
@@ -69,7 +69,7 @@ body.path-admin .region-content #block-calculate-your-route{
   width:90%;
   display: inline-block;
 }
-#container_map #container_form input, 
+#container_map #container_form input,
 #container_map #container_form select{
   width:90%;
   height: 40px;
@@ -275,7 +275,7 @@ table.adp-directions tr td:nth-child(2){
 }
 table.adp-directions tr td:last-child{
   /* font-weight: bold;*/
-} 
+}
 
 
 

@@ -19,15 +19,18 @@
 		attach : function(context, settings) {
 
 			$(document).ready( function(){
-
+				var $formItem = $(".form-item-api-key");
 				if (CR_AK_IS_VALID) {
-					$(".form-item-api-key").addClass("is-valid");
-					$("input#edit-api-key").after("<span id='success'><i class='fa fa-check fa-lg'></i></span>");
+					if ($('#gmapk-success').length === 0) {
+						$formItem.addClass("is-valid");
+						$formItem.find(".gm-api-key").after("<span id='gmapk-success'><i class='fa fa-check fa-lg'></i></span>");
+					}
 				}
 				else{
-					$(".toolbar-icon-calculate-route-config-apikey").parent("li").removeClass("menu-item--expanded").find("ul").remove();
-					$(".form-item-api-key").addClass("no-valid");
-					$("input#edit-api-key").after("<span id='error'><i class='fa fa-close fa-lg'></i></span>");
+					if ($('#gmapk-error').length === 0) {
+						$formItem.addClass("no-valid");
+						$formItem.find(".gm-api-key").after("<span id='gmapk-error'><i class='fa fa-close fa-lg'></i></span>");
+					}
 				}
 
 			});
