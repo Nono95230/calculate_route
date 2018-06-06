@@ -36,10 +36,10 @@ class MapForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function getFormId() {
-    return '__map';
+    return 'settings__map';
   }
 
-  /** 
+  /**
    * {@inheritdoc}
    */
   protected function getEditableConfigNames() {
@@ -51,21 +51,49 @@ class MapForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state){
 
-    $form['map_center'] = array(
-      '#type'         => 'fieldset',
-      '#title'        => $this->t('Default Map Center'),
+    $form['settings_map'] = array(
+      '#type' => 'vertical_tabs',
+      '#default_tab' => 'edit-map-center',
+      '#attached' => array(
+        'library' => array(
+          'calculate_route/map_v-tabs'
+        )
+      )
     );
 
+    $form['map_center'] = array(
+      '#type' => 'details',
+      '#title' => $this->t('Map Center'),
+      '#group' => 'settings_map',
+    );
+
+    $form['set_map_type'] = array(
+      '#type' => 'details',
+      '#title'  => $this->t('Map type'),
+      '#group' => 'settings_map',
+    );
+
+    $form['zoom-settings'] = array(
+      '#type' => 'details',
+      '#title'  => $this->t('Zoom settings'),
+      '#group' => 'settings_map',
+    );
+
+    $form['geoloc'] = array(
+      '#type' => 'details',
+      '#title'  => $this->t('Géolocation'),
+      '#group' => 'settings_map',
+    );
 
     $form['map_center']['address_or_coordinate'] = array(
       '#type'           => 'radios',
       '#title'          => $this->t('Set the default map center with a'),
       '#default_value'  => $this->configCr->get('map.address_or_coordinate'),
       '#options'        => array(
-                          "address"     => $this->t('Physic Address'),
-                          "coordinates" => $this->t('Coordinate (Latitude/Longitude)'),
+                          "address"     => $this->t('Physical Address'),
+                          "coordinates" => $this->t('Coordinates (Latitude/Longitude)'),
                         ),
       '#description'    => '<h6>'.$this->t('Vous pouvez choisir le centrage de la carte Google en utilisant une adresse ou des coordonnées géographique !').'</h6>',
     );
@@ -101,7 +129,6 @@ class MapForm extends ConfigFormBase {
                         ),
     ];
 
-
     $form['map_center']['longitude'] = [
       '#type'           => 'textfield',
       '#title'          => $this->t('Longitude'),
@@ -113,10 +140,17 @@ class MapForm extends ConfigFormBase {
                         ),
     ];
 
-    $form['zoom-settings'] = array(
-      '#type'   => 'fieldset',
-      '#title'  => $this->t('Zoom settings'),
+    $form['set_map_type']['map_type'] = array(
+      '#type'           => 'select',
+      '#options'        => array(
+                          'roadmap'   => $this->t('RoadMap'),
+                          'satellite' => $this->t('Satellite'),
+                          'hybrid'    => $this->t('Hybrid'),
+                          'terrain'   => $this->t('Terrain')
+                        ),
+      '#default_value'  => $this->configCr->get('map.map_type')
     );
+
     $form['zoom-settings']['zoom'] = [
       '#type'           => 'textfield',
       '#min'            => 0,
@@ -143,25 +177,13 @@ class MapForm extends ConfigFormBase {
       $form['zoom-settings']['zoom_scroll']['#attributes'] = array('checked' => 'checked');
     }
 
-    $form['map_type'] = array(
-      '#type'           => 'select',
-      '#title'          => $this->t('Map type'),
-      '#options'        => array(
-                          'roadmap'   => $this->t('RoadMap'),
-                          'satellite' => $this->t('Satellite'),
-                          'hybrid'    => $this->t('Hybrid'),
-                          'terrain'   => $this->t('Terrain')
-                        ),
-      '#default_value'  => $this->configCr->get('map.map_type')
-    );
-
-    $form['enable_geoloc'] = array(
+    $form['geoloc']['enable_geoloc'] = array(
       '#type'           => 'checkbox',
-      '#title'          => $this->t('Enable Géolocation'),
+      '#title'          => $this->t('Enabled'),
     );
 
     if ($this->configCr->get('map.enable_geoloc') == 1) {
-      $form['enable_geoloc']['#attributes'] = array('checked' => 'checked');
+      $form['geoloc']['enable_geoloc']['#attributes'] = array('checked' => 'checked');
     }
 
     return parent::buildForm($form, $form_state);
@@ -180,14 +202,14 @@ class MapForm extends ConfigFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
 
-    $configName = str_replace("__","",$this->getFormId());
+    $configName = str_replace("settings__","",$this->getFormId());
 
     $this->saveOtherConfigValue($form_state, $configName,
     [
-      'zoom_scroll',
       'address_or_coordinate',
       'zoom',
       'zoom_max',
+      'zoom_scroll',
       'map_type',
       'enable_geoloc'
     ]);
@@ -211,22 +233,22 @@ class MapForm extends ConfigFormBase {
 
 
   public function saveOtherConfigValue($form_state, $type, $otherConfigValue){
-    for ($i=0; $i < count($otherConfigValue); $i++) { 
+    for ($i=0; $i < count($otherConfigValue); $i++) {
+
       $old = $this->configCr->get($type.'.'.$otherConfigValue[$i]);
       $_new = $form_state->getValue($otherConfigValue[$i]);
       $new  = (is_array ( $_new ) && array_key_exists('value', $_new) ? $_new['value'] : $_new );
-
       if ( $old !== $new) {
         $this->configCr->set( $type.'.'.$otherConfigValue[$i] , $new);
       }
-      
+
     }
     return $this->configCr->save();
   }
 
 
   public function saveLocationMap($form_state, $config){
-    
+
     $apiKey = $this->configCr->get('api_key');
 
     switch ($form_state->getValue('address_or_coordinate')) {
@@ -293,7 +315,7 @@ class MapForm extends ConfigFormBase {
         case 'false':
           $location  = "&latlng=".$lat.",".$lng;
           break;
-        
+
         default:
           $location  = "&address=".$address;
           break;
@@ -333,7 +355,7 @@ class MapForm extends ConfigFormBase {
 
 
   public function setLocationSettings($settings){
-    for ($i=0; $i < count($settings['config']); $i++) { 
+    for ($i=0; $i < count($settings['config']); $i++) {
       $this->configCr
         ->set( $settings['config'][$i].'.address', $settings['address'] )
         ->set( $settings['config'][$i].'.latitude', $settings['latitude'] )

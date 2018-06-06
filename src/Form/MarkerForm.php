@@ -36,10 +36,10 @@ class MarkerForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function getFormId() {
-    return '__marker';
+    return 'settings__marker';
   }
 
-  /** 
+  /**
    * {@inheritdoc}
    */
   protected function getEditableConfigNames() {
@@ -53,16 +53,27 @@ class MarkerForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
 
+    $form['settings_marker'] = array(
+      '#type'         => 'vertical_tabs',
+      '#default_tab'  => 'edit-marker-position',
+      '#attached'     => array(
+                          'library' => array(
+                            'calculate_route/marker_v-tabs'
+                          )
+                        )
+    );
 
     $form['marker_position'] = array(
-      '#type'           => 'fieldset',
+      '#type'           => 'details',
       '#title'          => $this->t('Default Marker Position'),
+      '#group'          => 'settings_marker',
     );
 
 
     $form['info_text'] = array(
-      '#type'           => 'fieldset',
+      '#type'           => 'details',
       '#title'          => $this->t('Default Text'),
+      '#group'          => 'settings_marker',
     );
 
 
@@ -115,7 +126,7 @@ class MarkerForm extends ConfigFormBase {
                         ),
     ];
 
-    
+
     $form['info_text']['title'] = array(
       '#type'           => 'textfield',
       '#title'          => $this->t('Marker Title'),
@@ -160,7 +171,7 @@ class MarkerForm extends ConfigFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
 
-    $configName = str_replace("__","",$this->getFormId());
+    $configName = str_replace("settings__","",$this->getFormId());
 
     $this->saveOtherConfigValue($form_state, $configName,
     [
@@ -173,7 +184,7 @@ class MarkerForm extends ConfigFormBase {
     $config = array($configName);
 
     $this->saveLocationMap($form_state, $config);
-    
+
     $this->entityTypeManager->getViewBuilder('block')->resetCache();
 
     parent::submitForm($form, $form_state);
@@ -182,7 +193,7 @@ class MarkerForm extends ConfigFormBase {
 
 
   public function saveOtherConfigValue($form_state, $config, $otherConfigValue){
-    for ($i=0; $i < count($otherConfigValue); $i++) { 
+    for ($i=0; $i < count($otherConfigValue); $i++) {
       $old  = $this->configCr->get($config.'.'.$otherConfigValue[$i]);
       $_new = $form_state->getValue($otherConfigValue[$i]);
       $new  = (is_array ( $_new ) && array_key_exists('value', $_new) ? $_new['value'] : $_new );
@@ -190,7 +201,7 @@ class MarkerForm extends ConfigFormBase {
       if ( $old !== $new ) {
         $this->configCr->set( $config.'.'.$otherConfigValue[$i] , $new);
       }
-      
+
     }
     return $this->configCr->save();
   }
@@ -264,7 +275,7 @@ class MarkerForm extends ConfigFormBase {
         case 'false':
           $location  = "&latlng=".$lat.",".$lng;
           break;
-        
+
         default:
           $location  = "&address=".$address;
           break;
@@ -304,7 +315,7 @@ class MarkerForm extends ConfigFormBase {
 
 
   public function setLocationSettings($settings){
-    for ($i=0; $i < count($settings['config']); $i++) { 
+    for ($i=0; $i < count($settings['config']); $i++) {
       $this->configCr
         ->set( $settings['config'][$i].'.address', $settings['address'] )
         ->set( $settings['config'][$i].'.latitude', $settings['latitude'] )

@@ -34,10 +34,10 @@ class FormForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function getFormId() {
-    return '__form';
+    return 'settings__form';
   }
 
-  /** 
+  /**
    * {@inheritdoc}
    */
   protected function getEditableConfigNames() {
@@ -111,7 +111,7 @@ class FormForm extends ConfigFormBase {
       '#type'           => 'fieldset',
       '#title'          => $this->t('Destination address'),
     );
-    
+
 
     $form['show-label-address']['sl_start'] = array(
       '#type'           => 'checkbox',
@@ -145,7 +145,7 @@ class FormForm extends ConfigFormBase {
       ),
       '#default_value'  => $this->configCr->get('form.ct_start_pl')
     );
-    
+
 
     $form['customize-texts']['ct_start'] = array(
       '#type'           => 'textfield',

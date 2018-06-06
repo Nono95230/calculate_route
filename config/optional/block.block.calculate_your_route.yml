@@ -9,7 +9,7 @@ dependencies:
 id: calculate_your_route
 theme: seven
 region: content
-weight: -2
+weight: -1
 provider: null
 plugin: calculate_route_block
 settings:

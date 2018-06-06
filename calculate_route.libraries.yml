@@ -7,7 +7,7 @@ google-map:
   js:
     https://maps.googleapis.com/maps/api/js?key=default: { type: external }
     js/cr_init.js: { }
-  dependencies: 
+  dependencies:
     - core/jquery
     - core/drupalSettings
 
@@ -16,41 +16,90 @@ admin-api-key:
   css:
     theme:
       font-awesome/css/font-awesome.min.css: {}
-      css/cr_admin_api-key.css: {}
+      css/cr__admin__general.css: {}
+      css/cr__admin__api_key.css: {}
   js:
     js/cr_admin_api-key.js: {}
-  dependencies: 
+  dependencies:
     - core/jquery
     - core/drupalSettings
 
 admin-map:
   version: VERSION
+  css:
+    theme:
+      css/cr__admin__general.css: {}
+      css/cr__admin__map.css: {}
   js:
     js/cr_admin_map.js: {}
-  dependencies: 
+  dependencies:
     - core/jquery
     - core/drupalSettings
 
 admin-marker:
   version: VERSION
+  css:
+    theme:
+      css/cr__admin__general.css: {}
+      css/cr__admin__marker.css: {}
   js:
     js/cr_admin_marker.js: {}
-  dependencies: 
+  dependencies:
     - core/jquery
     - core/drupalSettings
 
 admin-form:
   version: VERSION
+  css:
+    theme:
+      css/cr__admin__general.css: {}
+      css/cr__admin__form.css: {}
   js:
     js/cr_admin_form.js: {}
-  dependencies: 
+  dependencies:
     - core/jquery
     - core/drupalSettings
 
 admin-appearence:
   version: VERSION
+  css:
+    theme:
+      css/cr__admin__general.css: {}
+      css/cr__admin__appearence.css: {}
   js:
     js/cr_admin_appearence.js: {}
-  dependencies: 
+  dependencies:
+    - core/jquery
+    - core/drupalSettings
+
+map_v-tabs:
+  version: VERSION
+  js:
+    js/cr_vertical-tabs_map.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings
+
+marker_v-tabs:
+  version: VERSION
+  js:
+    js/cr_vertical-tabs_marker.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings
+
+form_v-tabs:
+  version: VERSION
+  js:
+    js/cr_vertical-tabs_form.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings
+
+appearence_v-tabs:
+  version: VERSION
+  js:
+    js/cr_vertical-tabs_appearence.js: {}
+  dependencies:
     - core/jquery
     - core/drupalSettings
