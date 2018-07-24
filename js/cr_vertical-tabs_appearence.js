@@ -2,7 +2,7 @@
  * @file
  * jQuery to provide summary information inside vertical tabs.
  */
-
+;
 (function ($) {
 
   'use strict';
@@ -10,102 +10,169 @@
   Drupal.behaviors.settings_appearence = {
     attach: function (context) {
 
-      // Provide summary during Map Center configuration.
-      $('details#edit-map-center', context).drupalSetSummary(function (context) {
+      var summary = {
+        map_dimension: [
+          {
+            title: 'Largeur',
+            type: 'input-group',
+            element: 'edit-width-map'
+          },
+          {
+            title: 'Hauteur',
+            type: 'input-group',
+            element: 'edit-height-map'
+          }
+        ],
+        form_position: [
+          {
+            title: 'Top',
+            type: 'input-group',
+            element: 'edit-top-position'
+          },
+          {
+            title: 'Bottom',
+            type: 'input-group',
+            element: 'edit-bottom-position'
+          },
+          {
+            title: 'Left',
+            type: 'input-group',
+            element: 'edit-left-position'
+          },
+          {
+            title: 'Right',
+            type: 'input-group',
+            element: 'edit-right-position'
+          }
+        ],
+        form_color_text: [
+          {
+            title: 'Label color',
+            type: 'color',
+            element: 'edit-label-text-color--2'
+          },
+          {
+            title: 'Submit Button Color',
+            type: 'color',
+            element: 'edit-button-text-color--2'
+          }
+        ],
+        form_color_background: [
+          {
+            title: 'Head color',
+            type: 'color',
+            element: 'edit-head-color--2'
+          },
+          {
+            title: 'Form Color',
+            type: 'color',
+            element: 'edit-form-color--2'
+          },
+          {
+            title: 'Submit Button Color',
+            type: 'color',
+            element: 'edit-button-color--2'
+          }
+        ],
+        form_color_button: [
+          {
+            title: 'Button color',
+            type: 'color',
+            element: 'edit-three-btn-color--2'
+          },
+          {
+            title: 'Button Hover Color',
+            type: 'color',
+            element: 'edit-three-btn-color--2'
+          }
+        ]
+      };
 
-        var vals = [];
-
-        switch($('input[name="address_or_coordinate"]:checked', context).val()) {
-          case 'address':
-            vals.push(Drupal.t('With address :'));
-            vals.push(Drupal.t('<em>'+ $('#edit-address', context).val() +'</em>'));
-            break;
-          case 'coordinates':
-            vals.push(Drupal.t('With coordinates :'));
-            vals.push('<em>' + Drupal.t('Latitude :') +' '+ $('#edit-latitude', context).val() +'</em>');
-            vals.push('<em>' + Drupal.t('Longitude :') +' '+ $('#edit-longitude', context).val() +'</em>');
-            break;
-        }
-
-        if ($('#edit-reset-marker', context).is(':checked')) {
-          vals.push(Drupal.t('And resets the Marker\'s location'));
-        }
-
-        return vals.join('<br/>');
-
-      });
-
-      // Provide summary during Map Type configuration.
-      $('details#edit-set-map-type', context).drupalSetSummary(function (context) {
+      // Provide summary during Map Dimension configuration.
+      $('details#edit-dimension-map', context).drupalSetSummary(function (context) {
 
         var vals = [],
-            summaryResponse;
+            summaryElements = summary.map_dimension;
 
-        switch($('#edit-map-type', context).val()) {
-          case 'roadmap':
-            summaryResponse = 'Roadmap';
-            break;
-          case 'satellite':
-            summaryResponse = 'Satellite';
-            break;
-          case 'hybrid':
-            summaryResponse = 'Hybrid';
-            break;
-          case 'terrain':
-            summaryResponse = 'Terrain';
-            break;
-        }
-
-        vals.push(Drupal.t(summaryResponse));
+        displaySummary(summaryElements, vals);
 
         return vals.join('<br/>');
 
       });
 
-      // Provide summary during Zoom configuration.
-      $('details#edit-zoom-settings', context).drupalSetSummary(function (context) {
+      // Provide summary during Form Position configuration.
+      $('details#edit-form-position', context).drupalSetSummary(function (context) {
 
         var vals = [],
-            defaultZoom = $('#edit-zoom', context).val(),
-            ZoomMax = $('#edit-zoom-max', context).val();
+            summaryElements = summary.form_position;
 
-        if (defaultZoom) {
-          vals.push(Drupal.t('Default Zoom : '+defaultZoom));
-        }
-
-        if (ZoomMax) {
-          vals.push(Drupal.t('Zoom Max : '+ZoomMax));
-        }
-
-        if ($('#edit-zoom-scroll', context).is(':checked')) {
-          vals.push(Drupal.t('Zoom Scrolling enabled'));
-        }
-        else{
-          vals.push(Drupal.t('Zoom Scrolling disabled'));
-        }
+        displaySummary(summaryElements, vals);
 
         return vals.join('<br/>');
 
       });
 
-      // Provide summary during Geolocation configuration.
-      $('details#edit-geoloc', context).drupalSetSummary(function (context) {
+      // Provide summary during Form Color Text configuration.
+      $('details#edit-form-color-text', context).drupalSetSummary(function (context) {
 
         var vals = [],
-            summaryResponse;
+            summaryElements = summary.form_color_text;
 
-        if ($('#edit-enable-geoloc', context).is(':checked')) {
-          summaryResponse = 'Enable';
-        }
-        else{
-          summaryResponse = 'Disabled';
-        }
-
-        vals.push(Drupal.t(summaryResponse));
+        displaySummary(summaryElements, vals);
 
         return vals.join('<br/>');
 
       });
+
+      // Provide summary during Form Color Background configuration.
+      $('details#edit-form-color-bg', context).drupalSetSummary(function (context) {
+
+        var vals = [],
+            summaryElements = summary.form_color_background;
+
+        displaySummary(summaryElements, vals);
+
+        return vals.join('<br/>');
+
+      });
+
+      // Provide summary during Form Color Three Bouton configuration.
+      $('details#edit-form-color-three-btn', context).drupalSetSummary(function (context) {
+
+        var vals = [],
+            summaryElements = summary.form_color_button;
+
+        displaySummary(summaryElements, vals);
+
+        return vals.join('<br/>');
+
+      });
+
+      function displaySummary(elements, vals){
+
+        for (var i = 0; i < elements.length; i++) {
+          if (elements[i].type == 'input-group') {
+            var selector  = elements[i].element,
+                value     =  $('#'+selector, context).val(),
+                unity     =  $('#'+selector+'-unity' , context).val();
+            if ( 'auto' != unity ) {
+              vals.push(Drupal.t(elements[i].title+' :')+' <em>'+ value+unity +'</em>');
+            }
+            else{
+              if ( elements[i].element.indexOf('position') < 0 ) {
+                vals.push(Drupal.t(elements[i].title+' :')+' <em>'+ unity +'</em>');
+              }
+            }
+          }
+          if (elements[i].type == 'color') {
+            var selector  = elements[i].element,
+                value     =  '#'+$('#'+selector, context).val();
+
+            vals.push(Drupal.t(elements[i].title+' :')+' <em>'+ value +'</em>');
+          }
+        }
+
+      }
 
     }
   };

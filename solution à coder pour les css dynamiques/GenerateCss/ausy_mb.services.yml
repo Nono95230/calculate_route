@@ -1,0 +1,7 @@
+services:
+  generate.css:
+    class: 'Drupal\ausy_mb\Service\GenerateCssService'
+  get.css.path.file:
+    class: 'Drupal\ausy_mb\Service\GetCssPathFileService'
+  ausy_mb.hex2rgba:
+    class: 'Drupal\ausy_mb\Service\Hex2RgbaService'

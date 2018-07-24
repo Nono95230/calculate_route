@@ -85,7 +85,7 @@ class MarkerForm extends ConfigFormBase {
                           "address"     => $this->t('Physic Address'),
                           "coordinates" => $this->t('Coordinate (Latitude/Longitude)'),
                         ),
-      '#description'    => '<h6>'.$this->t('Vous pouvez choisir la position du marqueur en utilisant une adresse ou des coordonnées géographique !').'</h6>',
+      '#description'    => '<h6>'.$this->t('Vous pouvez choisir la position du marqueur avec une adresse ou des coordonnées géographique !').'</h6>',
     );
 
 

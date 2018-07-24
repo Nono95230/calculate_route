@@ -51,11 +51,67 @@ class FormForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
 
+    $form['settings_form'] = array(
+      '#type' => 'vertical_tabs',
+      '#default_tab' => 'edit-address-destination',
+      '#attached' => array(
+        'library' => array(
+          'calculate_route/form_v-tabs'
+        )
+      )
+    );
+
+
+    $form['address-destination'] = array(
+      '#type'           => 'details',
+      '#title'          => $this->t('Destination address'),
+      '#group' => 'settings_form',
+    );
+
 
     $form['enable-element'] = array(
-      '#type'           => 'fieldset',
+      '#type'           => 'details',
       '#title'          => $this->t('Enable Element'),
+      '#group' => 'settings_form',
     );
+
+
+    $form['label-address'] = array(
+      '#type'           => 'details',
+      '#title'          => $this->t('Label address'),
+      '#group' => 'settings_form',
+    );
+
+
+    $form['other-texts'] = array(
+      '#type'           => 'details',
+      '#title'          => $this->t('Other Texts'),
+      '#group' => 'settings_form',
+    );
+
+
+    $form['address-destination']['title'] = array(
+      '#type'           => 'textfield',
+      '#title'          => $this->t('Address title'),
+      '#size'           => 20,
+      '#attributes' => array(
+          'data-property' => 'html',
+          'data-selector' => '#title'
+      ),
+      '#default_value'  => $this->configCr->get('form.title_address')
+    );
+
+
+    $form['address-destination']['address'] = array(
+      '#type'           => 'textfield',
+      '#title'          => $this->t('Address'),
+      '#attributes' => array(
+          'data-property' => 'val',
+          'data-selector' => '#title'
+      ),
+      '#default_value'  => $this->configCr->get('form.address_destination')
+    );
+
 
     $form['enable-element']['transport'] = array(
       '#type'           => 'checkboxes',
@@ -84,6 +140,7 @@ class FormForm extends ConfigFormBase {
       '#default_value'  => $this->configCr->get('form.btn_switch')
     );
 
+
     $form['enable-element']['btn_minimize_restore'] = array(
       '#type'           => 'checkbox',
       '#title'          => $this->t('Enable minimize/restore form button'),
@@ -95,25 +152,7 @@ class FormForm extends ConfigFormBase {
     );
 
 
-    $form['show-label-address'] = array(
-      '#type'           => 'fieldset',
-      '#title'          => $this->t('Show label address'),
-    );
-
-
-    $form['customize-texts'] = array(
-      '#type'           => 'fieldset',
-      '#title'          => $this->t('Customize Texts'),
-    );
-
-
-    $form['address-destination'] = array(
-      '#type'           => 'fieldset',
-      '#title'          => $this->t('Destination address'),
-    );
-
-
-    $form['show-label-address']['sl_start'] = array(
+    $form['label-address']['sl_start'] = array(
       '#type'           => 'checkbox',
       '#title'          => $this->t('Show start address label'),
       '#attributes' => array(
@@ -124,7 +163,7 @@ class FormForm extends ConfigFormBase {
     );
 
 
-    $form['show-label-address']['sl_end'] = array(
+    $form['label-address']['sl_end'] = array(
       '#type'           => 'checkbox',
       '#title'          => $this->t('Show end address label'),
       '#attributes' => array(
@@ -135,19 +174,7 @@ class FormForm extends ConfigFormBase {
     );
 
 
-    $form['customize-texts']['ct_start_pl'] = array(
-      '#type'           => 'textfield',
-      '#title'          => $this->t('Customize text placeholder for starting address'),
-      '#description'    => $this->t('Leave empty for no text'),
-      '#attributes' => array(
-          'data-property' => 'placeholder',
-          'data-selector' => '#start'
-      ),
-      '#default_value'  => $this->configCr->get('form.ct_start_pl')
-    );
-
-
-    $form['customize-texts']['ct_start'] = array(
+    $form['label-address']['ct_start'] = array(
       '#type'           => 'textfield',
       '#title'          => $this->t('Customize text label for starting address'),
       '#states'         => array(
@@ -163,7 +190,7 @@ class FormForm extends ConfigFormBase {
     );
 
 
-    $form['customize-texts']['ct_end'] = array(
+    $form['label-address']['ct_end'] = array(
       '#type'           => 'textfield',
       '#title'          => $this->t('Customize text label for ending address'),
       '#states'         => array(
@@ -179,7 +206,19 @@ class FormForm extends ConfigFormBase {
     );
 
 
-    $form['customize-texts']['ct_btn'] = array(
+    $form['other-texts']['ct_start_pl'] = array(
+      '#type'           => 'textfield',
+      '#title'          => $this->t('Customize text placeholder for starting address'),
+      '#description'    => $this->t('Leave empty for no text'),
+      '#attributes' => array(
+          'data-property' => 'placeholder',
+          'data-selector' => '#start'
+      ),
+      '#default_value'  => $this->configCr->get('form.ct_start_pl')
+    );
+
+
+    $form['other-texts']['ct_btn'] = array(
       '#type'           => 'textfield',
       '#title'          => $this->t('Customize text for submit button'),
       '#attributes' => array(
@@ -189,28 +228,6 @@ class FormForm extends ConfigFormBase {
       '#default_value'  => $this->configCr->get('form.ct_btn')
     );
 
-
-    $form['address-destination']['title'] = array(
-      '#type'           => 'textfield',
-      '#title'          => $this->t('Address title'),
-      '#size'           => 20,
-      '#attributes' => array(
-          'data-property' => 'html',
-          'data-selector' => '#title'
-      ),
-      '#default_value'  => $this->configCr->get('form.title_address')
-    );
-
-
-    $form['address-destination']['address'] = array(
-      '#type'           => 'textfield',
-      '#title'          => $this->t('Address'),
-      '#attributes' => array(
-          'data-property' => 'val',
-          'data-selector' => '#title'
-      ),
-      '#default_value'  => $this->configCr->get('form.address_destination')
-    );
 
     return parent::buildForm($form, $form_state);
 

@@ -13,7 +13,10 @@
       // Provide summary during Map Center configuration.
       $('details#edit-map-center', context).drupalSetSummary(function (context) {
 
-        var vals = [];
+        var vals = [],
+            element = '#edit-reset-marker',
+            elName,
+            elStatus;
 
         switch($('input[name="address_or_coordinate"]:checked', context).val()) {
           case 'address':
@@ -27,9 +30,35 @@
             break;
         }
 
-        if ($('#edit-reset-marker', context).is(':checked')) {
-          vals.push(Drupal.t('And resets the Marker\'s location'));
+        if ($(element, context).is(':checked')) {
+          vals.push('<span class="enable-element"><i class="fa fa-check fa-lg"></i><em>'
+                + element.replace("#edit-", "").replace("-", " ") +' Location'
+                + '</em></span>');
         }
+
+        return vals.join('<br/>');
+
+      });
+
+      // Provide summary during Geolocation configuration.
+      $('details#edit-geoloc', context).drupalSetSummary(function (context) {
+
+        var vals = [],
+            summaryResponse,
+            state;
+
+        if ($('#edit-enable-geoloc', context).is(':checked')) {
+          summaryResponse = 'Enable';
+          state = 'check';
+        }
+        else{
+          summaryResponse = 'Disabled';
+          state = 'close';
+        }
+        
+        vals.push('<span class="enable-element"><i class="fa fa-'+state+' fa-lg"></i><em>'
+              + Drupal.t(summaryResponse)
+              + '</em></span>');
 
         return vals.join('<br/>');
 
@@ -67,7 +96,12 @@
 
         var vals = [],
             defaultZoom = $('#edit-zoom', context).val(),
-            ZoomMax = $('#edit-zoom-max', context).val();
+            ZoomMax = $('#edit-zoom-max', context).val(),
+            element = [
+              '#edit-zoom-scroll'
+            ],
+            elName,
+            elStatus;
 
         if (defaultZoom) {
           vals.push(Drupal.t('Default Zoom : '+defaultZoom));
@@ -77,31 +111,21 @@
           vals.push(Drupal.t('Zoom Max : '+ZoomMax));
         }
 
-        if ($('#edit-zoom-scroll', context).is(':checked')) {
-          vals.push(Drupal.t('Zoom Scrolling enabled'));
+        for (var i = 0; i < element.length; i++) {
+          elName = element[i].replace("#edit-", "").replace("-", " ");
+
+          switch($(element[i], context).is(':checked')) {
+            case true:
+              elStatus = 'check';
+              break;
+            case false:
+              elStatus = 'close';
+              break;
+          }
+
+          vals.push(Drupal.t('<span class="enable-element"><i class="fa fa-'+elStatus+' fa-lg"></i><em>'+elName+'</em></span>'));
+
         }
-        else{
-          vals.push(Drupal.t('Zoom Scrolling disabled'));
-        }
-
-        return vals.join('<br/>');
-
-      });
-
-      // Provide summary during Geolocation configuration.
-      $('details#edit-geoloc', context).drupalSetSummary(function (context) {
-
-        var vals = [],
-            summaryResponse;
-
-        if ($('#edit-enable-geoloc', context).is(':checked')) {
-          summaryResponse = 'Enable';
-        }
-        else{
-          summaryResponse = 'Disabled';
-        }
-
-        vals.push(Drupal.t(summaryResponse));
 
         return vals.join('<br/>');
 

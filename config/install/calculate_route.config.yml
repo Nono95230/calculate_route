@@ -2,10 +2,10 @@
 #api_key_is_valid: 0
 #@todo22 : When development is finish =>
 #@todo22 : Decomment the 2 previous line and remove the 2 next line
-# api_key: "AIzaSyCnQDpceTm2QCLocjOU-I1dO4hegnAZJME" #test with this key 
-api_key: "AIzaSyBS7L91wvhOhIQNWyKkdneX6pcl761v5hs" 
+# api_key: "AIzaSyCnQDpceTm2QCLocjOU-I1dO4hegnAZJME" #test with this key
+api_key: "AIzaSyBS7L91wvhOhIQNWyKkdneX6pcl761v5hs"
 api_key_is_valid: 1 #test with valid key
-map: 
+map:
   address_or_coordinate: "address"
   address: "Av. des Champs-Élysées, 75008 Paris"
   latitude: 48.871691
@@ -15,7 +15,7 @@ map:
   zoom_scroll: 0
   map_type: "terrain"
   enable_geoloc: 0
-marker: 
+marker:
   address_or_coordinate: "address"
   address: "Av. des Champs-Élysées, 75008 Paris"
   latitude: 48.871691
@@ -23,8 +23,8 @@ marker:
   title: "Write a title..."
   enable_info_window: 1
   info_window: "<h1><strong>My title</strong></h1><p>My Description</p><p><a href='http://www.google.fr'>Optionnale Links</a></p>"
-form: 
-  transport: 
+form:
+  transport:
     car: "car"
     public_transport: "public_transport"
     bike: "bike"
@@ -39,7 +39,7 @@ form:
   sl_end: 1
   title_address: "Splash"
   address_destination: "rue des champs-élysée Paris"
-appearence: 
+appearence:
   width_map: "100%"
   height_map: "500px"
   top_position: "auto"
@@ -53,3 +53,10 @@ appearence:
   button_color: "e30613"
   three_btn_color: "bdbdbd"
   three_btn_hover_color: "787878"
+config:
+  unity:
+    1: 'px'
+    2: '%'
+    3: 'em'
+    4: 'rem'
+    5: 'auto'

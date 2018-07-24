@@ -5,9 +5,9 @@ calculate_route.config.apikey:
   menu_name: admin
   weight: '03'
   parent: system.admin_config_services
-  #options: 
+  #options:
     #attributes:
       #target: _blank
 #Configurer les options de la carte, les réglages du marqueur, le rendu graphique, les paramètres du calcul d'itinéraire, et bien d'autres choses encore...
-  
+
 

@@ -10,8 +10,8 @@
   Drupal.behaviors.settings_marker = {
     attach: function (context) {
 
-      // Provide summary during Map Center configuration.
-      $('details#edit-map-center', context).drupalSetSummary(function (context) {
+      // Provide summary during Marker Position configuration.
+      $('details#edit-marker-position', context).drupalSetSummary(function (context) {
 
         var vals = [];
 
@@ -35,73 +35,34 @@
 
       });
 
-      // Provide summary during Map Type configuration.
-      $('details#edit-set-map-type', context).drupalSetSummary(function (context) {
+      // Provide summary during Info Text configuration.
+      $('details#edit-info-text', context).drupalSetSummary(function (context) {
 
         var vals = [],
-            summaryResponse;
+            state,
+            element = [
+              '#edit-enable-info-window'
+            ],
+            elName,
+            elStatus;
 
-        switch($('#edit-map-type', context).val()) {
-          case 'roadmap':
-            summaryResponse = 'Roadmap';
-            break;
-          case 'satellite':
-            summaryResponse = 'Satellite';
-            break;
-          case 'hybrid':
-            summaryResponse = 'Hybrid';
-            break;
-          case 'terrain':
-            summaryResponse = 'Terrain';
-            break;
+        vals.push(Drupal.t('Marker Title :') + '<br/><em>' + $('#edit-title', context).val()+'</em>');
+
+        for (var i = 0; i < element.length; i++) {
+          elName = element[i].replace("#edit-enable-", "").replace("-", " ");
+
+          switch($(element[i], context).is(':checked')) {
+            case true:
+              elStatus = 'check';
+              break;
+            case false:
+              elStatus = 'close';
+              break;
+          }
+
+          vals.push(Drupal.t('<span class="enable-element"><i class="fa fa-'+elStatus+' fa-lg"></i><em>'+elName+'</em></span>'));
+
         }
-
-        vals.push(Drupal.t(summaryResponse));
-
-        return vals.join('<br/>');
-
-      });
-
-      // Provide summary during Zoom configuration.
-      $('details#edit-zoom-settings', context).drupalSetSummary(function (context) {
-
-        var vals = [],
-            defaultZoom = $('#edit-zoom', context).val(),
-            ZoomMax = $('#edit-zoom-max', context).val();
-
-        if (defaultZoom) {
-          vals.push(Drupal.t('Default Zoom : '+defaultZoom));
-        }
-
-        if (ZoomMax) {
-          vals.push(Drupal.t('Zoom Max : '+ZoomMax));
-        }
-
-        if ($('#edit-zoom-scroll', context).is(':checked')) {
-          vals.push(Drupal.t('Zoom Scrolling enabled'));
-        }
-        else{
-          vals.push(Drupal.t('Zoom Scrolling disabled'));
-        }
-
-        return vals.join('<br/>');
-
-      });
-
-      // Provide summary during Geolocation configuration.
-      $('details#edit-geoloc', context).drupalSetSummary(function (context) {
-
-        var vals = [],
-            summaryResponse;
-
-        if ($('#edit-enable-geoloc', context).is(':checked')) {
-          summaryResponse = 'Enable';
-        }
-        else{
-          summaryResponse = 'Disabled';
-        }
-
-        vals.push(Drupal.t(summaryResponse));
 
         return vals.join('<br/>');
 

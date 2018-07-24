@@ -7,12 +7,12 @@
 		marker,
 		directionsDisplay,
 		directionsService,
-		transitLayer,//Propriété pour le traffic autoroutier
-		trafficLayer;//Propriété pour le traffic de transport public de personne
+		transitLayer,//Propriété pour le trafic autoroutier
+		trafficLayer;//Propriété pour le trafic de transport public de personne
 
 	// Properties for api key
-	var akv 				= drupalSettings.calculate_route.JS.api_key_is_valid,
-		CR_AK_IS_VALID 		= (akv == 1 ? true :false);
+	var apiKeyState 		= drupalSettings.calculate_route.JS.api_key_is_valid,
+		CR_AK_IS_VALID 		= (apiKeyState == 1 ? true :false);
 
 	// Properties for map
 	var mps 				= drupalSettings.calculate_route.JS.map_settings,
@@ -83,7 +83,15 @@
 					'width' : CR_WIDTH_MAP,
 					'height' : CR_HEIGHT_MAP
 				});
-
+				
+				// Only for Admin Page
+				if (window.location.href.includes('calculate-route/config/')) {
+					$('#block-calculate-your-route').css({
+						'width' : CR_WIDTH_MAP,
+						'height' : CR_HEIGHT_MAP
+					});
+				}
+				
 				/*
 				 * CHANGE MAP DIMENSION
 				 */

@@ -69,6 +69,12 @@ class MapForm extends ConfigFormBase {
       '#group' => 'settings_map',
     );
 
+    $form['geoloc'] = array(
+      '#type' => 'details',
+      '#title'  => $this->t('Géolocation'),
+      '#group' => 'settings_map',
+    );
+
     $form['set_map_type'] = array(
       '#type' => 'details',
       '#title'  => $this->t('Map type'),
@@ -81,12 +87,6 @@ class MapForm extends ConfigFormBase {
       '#group' => 'settings_map',
     );
 
-    $form['geoloc'] = array(
-      '#type' => 'details',
-      '#title'  => $this->t('Géolocation'),
-      '#group' => 'settings_map',
-    );
-
     $form['map_center']['address_or_coordinate'] = array(
       '#type'           => 'radios',
       '#title'          => $this->t('Set the default map center with a'),
@@ -95,7 +95,7 @@ class MapForm extends ConfigFormBase {
                           "address"     => $this->t('Physical Address'),
                           "coordinates" => $this->t('Coordinates (Latitude/Longitude)'),
                         ),
-      '#description'    => '<h6>'.$this->t('Vous pouvez choisir le centrage de la carte Google en utilisant une adresse ou des coordonnées géographique !').'</h6>',
+      '#description'    => '<h6>'.$this->t('Vous pouvez choisir le centrage de la carte Google avec une adresse ou des coordonnées géographique !').'</h6>',
     );
 
     $form['map_center']['reset_marker'] = array(
@@ -140,6 +140,16 @@ class MapForm extends ConfigFormBase {
                         ),
     ];
 
+    $form['geoloc']['enable_geoloc'] = array(
+      '#type'           => 'checkbox',
+      '#title'          => $this->t('Enabled'),
+      '#description'    => '<h6>'.$this->t('Le service dé géolocalisation ne fonctionnera pas sur un serveur en local, actif seulement en ligne..').'</h6>',
+    );
+
+    if ($this->configCr->get('map.enable_geoloc') == 1) {
+      $form['geoloc']['enable_geoloc']['#attributes'] = array('checked' => 'checked');
+    }
+
     $form['set_map_type']['map_type'] = array(
       '#type'           => 'select',
       '#options'        => array(
@@ -175,15 +185,6 @@ class MapForm extends ConfigFormBase {
 
     if ($this->configCr->get('map.zoom_scroll') == 1) {
       $form['zoom-settings']['zoom_scroll']['#attributes'] = array('checked' => 'checked');
-    }
-
-    $form['geoloc']['enable_geoloc'] = array(
-      '#type'           => 'checkbox',
-      '#title'          => $this->t('Enabled'),
-    );
-
-    if ($this->configCr->get('map.enable_geoloc') == 1) {
-      $form['geoloc']['enable_geoloc']['#attributes'] = array('checked' => 'checked');
     }
 
     return parent::buildForm($form, $form_state);

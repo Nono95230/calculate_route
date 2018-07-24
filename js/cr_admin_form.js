@@ -123,9 +123,9 @@
 				}
 
 				function changeSettings($selector, property, value){
-					console.log($selector);
-					console.log(property);
-					console.log(value);
+					// console.log($selector);
+					// console.log(property);
+					// console.log(value);
 					switch (property) {
 						case 'color':
 						case 'background-color':
@@ -135,7 +135,7 @@
 						case 'bottom':
 						case 'left':
 						case 'right':
-							console.log("success");
+							// console.log("success");
 							return $selector.css(property, value);
 							break;
 
