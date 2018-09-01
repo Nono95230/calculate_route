@@ -6,48 +6,53 @@
 ##                                            ##
 ################################################
 
+calculate_route.settings:
+  path: '/admin/config/services/calculate-route/config'
+  defaults:
+    _title: 'Calculate Route Settings'
+    _controller: 'Drupal\calculate_route\Controller\SettingsController::list'
+  requirements:
+    _permission: 'access cr config'
 
-
-
-calculate_route.config.api_key: 
+calculate_route.config.api_key:
   path: '/admin/config/services/calculate-route/config/api-key'
   defaults:
-    _title: 'Api Key Settings'
+    _title: 'Calculate Route Settings'
     _form: 'Drupal\calculate_route\Form\ApiKeyForm'
   requirements:
     _permission: 'access cr config'
 
-calculate_route.config.map: 
+calculate_route.config.map:
   path: '/admin/config/services/calculate-route/config/map'
   defaults:
-    _title: 'Default Map Settings'
+    _title: 'Calculate Route Settings'
     _form: 'Drupal\calculate_route\Form\MapForm'
   requirements:
     _permission: 'access cr config'
     _access_gm_api_key_is_valid: 'to test in the method access, in the file class OtherConfigCrAccess'
 
-calculate_route.config.marker: 
+calculate_route.config.marker:
   path: '/admin/config/services/calculate-route/config/marker'
   defaults:
-    _title: 'Default Marker Settings'
+    _title: 'Calculate Route Settings'
     _form: 'Drupal\calculate_route\Form\MarkerForm'
   requirements:
     _permission: 'access cr config'
     _access_gm_api_key_is_valid: 'to test in the method access, in the file class OtherConfigCrAccess'
 
-calculate_route.config.form: 
+calculate_route.config.form:
   path: '/admin/config/services/calculate-route/config/form'
   defaults:
-    _title: 'Default Form Settings'
+    _title: 'Calculate Route Settings'
     _form: 'Drupal\calculate_route\Form\FormForm'
   requirements:
     _permission: 'access cr config'
     _access_gm_api_key_is_valid: 'to test in the method access, in the file class OtherConfigCrAccess'
 
-calculate_route.config.appearence: 
+calculate_route.config.appearence:
   path: '/admin/config/services/calculate-route/config/appearence'
   defaults:
-    _title: 'Default Appearence Settings'
+    _title: 'Calculate Route Settings'
     _form: 'Drupal\calculate_route\Form\AppearenceForm'
   requirements:
     _permission: 'access cr config'

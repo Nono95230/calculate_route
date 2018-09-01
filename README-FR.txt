@@ -24,8 +24,12 @@ INSTALLATION
   Voir les instructions Drupal 8 si nécessaire dans la documentation Drupal pour plus d'informations.
   (http://drupal.org/documentation/install/modules-themes/modules-8).
 
-  * Vous aurez également besoin de télécharger des bibliothèques JavaScript. Vous pouvez le faire
-  semi-automatiquent en utilisant le script ou si vous le préférez, manuellement à partir des sources.
+  * Installez ensuite le module jQuery Colorpicker(https://www.drupal.org/project/jquery_colorpicker).//@todo : new line to translate in english
+
+  * À la racine de projet, créez le dossier "libraries" s'il n'existe pas.//@todo : new line to translate in english
+
+  * Après avoir installé le module jQuery Colorpicker, vous aurez également besoin de télécharger des bibliothèques JavaScript. Vous pouvez le faire
+  semi-automatiquent en utilisant le script ou si vous le préférez, manuellement à partir des sources.//@todo : replace line with translatation in english
 
   * Bibliothèques requises :
     * www.eyecon.ro/colorpicker/colorpicker.zip

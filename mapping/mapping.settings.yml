@@ -1,0 +1,6 @@
+calculate_route.settings: 'Calculate Route Settings'
+calculate_route.config.api_key: 'Api Key'
+calculate_route.config.map: 'Default Map'
+calculate_route.config.marker: 'Default Marker'
+calculate_route.config.form: 'Default Form'
+calculate_route.config.appearence: 'Default Appearence'
