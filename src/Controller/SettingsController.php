@@ -44,49 +44,41 @@ class SettingsController extends ControllerBase{
 
 
 
-    kint($this->mapping);
-    kint($this->routeFile);
-    kint($this->allRoutesName);
+    //kint($this->mapping);
+    //kint($this->routeFile);
+    //kint($this->allRoutesName);
     //die;
-/*
-    $url1 = \Drupal\Core\Url::fromRoute('book.admin');
-    $url2 = \Drupal\Core\Url::fromRoute('book.admin');
 
-    $build['item_list'] = [
-      '#theme' => 'item_list',
-      '#list_type' => 'ul',
-      '#wrapper_attributes' => [
-        'class' => [
-          'wrapper',
-        ],
-      ],
-      '#attributes' => [
-        'class' => [
-          'wrapper__links',
-        ],
-      ],
-      '#items' => [
-        [
-          '#markup' => \Drupal::l(t('Url 1'), $url1),
-          '#wrapper_attributes' => [
-            'class' => [
-              'wrapper__links__link',
-            ],
+    $url1 = \Drupal\Core\Url::fromRoute('calculate_route.settings');
+    $url2 = \Drupal\Core\Url::fromRoute('calculate_route.config.map');
+
+/*
+    foreach ($variable as $key => $value) {
+      # code...
+    }*/
+
+
+    $build[] = [
+      '#theme'  => 'calculate_route_settings',
+      '#data'   => [
+        'panelTitle'  => t('Calculate Route Settings'),
+        'listSettings' => [
+          [
+            'title' => t('Api Key'),
+            'link' => '/admin/config/services/calculate-route/config/api-key',
+            'description' => t('Api Key Description.')
+          ],
+          [
+            'title' => t('Default Map.'),
+            'link' => '/admin/config/services/calculate-route/config/map',
+            'description' => t('Default Map Description.')
           ],
         ],
-        [
-          '#markup' => \Drupal::l(t('Url 2'), $url2),
-          '#wrapper_attributes' => [
-            'class' => [
-              'wrapper__links__link',
-            ],
-          ],
-        ],
-      ],
+      ]
     ];
 
-    return $build;
-*/
+    return [$build];
+
 
 
 

@@ -115,10 +115,14 @@ function calculate_route_preprocess_html(&$variables) {
 
 // Set Theme Page
 function calculate_route_theme($existing, $type, $theme, $path){
-  return array(
-    'google_map' => array(
+  return [
+    'google_map' => [
       'template' => 'google-map',
-      'variables' => array('data' => NULL)
-    ),
-  );
+      'variables' => ['data' => NULL]
+    ],
+    'calculate_route_settings' => [
+      'template' => 'calculate_route-settings',
+      'variables' => ['data' => NULL]
+    ],
+  ];
 }
