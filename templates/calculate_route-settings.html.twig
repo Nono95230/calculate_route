@@ -1,26 +1,15 @@
-
 <div class="panel">
   <h3 class="panel__title">{{ data.panelTitle }}</h3>
   <div class="panel__content">
     <ul class="admin-list">
-      <li>
-        <a href="/admin/config/people/accounts">
-          <span class="label">Api Key</span>
-          <div class="description">Description Service Configurable.</div>
-        </a>
-      </li>
-      <li>
-        <a href="/admin/config/people/accounts">
-          <span class="label">Api Key</span>
-          <div class="description">Description Service Configurable.</div>
-        </a>
-      </li>
-      <li>
-        <a href="/admin/config/people/accounts">
-          <span class="label">Api Key</span>
-          <div class="description">Description Service Configurable.</div>
-        </a>
-      </li>
+      {% for listSetting in data.listSettings %}
+        <li>
+          <a href="{{ listSetting.link }}">
+            <span class="label">{{ listSetting.title|e }}</span>
+            <div class="description">{{ listSetting.description }}</div>
+          </a>
+        </li>
+    {% endfor %}
     </ul>
   </div>
 </div>

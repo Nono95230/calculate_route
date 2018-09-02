@@ -1,6 +1,18 @@
-calculate_route.settings: 'Calculate Route Settings'
-calculate_route.config.api_key: 'Api Key'
-calculate_route.config.map: 'Default Map'
-calculate_route.config.marker: 'Default Marker'
-calculate_route.config.form: 'Default Form'
-calculate_route.config.appearence: 'Default Appearence'
+calculate_route.settings:
+  title: 'Calculate Route Settings'
+  description: 'Calculate Route Settings Description little short.'
+calculate_route.config.api_key:
+  title: 'Api Key'
+  description: 'Api Key Description little short.'
+calculate_route.config.map:
+  title: 'Default Map'
+  description: 'Default Map Description little short.'
+calculate_route.config.marker:
+  title: 'Default Marker'
+  description: 'Default Marker Description little short.'
+calculate_route.config.form:
+  title: 'Default Form'
+  description: 'Default Form Description little short.'
+calculate_route.config.appearence:
+  title: 'Default Appearence'
+  description: 'Default Appearence Description little short.'

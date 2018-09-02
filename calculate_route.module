@@ -19,7 +19,7 @@ function calculate_route_system_breadcrumb_alter(Breadcrumb &$breadcrumb, RouteM
   if (in_array($routeName, array_keys($mapping))) {
 
     $linkRouteName = $routeName;
-    $linkTitle = $mapping[$routeName];
+    $linkTitle = $mapping[$routeName]['title'];
 
     // Add an item to the end of the breadcrumb.
     $breadcrumb->addLink(

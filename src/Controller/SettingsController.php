@@ -3,11 +3,7 @@
 namespace Drupal\calculate_route\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-
-
-
 use Symfony\Component\Yaml\Yaml;
-
 use Drupal\Core\Url;
 
 
@@ -18,7 +14,6 @@ class SettingsController extends ControllerBase{
   protected $routeFile;
 
   protected $allRoutesName;
-
 
   public function __construct(){
     $this->mapping = Yaml::parse(
@@ -41,55 +36,28 @@ class SettingsController extends ControllerBase{
 
   public function list(){
 
+    $routeNotAllowed = 'calculate_route.settings';
+    unset($this->mapping[$routeNotAllowed]);
 
-
-
-    //kint($this->mapping);
-    //kint($this->routeFile);
-    //kint($this->allRoutesName);
-    //die;
-
-    $url1 = \Drupal\Core\Url::fromRoute('calculate_route.settings');
-    $url2 = \Drupal\Core\Url::fromRoute('calculate_route.config.map');
-
-/*
-    foreach ($variable as $key => $value) {
-      # code...
-    }*/
-
+    $listSettings = [];
+    foreach ($this->mapping as $routeName => $routeContent) {
+      $listSettings[] = [
+        'title' => t($routeContent['title']),
+        'link' => Url::fromRoute($routeName)->toString(),
+        'description' => t($routeContent['description'])
+      ];
+    }
 
     $build[] = [
       '#theme'  => 'calculate_route_settings',
       '#data'   => [
-        'panelTitle'  => t('Calculate Route Settings'),
-        'listSettings' => [
-          [
-            'title' => t('Api Key'),
-            'link' => '/admin/config/services/calculate-route/config/api-key',
-            'description' => t('Api Key Description.')
-          ],
-          [
-            'title' => t('Default Map.'),
-            'link' => '/admin/config/services/calculate-route/config/map',
-            'description' => t('Default Map Description.')
-          ],
-        ],
+        'panelTitle'  => t('Google Maps Settings'),
+        'listSettings' => $listSettings,
       ]
     ];
 
     return [$build];
 
-
-
-
-
-
-
-
-
-
   }
-
-
 
 }
