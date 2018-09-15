@@ -10,6 +10,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Config\ConfigFactory;
 
+use Drupal\calculate_route\Form\FieldsGenerate;
+
 
 /**
  * Class MapForm.
@@ -52,6 +54,17 @@ class MapForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state){
+    return $this->buildFormOld($form, $form_state);
+
+    // new FieldsGenerate('map');
+
+    // FieldsGenerate::generateForm($form);
+
+    // return parent::buildForm($form, $form_state);
+
+  }
+
+  public function buildFormOld(array $form, FormStateInterface $form_state){
 
     $form['settings_map'] = array(
       '#type' => 'vertical_tabs',
