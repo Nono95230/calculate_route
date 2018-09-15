@@ -1,0 +1,4 @@
+default_tab: 'edit-marker-position'
+details:
+  marker_position: 'Default Marker Position'
+  info_text: 'Default Text'

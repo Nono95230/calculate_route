@@ -1,0 +1,36 @@
+address_or_coordinate:
+  type: radios
+  title: 'Set the default marker position with a'
+  options:
+    address: 'Physical Address'
+    coordinates: 'Coordinates (Latitude/Longitude)'
+  description:
+    balise: 'h6'
+    content: 'Vous pouvez choisir la position du marqueur avec une adresse ou des coordonnées géographique !'
+address:
+  type: 'textfield'
+  title: 'Address'
+  size: 80
+  prefix: '<div id="marker_settings_address">'
+  suffix: '</div>'
+  states:
+    visible:
+      target: 'input[name="address_or_coordinate"]'
+      response:
+        value: 'address'
+latitude:
+  type: 'textfield'
+  title: 'Latitude'
+  states:
+    visible:
+      target: 'input[name="address_or_coordinate"]'
+      response:
+        value: 'coordinates'
+longitude:
+  type: 'textfield'
+  title: 'Longitude'
+  states:
+    visible:
+      target: 'input[name="address_or_coordinate"]'
+      response:
+        value: 'coordinates'

@@ -1,0 +1,6 @@
+default_tab: 'edit-address-destination'
+details:
+  address-destination: 'Destination address'
+  enable-element: 'Enable Element'
+  label-address: 'Label address'
+  other-texts: 'Other Texts'

@@ -1,0 +1,7 @@
+default_tab: 'edit-map-center'
+details:
+  dimension-map: 'Map Dimension'
+  form-position: 'Form Settings : Position management'
+  form-color-text: 'Form Color Settings : Text'
+  form-color-bg: 'Form Color Settings : Background'
+  form-color-three_btn: 'Form Color Settings : BTN switch & BTN Minimize Form & BTN Restore Form'

@@ -1,0 +1,15 @@
+zoom:
+  type: 'textfield'
+  title: 'Default zoom'
+  min: 0
+  max: 21
+  size: 7
+zoom_max:
+  type: 'textfield'
+  title: 'Zoom maximum authorized'
+  min: 0
+  max: 21
+  size: 7
+zoom_scroll:
+  type: 'checkbox'
+  title: 'Enable Zoom scrolling'

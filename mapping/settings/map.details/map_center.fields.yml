@@ -1,0 +1,42 @@
+address_or_coordinate:
+  type: radios
+  title: 'Set the default map center with a'
+  options:
+    address: 'Physical Address'
+    coordinates: 'Coordinates (Latitude/Longitude)'
+  description:
+    balise: 'h6'
+    content: 'Vous pouvez choisir le centrage de la carte Google avec une adresse ou des coordonnées géographique !'
+reset_marker:
+  type: checkbox
+  title: 'Reset Marker'
+  description:
+    content: 'Reset the Location Marker with the Location Map Settings'
+  default_value: FALSE
+address:
+  type: 'textfield'
+  title: 'Address'
+  size: 80
+  prefix: '<div id="map_settings_address">'
+  suffix: '</div>'
+  states:
+    visible:
+      target: 'input[name="address_or_coordinate"]'
+      response:
+        value: 'address'
+latitude:
+  type: 'textfield'
+  title: 'Latitude'
+  states:
+    visible:
+      target: 'input[name="address_or_coordinate"]'
+      response:
+        value: 'coordinates'
+longitude:
+  type: 'textfield'
+  title: 'Longitude'
+  states:
+    visible:
+      target: 'input[name="address_or_coordinate"]'
+      response:
+        value: 'coordinates'

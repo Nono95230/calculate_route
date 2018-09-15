@@ -1,0 +1,36 @@
+sl_start:
+  type: checkbox
+  title: 'Show start address label'
+  attributes:
+    data-property: 'checkbox'
+    data-selector: '#label_start'
+  default_value: 'sl_start'
+sl_end:
+  type: checkbox
+  title: 'Show end address label'
+  attributes:
+    data-property: 'checkbox'
+    data-selector: '#label_end'
+  default_value: 'sl_end'
+ct_start:
+  type: 'textfield'
+  title: 'Customize text label for starting address'
+  attributes:
+    data-property: 'html'
+    data-selector: '#label_start'
+  states:
+    visible:
+      target: 'input[name="sl_start"]'
+      response:
+        checked: TRUE
+ct_end:
+  type: 'textfield'
+  title: 'Customize text label for ending address'
+  attributes:
+    data-property: 'html'
+    data-selector: '#label_end'
+  states:
+    visible:
+      target: 'input[name="sl_end"]'
+      response:
+        checked: TRUE

@@ -1,0 +1,6 @@
+default_tab: 'edit-map-center'
+details:
+  map_center: 'Map center'
+  geoloc: 'Géolocation'
+  set_map_type: 'Map type'
+  zoom-settings: 'Zoom settings'

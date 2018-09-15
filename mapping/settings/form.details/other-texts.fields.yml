@@ -1,0 +1,16 @@
+ct_start_pl:
+  type: 'textfield'
+  title: 'Customize text placeholder for starting address'
+  attributes:
+    data-property: 'placeholder'
+    data-selector: '#start'
+  description:
+    content: 'Leave empty for no text'
+ct_btn:
+  type: 'textfield'
+  title: 'Customize text for submit button'
+  attributes:
+    data-property: 'html'
+    data-selector: '#label_btn'
+  description:
+    content: 'Leave empty for no text'

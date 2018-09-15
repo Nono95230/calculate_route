@@ -1,0 +1,7 @@
+map_type:
+  type: select
+  options:
+    roadmap: 'RoadMap'
+    satellite: 'Satellite'
+    hybrid: 'Hybrid'
+    terrain: 'Terrain'

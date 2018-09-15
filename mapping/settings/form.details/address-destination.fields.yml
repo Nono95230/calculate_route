@@ -1,0 +1,15 @@
+title:
+  type: 'textfield'
+  title: 'Address title'
+  size: 20
+  attributes:
+    data-property: 'html'
+    data-selector: '#title'
+  default_value: 'title_address'
+address:
+  type: 'textfield'
+  title: 'Address'
+  attributes:
+    data-property: 'val'
+    data-selector: '#title'
+  default_value: 'address_destination'

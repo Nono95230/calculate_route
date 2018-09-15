@@ -1,0 +1,6 @@
+enable_geoloc:
+  type: 'checkbox'
+  title: 'Enabled'
+  description:
+    balise: 'h6'
+    content: 'Le service dé géolocalisation ne fonctionnera pas sur un serveur en local, actif seulement en ligne..'

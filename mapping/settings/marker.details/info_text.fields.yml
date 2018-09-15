@@ -1,0 +1,15 @@
+title:
+  type: 'textfield'
+  title: 'Marker Title'
+enable_info_window:
+  type: 'checkbox'
+  title: 'Enable Info Window'
+info_window:
+  type: 'text_format'
+  title: 'Info Window'
+  format: 'full_html'
+  states:
+    visible:
+      target: 'input[name="enable_info_window"]'
+      response:
+        checked: TRUE

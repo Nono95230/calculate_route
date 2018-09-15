@@ -1,0 +1,25 @@
+transport:
+  type: checkboxes
+  title: 'Choose available transport modes'
+  options:
+    car: 'Car'
+    public_transport: 'Public transport'
+    bike: 'Bike'
+    walker: 'Walker'
+  attributes:
+    data-property: 'checkboxes'
+    data-selector: 'name'
+btn_switch:
+  type: checkbox
+  title: 'Enable switch button'
+  attributes:
+    data-property: 'checkbox'
+    data-selector: '#switch'
+  default_value: 'btn_switch'
+btn_minimize_restore:
+  type: checkbox
+  title: 'Enable minimize/restore form button'
+  attributes:
+    data-property: 'checkbox'
+    data-selector: '#minimize_restore'
+  default_value: 'btn_minimize_restore'
