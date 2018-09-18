@@ -100,50 +100,14 @@ class FieldsGenerate{
         $detailsFields = Yaml::parseFile($detailsFieldsPath);
 
         foreach ($detailsFields as $fieldName => $fieldParams) {
-          $this->setField($detailsName, $fieldName, $fieldParams);
-          kint($fieldName);
-          kint($fieldParams);
-          die;
+          $this->setField($form, $detailsName, $fieldName, $fieldParams);
+
         }
 
       }
 
     }
 
-
-    kint($form);
-    kint($this->settingsName);
-    kint($this->settingsConfig);
-    // kint($this->settingsPath);
-    // kint($this->settingsDetailsPath);
-    kint($this->settingsDetails);
-    kint($this->settingsFieldsDir);
-    die;
-
-  }
-
-  protected function setField($hisDetails, $fieldName, $fieldParams) {
-    $fieldType = $fieldParams['type'];
-
-    switch ($fieldType) {
-      case 'radios':
-       $field = $this->setFieldRadios($hisDetails, $fieldName, $fieldParams);
-        break;
-
-    }
-
-    return $field;
-  }
-
-  protected function setFieldRadios($hisDetails, $fieldName, $fieldParams) {
-    kint($hisDetails);
-    kint($fieldName);
-    kint($fieldParams);
-    die;
-    foreach ($fieldParams as $key => $value) {
-
-      $form[$hisDetails][$fieldName]["#$key"] = [];
-    }
 
     $form['map_center']['address_or_coordinate'] = array(
       '#type'           => 'radios',
@@ -156,6 +120,85 @@ class FieldsGenerate{
       '#description'    => '<h6>'.$this->t('Vous pouvez choisir le centrage de la carte Google avec une adresse ou des coordonnées géographique !').'</h6>',
     );
   }
+
+  protected function setField( array &$form, $hisDetails, $fieldName, $fieldParams) {
+
+    foreach ($fieldParams as $paramKey => $paramValue) {
+
+
+      switch ($paramKey) {
+        case 'type':
+        case 'size':
+        case 'prefix':
+        case 'suffix':
+          if (!empty($paramValue)) {
+            $form[$hisDetails][$fieldName]["#$paramKey"] = $paramValue;
+          }
+          break;
+
+        case 'title':
+          if (!empty($paramValue)) {
+            $form[$hisDetails][$fieldName]["#$paramKey"] = t($paramValue);
+          }
+          break;
+
+        case 'description':
+          if (
+            !empty($paramValue) &&
+            is_array($paramValue) &&
+            !empty($paramValue['content'])
+          ) {
+            if (!empty($paramValue['balise'])) {
+              $balise = $paramValue['balise'];
+              $description = "<$balise>" . t($paramValue['content']) . "</$balise>";
+              $form[$hisDetails][$fieldName]["#$paramKey"] = $description;
+            }
+            else {
+              $form[$hisDetails][$fieldName]["#$paramKey"] = t($paramValue['content']);
+            }
+          }
+          break;
+
+        case 'options':
+          if (!empty($paramValue) && is_array($paramValue)) {
+            foreach ($paramValue as $optionKey => $optionValue) {
+              $form[$hisDetails][$fieldName]["#$paramKey"][$optionKey] = t($optionValue);
+            }
+          }
+          break;
+
+        case 'states':
+          // @todo : Reprendre ICI
+          break;
+      }
+    }
+    if (isset($fieldParams['default_value'])) {
+      if (!empty($fieldParams['default_value'])) {
+        $defaultValue = $this->settingsConfig[$fieldParams['default_value']];
+        $form[$hisDetails][$fieldName]['#default_value'] = $defaultValue;
+      }
+    }
+    else {
+      $defaultValue = $this->settingsConfig[$fieldName];
+      $form[$hisDetails][$fieldName]['#default_value'] = $defaultValue;
+    }
+
+
+    // Pour tester et avancer dans le code
+    // @todo : a supprimer plus tard
+    $fieldNameArray = [
+      'address_or_coordinate',
+      'reset_marker',
+    ];
+    if (!in_array($fieldName, $fieldNameArray)) {
+      kint($fieldName);
+      kint($fieldParams);
+      kint($form);
+      die;
+    }
+  }
+
+
 
 
 }
