@@ -56,7 +56,7 @@ class FieldsGenerate{
     $this->settingsFieldsDir .= $settingsName . '.details/';
 
     if (file_exists($this->settingsDetailsPath)) {
-      $this->$settingsDetails = Yaml::parseFile($this->settingsDetailsPath);
+      $this->settingsDetails = Yaml::parseFile($this->settingsDetailsPath);
     }
 
   }
@@ -73,34 +73,88 @@ class FieldsGenerate{
    */
   public function generateForm(array &$form) {
 
+    $settingsName = 'settings_' . $this->settingsName;
+
+    $form[$settingsName] = [
+      '#type' => 'vertical_tabs',
+      '#default_tab' => $this->settingsDetails['default_tab'],
+      '#attached' => [
+        'library' => [
+          'calculate_route/' . $this->settingsName . '_v-tabs'
+        ]
+      ]
+    ];
+
+    $details = $this->settingsDetails['details'];
+    foreach ($details as $detailsName => $detailsLabel) {
+      $form[$detailsName] = array(
+        '#type' => 'details',
+        '#title' => t($detailsLabel),
+        '#group' => $settingsName,
+      );
+
+      $detailsFieldsPath = $this->settingsFieldsDir . $detailsName . '.fields.yml';
+
+      if (file_exists($detailsFieldsPath)) {
+
+        $detailsFields = Yaml::parseFile($detailsFieldsPath);
+
+        foreach ($detailsFields as $fieldName => $fieldParams) {
+          $this->setField($detailsName, $fieldName, $fieldParams);
+          kint($fieldName);
+          kint($fieldParams);
+          die;
+        }
+
+      }
+
+    }
+
+
     kint($form);
-    kint($this->$settingsName);
+    kint($this->settingsName);
     kint($this->settingsConfig);
-    kint($this->settingsPath);
-    kint($this->settingsDetailsPath);
+    // kint($this->settingsPath);
+    // kint($this->settingsDetailsPath);
     kint($this->settingsDetails);
     kint($this->settingsFieldsDir);
     die;
 
+  }
 
+  protected function setField($hisDetails, $fieldName, $fieldParams) {
+    $fieldType = $fieldParams['type'];
 
+    switch ($fieldType) {
+      case 'radios':
+       $field = $this->setFieldRadios($hisDetails, $fieldName, $fieldParams);
+        break;
 
-    $form['settings_map'] = array(
-      '#type' => 'vertical_tabs',
-      '#default_tab' => 'edit-map-center',
-      '#attached' => array(
-        'library' => array(
-          'calculate_route/map_v-tabs'
-        )
-      )
+    }
+
+    return $field;
+  }
+
+  protected function setFieldRadios($hisDetails, $fieldName, $fieldParams) {
+    kint($hisDetails);
+    kint($fieldName);
+    kint($fieldParams);
+    die;
+    foreach ($fieldParams as $key => $value) {
+
+      $form[$hisDetails][$fieldName]["#$key"] = [];
+    }
+
+    $form['map_center']['address_or_coordinate'] = array(
+      '#type'           => 'radios',
+      '#title'          => $this->t('Set the default map center with a'),
+      '#default_value'  => $this->configCr->get('map.address_or_coordinate'),
+      '#options'        => array(
+                          "address"     => $this->t('Physical Address'),
+                          "coordinates" => $this->t('Coordinates (Latitude/Longitude)'),
+                        ),
+      '#description'    => '<h6>'.$this->t('Vous pouvez choisir le centrage de la carte Google avec une adresse ou des coordonnées géographique !').'</h6>',
     );
-
-    $form['map_center'] = array(
-      '#type' => 'details',
-      '#title' => $this->t('Map Center'),
-      '#group' => 'settings_map',
-    );
-
   }
 
 

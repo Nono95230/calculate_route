@@ -54,11 +54,11 @@ class MapForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state){
-    return $this->buildFormOld($form, $form_state);
+    // return $this->buildFormOld($form, $form_state);
 
-    // new FieldsGenerate('map');
+    $fields = new FieldsGenerate('map');
 
-    // FieldsGenerate::generateForm($form);
+    $fields->generateForm($form);
 
     // return parent::buildForm($form, $form_state);
 
