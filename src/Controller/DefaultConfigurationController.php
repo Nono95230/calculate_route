@@ -24,11 +24,12 @@ class DefaultConfigurationController extends ControllerBase{
 
 
 	public function __construct(EntityTypeManagerInterface $entityTypeManager, ConfigFactory $config){
-		$pathFileConfig 		= drupal_get_path("module", "calculate_route")."/config/install/calculate_route.config.yml";
-		$fileConfig 			= file_get_contents($pathFileConfig);
-		$this->originConfigCr 	= Yaml::parse($fileConfig);
-		$this->entityTM 		= $entityTypeManager;
-		$this->currentConfigCr 	= $config->getEditable("calculate_route.config");
+		$pathFileConfig = drupal_get_path('module', 'calculate_route');
+		$pathFileConfig .= '/config/install/calculate_route.config.yml';
+		$fileConfig = file_get_contents($pathFileConfig);
+		$this->originConfigCr = Yaml::parse($fileConfig);
+		$this->entityTM = $entityTypeManager;
+		$this->currentConfigCr = $config->getEditable('calculate_route.config');
 	}
 
 
@@ -61,13 +62,13 @@ class DefaultConfigurationController extends ControllerBase{
 
 
 	public function backDefaultConfig($param){
-	    $this->currentConfigCr
-		    ->set( $param, $this->originConfigCr[$param] )
-		    ->save();
+		$this->currentConfigCr
+			->set($param, $this->originConfigCr[$param])
+			->save();
 
- 		$this->entityTM->getViewBuilder("block")->resetCache();
+		$this->entityTM->getViewBuilder("block")->resetCache();
 
-		return new RedirectResponse(\Drupal::url( "calculate_route.config.".$param ));
+		return new RedirectResponse(\Drupal::url("calculate_route.config.$param"));
 	}
 
 }

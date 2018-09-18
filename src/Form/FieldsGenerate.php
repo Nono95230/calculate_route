@@ -108,17 +108,6 @@ class FieldsGenerate{
 
     }
 
-
-    $form['map_center']['address_or_coordinate'] = array(
-      '#type'           => 'radios',
-      '#title'          => $this->t('Set the default map center with a'),
-      '#default_value'  => $this->configCr->get('map.address_or_coordinate'),
-      '#options'        => array(
-                          "address"     => $this->t('Physical Address'),
-                          "coordinates" => $this->t('Coordinates (Latitude/Longitude)'),
-                        ),
-      '#description'    => '<h6>'.$this->t('Vous pouvez choisir le centrage de la carte Google avec une adresse ou des coordonnées géographique !').'</h6>',
-    );
   }
 
   protected function setField( array &$form, $hisDetails, $fieldName, $fieldParams) {
@@ -129,8 +118,11 @@ class FieldsGenerate{
       switch ($paramKey) {
         case 'type':
         case 'size':
+        case 'min':
+        case 'max':
         case 'prefix':
         case 'suffix':
+        case 'format':
           if (!empty($paramValue)) {
             $form[$hisDetails][$fieldName]["#$paramKey"] = $paramValue;
           }
@@ -168,34 +160,74 @@ class FieldsGenerate{
           break;
 
         case 'states':
-          // @todo : Reprendre ICI
+          if (!empty($paramValue) && is_array($paramValue)) {
+            foreach ($paramValue as $state => $stateCondition) {
+              if (
+                !empty($stateCondition) &&
+                is_array($stateCondition) &&
+                !empty($stateCondition['target']) &&
+                !empty($stateCondition['response']) &&
+                is_string($stateCondition['target']) &&
+                is_array($stateCondition['response'])
+              ) {
+                $form[$hisDetails][$fieldName]["#$paramKey"][$state] = [
+                  $stateCondition['target'] => $stateCondition['response']
+                ];
+              }
+            }
+          }
           break;
       }
     }
+
     if (isset($fieldParams['default_value'])) {
       if (!empty($fieldParams['default_value'])) {
-        $defaultValue = $this->settingsConfig[$fieldParams['default_value']];
-        $form[$hisDetails][$fieldName]['#default_value'] = $defaultValue;
+        if (!empty($this->settingsConfig[$fieldParams['default_value']])) {
+          $defaultValue = $this->settingsConfig[$fieldParams['default_value']];
+          $form[$hisDetails][$fieldName]['#default_value'] = $defaultValue;
+        }
       }
     }
     else {
-      $defaultValue = $this->settingsConfig[$fieldName];
-      $form[$hisDetails][$fieldName]['#default_value'] = $defaultValue;
-    }
+      if (!empty($this->settingsConfig[$fieldName])) {
+        $defaultValue = $this->settingsConfig[$fieldName];
+        $form[$hisDetails][$fieldName]['#default_value'] = $defaultValue;
+      }
 
+      if (!empty($fieldParams['type']) && 'checkbox' == $fieldParams['type']) {
+        if (
+          !empty($this->settingsConfig[$fieldName]) &&
+          1 == $this->settingsConfig[$fieldName]
+        ) {
+          $form[$hisDetails][$fieldName]['#attributes']['checked'] = 'checked';
+        }
+      }
+
+    }
 
     // Pour tester et avancer dans le code
     // @todo : a supprimer plus tard
+    /*
     $fieldNameArray = [
       'address_or_coordinate',
       'reset_marker',
+      'address',
+      'latitude',
+      'longitude',
+      'enable_geoloc',
+      'map_type',
+      'zoom',
+      'zoom_max',
+      'zoom_scroll',
     ];
     if (!in_array($fieldName, $fieldNameArray)) {
+      kint($hisDetails);
       kint($fieldName);
       kint($fieldParams);
       kint($form);
       die;
     }
+    */
   }
 
 

@@ -1,6 +1,6 @@
-calculate_route.config.apikey:
+calculate_route.config.settings:
   title: 'Route Calculation Settings'
-  route_name: calculate_route.config.api_key
+  route_name: calculate_route.settings
   description: 'Configure api key, map options, marker settings, graphical rendering, route calculation settings, and much more ...'
   menu_name: admin
   weight: '03'

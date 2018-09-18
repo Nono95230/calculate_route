@@ -54,153 +54,13 @@ class MapForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state){
-    // return $this->buildFormOld($form, $form_state);
 
     $fields = new FieldsGenerate('map');
 
     $fields->generateForm($form);
 
-    // return parent::buildForm($form, $form_state);
-
-  }
-
-  public function buildFormOld(array $form, FormStateInterface $form_state){
-
-    $form['settings_map'] = array(
-      '#type' => 'vertical_tabs',
-      '#default_tab' => 'edit-map-center',
-      '#attached' => array(
-        'library' => array(
-          'calculate_route/map_v-tabs'
-        )
-      )
-    );
-
-    $form['map_center'] = array(
-      '#type' => 'details',
-      '#title' => $this->t('Map Center'),
-      '#group' => 'settings_map',
-    );
-
-    $form['geoloc'] = array(
-      '#type' => 'details',
-      '#title'  => $this->t('Géolocation'),
-      '#group' => 'settings_map',
-    );
-
-    $form['set_map_type'] = array(
-      '#type' => 'details',
-      '#title'  => $this->t('Map type'),
-      '#group' => 'settings_map',
-    );
-
-    $form['zoom-settings'] = array(
-      '#type' => 'details',
-      '#title'  => $this->t('Zoom settings'),
-      '#group' => 'settings_map',
-    );
-
-    $form['map_center']['address_or_coordinate'] = array(
-      '#type'           => 'radios',
-      '#title'          => $this->t('Set the default map center with a'),
-      '#default_value'  => $this->configCr->get('map.address_or_coordinate'),
-      '#options'        => array(
-                          "address"     => $this->t('Physical Address'),
-                          "coordinates" => $this->t('Coordinates (Latitude/Longitude)'),
-                        ),
-      '#description'    => '<h6>'.$this->t('Vous pouvez choisir le centrage de la carte Google avec une adresse ou des coordonnées géographique !').'</h6>',
-    );
-
-    $form['map_center']['reset_marker'] = array(
-      '#type'           => 'checkbox',
-      '#title'          => $this->t('Reset Marker'),
-      '#description'    => $this->t("Reset the Location Marker with the Location Map Settings"),
-    );
-
-    $form['map_center']['address'] = [
-      '#type'           => 'textfield',
-      '#title'          => $this->t('Address'),
-      '#size'           => 80,
-      '#prefix'         => '<div id="map_settings_address">',
-      '#suffix'         => '</div>',
-      '#default_value'  => $this->configCr->get('map.address'),
-      '#states'         => array(
-                          'invisible' => array(
-                            'input[name="address_or_coordinate"]' => array('value' => "coordinates")
-                          ),
-                        ),
-    ];
-
-    $form['map_center']['latitude'] = [
-      '#type'           => 'textfield',
-      '#title'          => $this->t('Latitude'),
-      '#default_value'  => $this->configCr->get('map.latitude'),
-      '#states'         => array(
-                          'invisible' => array(
-                            'input[name="address_or_coordinate"]' => array('value' => "address")
-                          ),
-                        ),
-    ];
-
-    $form['map_center']['longitude'] = [
-      '#type'           => 'textfield',
-      '#title'          => $this->t('Longitude'),
-      '#default_value'  => $this->configCr->get('map.longitude'),
-      '#states'         => array(
-                          'invisible' => array(
-                            'input[name="address_or_coordinate"]' => array('value' => "address")
-                          ),
-                        ),
-    ];
-
-    $form['geoloc']['enable_geoloc'] = array(
-      '#type'           => 'checkbox',
-      '#title'          => $this->t('Enabled'),
-      '#description'    => '<h6>'.$this->t('Le service dé géolocalisation ne fonctionnera pas sur un serveur en local, actif seulement en ligne..').'</h6>',
-    );
-
-    if ($this->configCr->get('map.enable_geoloc') == 1) {
-      $form['geoloc']['enable_geoloc']['#attributes'] = array('checked' => 'checked');
-    }
-
-    $form['set_map_type']['map_type'] = array(
-      '#type'           => 'select',
-      '#options'        => array(
-                          'roadmap'   => $this->t('RoadMap'),
-                          'satellite' => $this->t('Satellite'),
-                          'hybrid'    => $this->t('Hybrid'),
-                          'terrain'   => $this->t('Terrain')
-                        ),
-      '#default_value'  => $this->configCr->get('map.map_type')
-    );
-
-    $form['zoom-settings']['zoom'] = [
-      '#type'           => 'textfield',
-      '#min'            => 0,
-      '#max'            => 21,
-      '#size'           => 7,
-      '#title'          => $this->t('Default zoom'),
-      '#default_value'  => $this->configCr->get('map.zoom')
-    ];
-    $form['zoom-settings']['zoom_max'] = [
-      '#type'           => 'textfield',
-      '#min'            => 0,
-      '#max'            => 21,
-      '#size'           => 7,
-      '#title'          => $this->t('Zoom maximum authorized'),
-      '#default_value'  => $this->configCr->get('map.zoom_max')
-    ];
-
-    $form['zoom-settings']['zoom_scroll'] = array(
-      '#type'           => 'checkbox',
-      '#title'          => $this->t('Enable Zoom scrolling'),
-    );
-
-    if ($this->configCr->get('map.zoom_scroll') == 1) {
-      $form['zoom-settings']['zoom_scroll']['#attributes'] = array('checked' => 'checked');
-    }
-
     return parent::buildForm($form, $form_state);
+
   }
 
   /**
@@ -251,9 +111,10 @@ class MapForm extends ConfigFormBase {
 
       $old = $this->configCr->get($type.'.'.$otherConfigValue[$i]);
       $_new = $form_state->getValue($otherConfigValue[$i]);
-      $new  = (is_array ( $_new ) && array_key_exists('value', $_new) ? $_new['value'] : $_new );
-      if ( $old !== $new) {
-        $this->configCr->set( $type.'.'.$otherConfigValue[$i] , $new);
+      $condition = is_array($_new) && array_key_exists('value', $_new);
+      $new  = $condition ? $_new['value'] : $_new ;
+      if ($old !== $new) {
+        $this->configCr->set($type . '.' . $otherConfigValue[$i], $new);
       }
 
     }

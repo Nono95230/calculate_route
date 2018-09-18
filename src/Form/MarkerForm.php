@@ -21,7 +21,7 @@ class MarkerForm extends ConfigFormBase {
 
   public function __construct(EntityTypeManagerInterface $entityTypeManager, ConfigFactory $config){
     $this->entityTypeManager  = $entityTypeManager;
-    $this->configCr           = $config->getEditable("calculate_route.config");
+    $this->configCr = $config->getEditable("calculate_route.config");
   }
 
   public static function create(ContainerInterface $container){
@@ -53,107 +53,9 @@ class MarkerForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
 
-    $form['settings_marker'] = array(
-      '#type'         => 'vertical_tabs',
-      '#default_tab'  => 'edit-marker-position',
-      '#attached'     => array(
-                          'library' => array(
-                            'calculate_route/marker_v-tabs'
-                          )
-                        )
-    );
+    $fields = new FieldsGenerate('marker');
 
-    $form['marker_position'] = array(
-      '#type'           => 'details',
-      '#title'          => $this->t('Default Marker Position'),
-      '#group'          => 'settings_marker',
-    );
-
-
-    $form['info_text'] = array(
-      '#type'           => 'details',
-      '#title'          => $this->t('Default Text'),
-      '#group'          => 'settings_marker',
-    );
-
-
-    $form['marker_position']['address_or_coordinate'] = array(
-      '#type'           => 'radios',
-      '#title'          => $this->t('Set the default marker position with a'),
-      '#default_value'  => $this->configCr->get('marker.address_or_coordinate'),
-      '#options'        => array(
-                          "address"     => $this->t('Physic Address'),
-                          "coordinates" => $this->t('Coordinate (Latitude/Longitude)'),
-                        ),
-      '#description'    => '<h6>'.$this->t('Vous pouvez choisir la position du marqueur avec une adresse ou des coordonnées géographique !').'</h6>',
-    );
-
-
-
-    $form['marker_position']['address'] = [
-      '#type'           => 'textfield',
-      '#title'          => $this->t('Address'),
-      '#size'           => 80,
-      '#prefix'         => '<div id="marker_settings_address">',
-      '#suffix'         => '</div>',
-      '#default_value'  => $this->configCr->get('marker.address'),
-      '#states'         => array(
-                          'visible' => array(
-                            'input[name="address_or_coordinate"]' => array('value' => "address")
-                          ),
-                        ),
-    ];
-    $form['marker_position']['latitude'] = [
-      '#type'           => 'textfield',
-      '#title'          => $this->t('Latitude'),
-      '#default_value'  => $this->configCr->get('marker.latitude'),
-      '#states'         => array(
-                          'visible' => array(
-                            'input[name="address_or_coordinate"]' => array('value' => "coordinates")
-                          ),
-                        ),
-    ];
-
-
-    $form['marker_position']['longitude'] = [
-      '#type'           => 'textfield',
-      '#title'          => $this->t('Longitude'),
-      '#default_value'  => $this->configCr->get('marker.longitude'),
-      '#states'         => array(
-                          'visible' => array(
-                            'input[name="address_or_coordinate"]' => array('value' => "coordinates")
-                          ),
-                        ),
-    ];
-
-
-    $form['info_text']['title'] = array(
-      '#type'           => 'textfield',
-      '#title'          => $this->t('Marker Title'),
-      '#default_value'  => $this->configCr->get('marker.title')
-    );
-
-    $form['info_text']['enable_info_window'] = array(
-      '#type'           => 'checkbox',
-      '#title'          => $this->t('Enable Info Window'),
-    );
-
-    if ($this->configCr->get('marker.enable_info_window') == 1) {
-      $form['info_text']['enable_info_window']['#attributes'] = array('checked' => 'checked');
-    }
-
-    $form['info_text']['info_window'] = array(
-      '#type'           => 'text_format',
-      '#title'          => t('Info Window'),
-      '#format'         => 'full_html',
-      '#states'         => array(
-                          'visible' => array(
-                            'input[name="enable_info_window"]' => array('checked' => TRUE)
-                          ),
-                        ),
-      '#default_value'  => $this->configCr->get('marker.info_window')
-    );
-
+    $fields->generateForm($form);
 
     return parent::buildForm($form, $form_state);
 
