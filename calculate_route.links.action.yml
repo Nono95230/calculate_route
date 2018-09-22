@@ -1,8 +1,8 @@
-calculate_route.back.default.config.map:
-  route_name: calculate_route.back_default_config.map
-  title: 'Back to Default Configuration for Map Settings'
-  appears_on:
-    - calculate_route.config.map
+# calculate_route.back.default.config.map:
+#   route_name: calculate_route.back_default_config.map
+#   title: 'Back to Default Configuration for Map Settings'
+#   appears_on:
+#     - calculate_route.config.map
 
 calculate_route.back.default.config.marker:
   route_name: calculate_route.back_default_config.marker
@@ -21,4 +21,14 @@ calculate_route.back.default.config.appearence:
   title: 'Back to Default Configuration for Appearence Settings'
   appears_on:
     - calculate_route.config.appearence
+
+
+
+calculate_route.back.default.config:
+  route_name: calculate_route.back_default_config
+  # route_parameters:
+  #   settings: 'map'
+  title: 'Back to Default Configuration for XXX Settings'
+  appears_on:
+    - calculate_route.config.settings
 

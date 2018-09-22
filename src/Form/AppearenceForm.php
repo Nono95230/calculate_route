@@ -118,35 +118,35 @@ class AppearenceForm extends ConfigFormBase {
     );
     $this->setInputGroup($form, $inputGroup);
 
-/*
-    $form['dimension-map']['width'] = array(
-      '#type' => 'fieldgroup',
-      '#title' => $this->t('Width'),
-    );
+
+    // $form['dimension-map']['width'] = array(
+    //   '#type' => 'fieldgroup',
+    //   '#title' => $this->t('Width'),
+    // );
 
 
-    $form['dimension-map']['width']['width_map'] = array(
-      '#type' => 'textfield',
-      '#size' => 3,
-      '#attributes' => array(
-          'data-property' => 'width',
-          'data-selector' => '#container_map',
-          'data-jquery-method' => 'css'
-      ),
-      '#default_value' => $this->getMesure($this->configCr->get('appearence.width_map'))
-    );
+    // $form['dimension-map']['width']['width_map'] = array(
+    //   '#type' => 'textfield',
+    //   '#size' => 3,
+    //   '#attributes' => array(
+    //       'data-property' => 'width',
+    //       'data-selector' => '#container_map',
+    //       'data-jquery-method' => 'css'
+    //   ),
+    //   '#default_value' => $this->getMesure($this->configCr->get('appearence.width_map'))
+    // );
 
 
-    $form['dimension-map']['width']['width_map_unity'] = [
-      '#type' => 'select',
-      '#options' => $this->removeUnity($this->unity, 'auto'),
-      '#attributes' => array(
-          'data-property' => 'width',
-          'data-selector' => '#container_map',
-          'data-jquery-method' => 'css'
-      ),
-      '#default_value' => $this->getUnity($this->configCr->get('appearence.width_map'))
-    ];*/
+    // $form['dimension-map']['width']['width_map_unity'] = [
+    //   '#type' => 'select',
+    //   '#options' => $this->removeUnity($this->unity, 'auto'),
+    //   '#attributes' => array(
+    //       'data-property' => 'width',
+    //       'data-selector' => '#container_map',
+    //       'data-jquery-method' => 'css'
+    //   ),
+    //   '#default_value' => $this->getUnity($this->configCr->get('appearence.width_map'))
+    // ];
 
 
     $form['dimension-map']['height'] = array(
@@ -376,9 +376,6 @@ class AppearenceForm extends ConfigFormBase {
       ),
       '#default_value' => $this->configCr->get('appearence.button_color')
     );
-/*
-  kint($this->configCr->get('appearence'));
-  die();*/
 
     $form['form-color-three_btn']['three_btn_color'] = array(
       '#type' => 'jquery_colorpicker',
@@ -404,6 +401,9 @@ class AppearenceForm extends ConfigFormBase {
     );
 
 
+    // kint($form_state);
+    // die;
+
     return parent::buildForm($form, $form_state);
   }
 
@@ -418,6 +418,10 @@ class AppearenceForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
+
+    kint($form);
+    kint($form_state);
+    die;
 
     $this->configCr
       ->set( 'appearence.width_map', $this->setMesure($form_state, 'width_map') )

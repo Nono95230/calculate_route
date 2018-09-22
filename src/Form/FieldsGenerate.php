@@ -12,32 +12,32 @@ class FieldsGenerate{
   /**
    * @var string $settingsName
    */
-  protected $settingsName;
+  public $settingsName;
 
   /**
    * @var array $settingsConfig
    */
-  protected $settingsConfig;
+  public $settingsConfig;
 
   /**
    * @var string $settingsPath
    */
-  protected $settingsPath;
+  public $settingsPath;
 
   /**
    * @var string $settingsDetailsPath
    */
-  protected $settingsDetailsPath;
+  public $settingsDetailsPath;
 
   /**
    * @var array $settingsDetails
    */
-  protected $settingsDetails;
+  public $settingsDetails;
 
   /**
    * @var string $settingsFieldsDir
    */
-  protected $settingsFieldsDir;
+  public $settingsFieldsDir;
 
 
   public function __construct($settingsName){
@@ -110,7 +110,7 @@ class FieldsGenerate{
 
   }
 
-  protected function setField( array &$form, $hisDetails, $fieldName, $fieldParams) {
+  public function setField( array &$form, $hisDetails, $fieldName, $fieldParams) {
 
     foreach ($fieldParams as $paramKey => $paramValue) {
 

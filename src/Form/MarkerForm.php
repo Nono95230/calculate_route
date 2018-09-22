@@ -53,6 +53,7 @@ class MarkerForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
 
+
     $fields = new FieldsGenerate('marker');
 
     $fields->generateForm($form);
@@ -73,6 +74,9 @@ class MarkerForm extends ConfigFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
 
+    kint($form);
+    kint($form_state);
+    die;
     $configName = str_replace("settings__","",$this->getFormId());
 
     $this->saveOtherConfigValue($form_state, $configName,

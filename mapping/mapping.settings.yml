@@ -1,18 +1,29 @@
 calculate_route.settings:
   title: 'Calculate Route Settings'
   description: 'Calculate Route Settings Description little short.'
+  type: 'general'
 calculate_route.config.api_key:
   title: 'Api Key'
   description: 'Api Key Description little short.'
+  type: 'api_key'
 calculate_route.config.map:
   title: 'Default Map'
   description: 'Default Map Description little short.'
+  type: 'settings'
 calculate_route.config.marker:
   title: 'Default Marker'
   description: 'Default Marker Description little short.'
+  type: 'settings'
 calculate_route.config.form:
   title: 'Default Form'
   description: 'Default Form Description little short.'
+  type: 'settings'
 calculate_route.config.appearence:
   title: 'Default Appearence'
   description: 'Default Appearence Description little short.'
+  type: 'settings'
+
+
+
+
+

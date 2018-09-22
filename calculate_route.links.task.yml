@@ -3,23 +3,63 @@ calculate_route.config.api-key.lt:
   base_route: calculate_route.config.api_key
   title: 'Api Key'
   weight: 01
-calculate_route.config.map.lt:
-  route_name: calculate_route.config.map
-  base_route: calculate_route.config.api_key
-  title: 'Default Map'
-  weight: 100
+
+# calculate_route.config.map.lt:
+#   route_name: calculate_route.config.map
+#   base_route: calculate_route.config.api_key
+#   title: 'Default Map'
+#   weight: 100
+
 calculate_route.config.marker.lt:
   route_name: calculate_route.config.marker
   base_route: calculate_route.config.api_key
   title: 'Default Marker'
   weight: 200
+
 calculate_route.config.form.lt:
   route_name: calculate_route.config.form
   base_route: calculate_route.config.api_key
   title: 'Default Form'
   weight: 300
+
 calculate_route.config.appearence.lt:
   route_name: calculate_route.config.appearence
   base_route: calculate_route.config.api_key
   title: 'Default Appearence'
   weight: 400
+
+
+calculate_route.config.map:
+  route_name: calculate_route.config.settings
+  route_parameters:
+    settings: map
+  base_route: calculate_route.config.api_key
+  title: 'Default Map'
+  weight: 100
+
+
+# calculate_route.config.marker:
+#   route_name: calculate_route.config.settings
+#   route_parameters:
+#     settings: marker
+#   base_route: calculate_route.config.api_key
+#   title: 'Default Marker'
+#   weight: 200
+
+
+# calculate_route.config.form:
+#   route_name: calculate_route.config.settings
+#   route_parameters:
+#     settings: form
+#   base_route: calculate_route.config.api_key
+#   title: 'Default Form'
+#   weight: 300
+
+
+# calculate_route.config.appearence:
+#   route_name: calculate_route.config.settings
+#   route_parameters:
+#     settings: appearence
+#   base_route: calculate_route.config.api_key
+#   title: 'Default Appearence'
+#   weight: 400

@@ -40,7 +40,7 @@ form:
   title_address: "Splash"
   address_destination: "rue des champs-élysée Paris"
 appearence:
-  width_map: "100%"
+  width_map: "600px"
   height_map: "500px"
   top_position: "auto"
   bottom_position: "3px"
@@ -55,8 +55,8 @@ appearence:
   three_btn_hover_color: "787878"
 config:
   unity:
-    1: 'px'
-    2: '%'
-    3: 'em'
-    4: 'rem'
-    5: 'auto'
+    1: "px"
+    2: "%"
+    3: "em"
+    4: "rem"
+    5: "auto"

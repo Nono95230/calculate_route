@@ -22,14 +22,25 @@ calculate_route.config.api_key:
   requirements:
     _permission: 'access cr config'
 
-calculate_route.config.map:
-  path: '/admin/config/services/calculate-route/config/map'
+calculate_route.config.settings:
+  path: '/admin/config/services/calculate-route/config/{settings}'
   defaults:
-    _title: 'Calculate Route Settings'
+    _title_callback: 'Drupal\calculate_route\Form\MapForm::getTitle'
     _form: 'Drupal\calculate_route\Form\MapForm'
   requirements:
+    # settings: 'map|marker|form|appearence'
+    settings: 'map'
     _permission: 'access cr config'
-    _access_gm_api_key_is_valid: 'to test in the method access, in the file class OtherConfigCrAccess'
+    _access_gm_api_key_is_valid: '_access_gm_api_key_is_valid'
+
+# calculate_route.config.map:
+#   path: '/admin/config/services/calculate-route/config/map'
+#   defaults:
+#     _title: 'Calculate Route Settings'
+#     _form: 'Drupal\calculate_route\Form\MapForm'
+#   requirements:
+#     _permission: 'access cr config'
+#     _access_gm_api_key_is_valid: 'to test in the method access, in the file class OtherConfigCrAccess'
 
 calculate_route.config.marker:
   path: '/admin/config/services/calculate-route/config/marker'
@@ -72,15 +83,25 @@ calculate_route.config.appearence:
 ##          ROUTE BACK DEFAULT CONFIG         ##
 ##                                            ##
 ################################################
-calculate_route.back_default_config.map:
-  path: '/admin/config/services/calculate-route/back_default_config/map'
+calculate_route.back_default_config:
+  path: '/admin/config/services/calculate-route/back_default_config/{settings}'
   defaults:
-    _title: 'Back Default Configuration Map'
-    _controller: 'Drupal\calculate_route\Controller\DefaultConfigurationController::map'
+    _title: 'Back Default Configuration'
+    _controller: 'Drupal\calculate_route\Controller\DefaultConfigurationController::backDefaultConfig2'
   requirements:
+    # settings: 'map|marker|form|appearence'
+    settings: 'map'
     _permission: 'access cr config'
-    _access_gm_api_key_is_valid: 'to test in the method access, in the file class OtherConfigCrAccess'
+    _access_gm_api_key_is_valid: '_access_gm_api_key_is_valid'
 
+# calculate_route.back_default_config.map:
+#   path: '/admin/config/services/calculate-route/back_default_config/map'
+#   defaults:
+#     _title: 'Back Default Configuration Map'
+#     _controller: 'Drupal\calculate_route\Controller\DefaultConfigurationController::map'
+#   requirements:
+#     _permission: 'access cr config'
+#     _access_gm_api_key_is_valid: 'to test in the method access, in the file class OtherConfigCrAccess'
 
 calculate_route.back_default_config.marker:
   path: '/admin/config/services/calculate-route/back_default_config/marker'
@@ -127,13 +148,3 @@ calculate_route.back_default_config.appearence:
 ##                                            ##
 ################################################
 
-
-
-calculate_route.address.autocomplete:
-  path: '/admin/config/services/calculate-route/{field_name}/{count}'
-  defaults:
-    _controller: 'Drupal\calculate_route\Controller\AddressAutocompleteController::handleAutocomplete'
-    _format: json
-  requirements:
-    _access: 'TRUE'
-    #_permission: 'access cr config'

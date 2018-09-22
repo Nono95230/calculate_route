@@ -17,21 +17,24 @@ use Drupal\Core\Url;
 
 class DefaultConfigurationController extends ControllerBase{
 
-
 	protected $entityTM;
 	protected $originConfigCr;
 	protected $currentConfigCr;
 
-
 	public function __construct(EntityTypeManagerInterface $entityTypeManager, ConfigFactory $config){
+
 		$pathFileConfig = drupal_get_path('module', 'calculate_route');
 		$pathFileConfig .= '/config/install/calculate_route.config.yml';
 		$fileConfig = file_get_contents($pathFileConfig);
 		$this->originConfigCr = Yaml::parse($fileConfig);
+
+/*
+		$this->originConfigCr = Yaml::parseFile(
+			drupal_get_path('module', 'calculate_route') . '/config/install/calculate_route.config.yml'
+		);*/
 		$this->entityTM = $entityTypeManager;
 		$this->currentConfigCr = $config->getEditable('calculate_route.config');
 	}
-
 
 	public static function create(ContainerInterface $container){
 		return new static(
@@ -40,35 +43,51 @@ class DefaultConfigurationController extends ControllerBase{
 		);
 	}
 
-
 	public function map(){
 		return $this->backDefaultConfig("map");
 	}
-
 
 	public function marker(){
 		return $this->backDefaultConfig("marker");
 	}
 
-
 	public function form(){
 		return $this->backDefaultConfig("form");
 	}
 
-
 	public function appearence(){
 		return $this->backDefaultConfig("appearence");
 	}
-
 
 	public function backDefaultConfig($param){
 		$this->currentConfigCr
 			->set($param, $this->originConfigCr[$param])
 			->save();
 
-		$this->entityTM->getViewBuilder("block")->resetCache();
+		$this->entityTM
+			->getViewBuilder("block")
+			->resetCache();
 
-		return new RedirectResponse(\Drupal::url("calculate_route.config.$param"));
+		return new RedirectResponse(
+			\Drupal::url("calculate_route.config.$param")
+		);
+	}
+
+	public function backDefaultConfig2(){
+		kint($this);
+		kint($this->originConfigCr);
+		die;
+		$this->currentConfigCr
+			->set($param, $this->originConfigCr[$param])
+			->save();
+
+		$this->entityTM
+			->getViewBuilder("block")
+			->resetCache();
+
+		return new RedirectResponse(
+			\Drupal::url("calculate_route.config.$param")
+		);
 	}
 
 }

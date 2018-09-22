@@ -50,6 +50,9 @@ class FormForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
+/*
+    kint($form_state);
+    die;*/
 
     $form['settings_form'] = array(
       '#type' => 'vertical_tabs',
@@ -228,7 +231,8 @@ class FormForm extends ConfigFormBase {
       '#default_value'  => $this->configCr->get('form.ct_btn')
     );
 
-
+    // kint($form_state);
+    // die;
     return parent::buildForm($form, $form_state);
 
   }
@@ -245,6 +249,9 @@ class FormForm extends ConfigFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
 
+    kint($form);
+    kint($form_state);
+    die;
     $this->configCr
         ->set( 'form.transport', $form_state->getValue('transport') )
         ->set( 'form.btn_switch', $form_state->getValue('btn_switch') )

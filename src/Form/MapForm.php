@@ -11,6 +11,8 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Config\ConfigFactory;
 
 use Drupal\calculate_route\Form\FieldsGenerate;
+use Drupal\Core\Routing\RouteMatchInterface;
+
 
 
 /**
@@ -20,10 +22,13 @@ class MapForm extends ConfigFormBase {
 
   protected $entityTypeManager;
   protected $configCr;
+  protected $settings;
 
   public function __construct(EntityTypeManagerInterface $entityTypeManager, ConfigFactory $config){
-    $this->entityTypeManager  = $entityTypeManager;
-    $this->configCr           = $config->getEditable("calculate_route.config");
+    $this->entityTypeManager = $entityTypeManager;
+    $this->configCr = $config->getEditable("calculate_route.config");
+    $this->settings = \Drupal::routeMatch()->getParameter('settings');
+
   }
 
   public static function create(ContainerInterface $container){
@@ -38,7 +43,29 @@ class MapForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'settings__map';
+    return 'settings__' . $this->settings;
+  }
+
+
+  public function getTitle() {
+
+    switch ($this->settings) {
+      case 'map':
+        return t('Calculate Route Settings : Default Map');
+        break;
+      case 'marker':
+        return t('Calculate Route Settings : Default Marker');
+        break;
+      case 'form':
+        return t('Calculate Route Settings : Default Form');
+        break;
+      case 'appearence':
+        return t('Calculate Route Settings : Default Appearence');
+        break;
+
+    }
+
+    return '';
   }
 
   /**
@@ -54,8 +81,9 @@ class MapForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state){
-
-    $fields = new FieldsGenerate('map');
+    kint($form_state);
+    die;
+    $fields = new FieldsGenerate($this->settings);
 
     $fields->generateForm($form);
 
@@ -75,10 +103,10 @@ class MapForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-
-    $configName = str_replace("settings__","",$this->getFormId());
-
-    $this->saveOtherConfigValue($form_state, $configName,
+    kint($this->settings);
+    kint($form_state);
+    die;
+    $this->saveOtherConfigValue($form_state, $this->settings,
     [
       'address_or_coordinate',
       'zoom',
@@ -89,7 +117,7 @@ class MapForm extends ConfigFormBase {
     ]);
 
     $resetMarker = $form_state->getValue('reset_marker');
-    $config = array($configName);
+    $config = array($this->settings);
 
     switch ($resetMarker) {
       case 1:

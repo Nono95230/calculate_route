@@ -4,16 +4,14 @@ use Drupal\Core\Breadcrumb\Breadcrumb;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Symfony\Component\Yaml\Yaml;
 use Drupal\Core\Link;
-
+/*
 function calculate_route_system_breadcrumb_alter(Breadcrumb &$breadcrumb, RouteMatchInterface $route_match, array $context) {
 
   $routeName = $route_match->getRouteName();
 
-  $mapping = Yaml::parse(
-    file_get_contents(
+  $mapping = Yaml::parseFile(
       drupal_get_path('module', 'calculate_route') .
       '/mapping/mapping.settings.yml'
-    )
   );
 
   if (in_array($routeName, array_keys($mapping))) {
@@ -32,7 +30,7 @@ function calculate_route_system_breadcrumb_alter(Breadcrumb &$breadcrumb, RouteM
 
   }
 
-}
+}*/
 
 // Call Library For Admin Config Page
 function calculate_route_page_attachments(array &$page){
@@ -43,25 +41,7 @@ function calculate_route_page_attachments(array &$page){
     \Drupal::service('path.current')->getPath()
   );
 
-  switch ($argumentPage) {
-    case 'api-key':
-      $page['#attached']['library'][] = 'calculate_route/admin-api-key';
-      break;
-    case 'map':
-      $page['#attached']['library'][] = 'calculate_route/admin-map';
-      break;
-    case 'marker':
-      $page['#attached']['library'][] = 'calculate_route/admin-marker';
-      break;
-    case 'form':
-      $page['#attached']['library'][] = 'calculate_route/admin-form';
-      break;
-    case 'appearence':
-      $page['#attached']['library'][] = 'calculate_route/admin-appearence';
-      break;
-    default:
-      break;
-  }
+  $page['#attached']['library'][] = 'calculate_route/admin-' . $argumentPage;
 
 }
 
@@ -92,24 +72,57 @@ function calculate_route_library_info_alter(array &$libraries, $module) {
 
 // Transfer Config Value
 function calculate_route_preprocess_html(&$variables) {
+  $configCR = \Drupal::config('calculate_route.config');
 
-  $configIsValidApiKey = \Drupal::config('calculate_route.config')->get('api_key_is_valid');
-  $variables['#attached']['drupalSettings']['calculate_route']['JS']['api_key_is_valid'] = $configIsValidApiKey;
+  $variables['#attached']['drupalSettings']['calculate_route']['JS'] = [
+    'api_key_is_valid' => $configCR->get('api_key_is_valid')
+  ];
 
-  $configMapAll = \Drupal::config('calculate_route.config')->get('map');
-  $variables['#attached']['drupalSettings']['calculate_route']['JS']['map_settings'] = $configMapAll;
+  $allSettings = [
+    'map',
+    'marker',
+    'form',
+    'appearence',
+  ];
 
+  foreach ($allSettings as $settings) {
+    $variables['#attached']['drupalSettings']['calculate_route']['JS'] = [
+      $settings . '_settings' => $configCR->get($settings)
+    ];
+  }
 
-  $configMarkerAll = \Drupal::config('calculate_route.config')->get('marker');
-  $variables['#attached']['drupalSettings']['calculate_route']['JS']['marker_settings'] = $configMarkerAll;
+}
+function calculate_route_preprocess_block(&$variables) {
+  // Vérification du nom du bloc.
+  if ('local_actions_block' === $variables['plugin_id']) {
+    // Récupération du nom de la route.
+    $route = \Drupal::routeMatch();
+    $routeName = $route->getRouteName();
 
+    // Vérification que nous nous trouvons bien sur la bonne route.
+    switch ($routeName) {
 
-  $configFormAll = \Drupal::config('calculate_route.config')->get('form');
-  $variables['#attached']['drupalSettings']['calculate_route']['JS']['form_settings'] = $configFormAll;
+      case 'calculate_route.config.settings':
+        // Récupération du paramètre 'settings' de la page.
+        $settings = $route->getParameter('settings');
 
+        // Modification du lien du btn.
+        $variables['content']['calculate_route.back.default.config']
+        ['#link']['url']->setRouteParameter(
+          'settings',
+          $settings
+        );
 
-  $configAppearenceAll = \Drupal::config('calculate_route.config')->get('appearence');
-  $variables['#attached']['drupalSettings']['calculate_route']['JS']['appearence_settings'] = $configAppearenceAll;
+        // Modification du nom du btn.
+        $settingsName = ucfirst($settings);
+        $btnTitle = "Back to Default Configuration for $settingsName Settings";
+        $variables['content']['calculate_route.back.default.config']
+          ['#link']['title'] = t($btnTitle);
+
+        break;
+
+    }
+  }
 
 }
 
